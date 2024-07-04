@@ -1,0 +1,1776 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="MongoDB聚合, 分享大数据、JAVA、JavaWeb相关知识和工作中的经验心得">
+    <meta name="description" content="求知若饥，虚心若愚">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>MongoDB聚合 | 菜鸟清风</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">菜鸟清风</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">菜鸟清风</div>
+        <div class="logo-desc">
+            
+            求知若饥，虚心若愚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/bigdataxiaohan" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork And Start
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/bigdataxiaohan" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork And Start" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">MongoDB聚合</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/MongoDB/">
+                                <span class="chip bg-color">MongoDB</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-category">
+                                数据库
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-12-11
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    6 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="distinct"><a href="#distinct" class="headerlink" title="distinct"></a>distinct</h2><p>distinct用来找出给定键的所有不同的值。使用时必须指定集合和键。</p>
+<pre class=" language-json"><code class="language-json">元数据
+> db.user.find(<span class="token punctuation">)</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> ObjectId(<span class="token string">"5c0df99fbc6d47cbcdb55fd0"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token property">"name"</span> <span class="token operator">:</span> <span class="token string">"jack"</span><span class="token punctuation">,</span> <span class="token property">"age"</span> <span class="token operator">:</span> <span class="token number">19</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> ObjectId(<span class="token string">"5c0df9abbc6d47cbcdb55fd1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token property">"name"</span> <span class="token operator">:</span> <span class="token string">"rose"</span><span class="token punctuation">,</span> <span class="token property">"age"</span> <span class="token operator">:</span> <span class="token number">20</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> ObjectId(<span class="token string">"5c0df9b0bc6d47cbcdb55fd2"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token property">"name"</span> <span class="token operator">:</span> <span class="token string">"jack"</span><span class="token punctuation">,</span> <span class="token property">"age"</span> <span class="token operator">:</span> <span class="token number">18</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> ObjectId(<span class="token string">"5c0df9c3bc6d47cbcdb55fd3"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token property">"name"</span> <span class="token operator">:</span> <span class="token string">"tony"</span><span class="token punctuation">,</span> <span class="token property">"age"</span> <span class="token operator">:</span> <span class="token number">21</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> ObjectId(<span class="token string">"5c0df9cdbc6d47cbcdb55fd4"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token property">"name"</span> <span class="token operator">:</span> <span class="token string">"adam"</span><span class="token punctuation">,</span> <span class="token property">"age"</span> <span class="token operator">:</span> <span class="token number">18</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> ObjectId(<span class="token string">"5c0e0824bc6d47cbcdb55fd5"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token property">"age"</span> <span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token property">"name"</span> <span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> ObjectId(<span class="token string">"5c0e0826bc6d47cbcdb55fd6"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token property">"age"</span> <span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token property">"name"</span> <span class="token operator">:</span> <span class="token number">2</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> ObjectId(<span class="token string">"5c0e0828bc6d47cbcdb55fd7"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token property">"age"</span> <span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token property">"name"</span> <span class="token operator">:</span> <span class="token number">3</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> ObjectId(<span class="token string">"5c0f3476478f8e67a82bc840"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token property">"name"</span> <span class="token operator">:</span> <span class="token string">"jack"</span><span class="token punctuation">,</span> <span class="token property">"age"</span> <span class="token operator">:</span> <span class="token number">19</span> <span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-json"><code class="language-json">> db.runCommand(<span class="token punctuation">{</span>distinct<span class="token operator">:</span><span class="token string">"user"</span><span class="token punctuation">,</span><span class="token property">"key"</span><span class="token operator">:</span><span class="token string">"age"</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span> <span class="token property">"values"</span> <span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">,</span> <span class="token number">19</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">21</span> <span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token property">"ok"</span> <span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span>
+</code></pre>
+<h2 id="group"><a href="#group" class="headerlink" title="group"></a>group</h2><p>group做的聚合稍复杂一些。先选定分组所依据的键，而后MongoDB就会将集合依据选定键值的不同分成若干组。然后可以通过聚合每一组内的文档，产生一个结果文档。</p>
+<pre><code>元数据
+&#123;&quot;day&quot;:&quot;2010/10/03&quot;,&quot;time&quot;:&quot;10/3/2010 03:57:01 GMT-400&quot;,&quot;price&quot;:4.23&#125;
+&#123;&quot;day&quot;:&quot;2010/10/04&quot;,&quot;time&quot;:&quot;10/4/2010 11:45:01 GMT-400&quot;,&quot;price&quot;:4.27&#125;
+&#123;&quot;day&quot;:&quot;2010/10/05&quot;,&quot;time&quot;:&quot;10/5/2010 05:43:01 GMT-400&quot;,&quot;price&quot;:4.11&#125;
+&#123;&quot;day&quot;:&quot;2010/10/06&quot;,&quot;time&quot;:&quot;10/6/2010 06:56:01 GMT-400&quot;,&quot;price&quot;:4.01&#125;
+</code></pre>
+<p>group查询语句</p>
+<pre class=" language-json"><code class="language-json">> db.runCommand(<span class="token punctuation">{</span>
+...     <span class="token property">"group"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+...         <span class="token property">"ns"</span><span class="token operator">:</span> <span class="token string">"stocks"</span><span class="token punctuation">,</span>
+...         <span class="token property">"key"</span><span class="token operator">:</span> <span class="token string">"day"</span><span class="token punctuation">,</span>
+...         <span class="token property">"inital"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+...             <span class="token property">"time"</span><span class="token operator">:</span> <span class="token number">0</span>
+...         <span class="token punctuation">}</span><span class="token punctuation">,</span>
+...         <span class="token property">"$reduce"</span><span class="token operator">:</span> function(doc<span class="token punctuation">,</span> prev<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+...             if (doc.time > prev.time<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+...                 prev.price = doc.price<span class="token punctuation">;</span>
+...                 prev.time = doc.time<span class="token punctuation">;</span>
+...             <span class="token punctuation">}</span>
+...         <span class="token punctuation">}</span>
+...     <span class="token punctuation">}</span>
+... <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        <span class="token property">"ok"</span> <span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token property">"errmsg"</span> <span class="token operator">:</span> <span class="token string">"initial has to be an object"</span><span class="token punctuation">,</span>
+        <span class="token property">"code"</span> <span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+        <span class="token property">"codeName"</span> <span class="token operator">:</span> <span class="token string">"BadValue"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>  “ns”: “stocks”       指定进行分组的集合</p>
+<p>   “key”: “day”,        指定文档分组一句的键,这里就是”day”,所有”day”值相同的w文档被划分到了一组,</p>
+<p> “inital”: { “time”: 0   }   每一组reduce函数调用的初始时间,会作为初始文档,传递给后续过程,每一个组员的所有成员都是用这个累加器,所以改变会保留住.</p>
+<p> “$reduce”: function(doc, prev)每个文档都对应一次这个调用。系统会传递两个参数：当前文档和累加器文档(本组当前的结果）。本例中，想让reduce函数比较当前文档的时间和累加器的时间。如果当前文档的时间更近，则将累加器的日期和价格替换成当前文档的值。别忘了，每一组都有一个独立的累加器，所以不必担心不同的日斯使用同一个累加器。</p>
+<p>如果只要最近30天的股价可以使添加condition</p>
+<pre class=" language-json"><code class="language-json">> db.runCommand(<span class="token punctuation">{</span>
+...     <span class="token property">"group"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+...         <span class="token property">"ns"</span><span class="token operator">:</span> <span class="token string">"stocks"</span><span class="token punctuation">,</span>
+...         <span class="token property">"key"</span><span class="token operator">:</span> <span class="token string">"day"</span><span class="token punctuation">,</span>
+...         <span class="token property">"inital"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+...             <span class="token property">"time"</span><span class="token operator">:</span> <span class="token number">0</span>
+...         <span class="token punctuation">}</span><span class="token punctuation">,</span>
+...         <span class="token property">"$reduce"</span><span class="token operator">:</span> function(doc<span class="token punctuation">,</span> prev<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+...             if (doc.time > prev.time<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+...                 prev.price = doc.price<span class="token punctuation">;</span>
+...                 prev.time = doc.time<span class="token punctuation">;</span>
+...             <span class="token punctuation">}</span>
+...         <span class="token punctuation">}</span><span class="token punctuation">,</span>
+... <span class="token property">"condition"</span><span class="token operator">:</span><span class="token punctuation">{</span><span class="token property">"day"</span><span class="token operator">:</span><span class="token punctuation">{</span>$gt<span class="token operator">:</span><span class="token string">"2010/09/30"</span><span class="token punctuation">}</span><span class="token punctuation">}</span>
+...
+...     <span class="token punctuation">}</span>
+... <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>这里每组的”price”都是显式设置的，”time”先由初始化器设置，然后也是主动更新。”day”是默认被加进去的，因为分组依据的键默认被加入到每个”retval”内嵌文档中。要是不想返回这个键，可以用完成器把累加器文档变成任意形态，甚<br>至变换成非文档（例如数字或字符串）。</p>
+<h2 id="aggregate"><a href="#aggregate" class="headerlink" title="aggregate"></a>aggregate</h2><p>aggregate 提供的是类似SQL（结构化查询语言）的聚合操作，例如每个操作符都可以找到对应的sql关键字</p>
+<table>
+<thead>
+<tr>
+<th>MySQL</th>
+<th>MongoDB</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>WHERE</td>
+<td>$match</td>
+</tr>
+<tr>
+<td>GROUP BY</td>
+<td>$group</td>
+</tr>
+<tr>
+<td>HAVING</td>
+<td>$match</td>
+</tr>
+<tr>
+<td>SELECT</td>
+<td>$project</td>
+</tr>
+<tr>
+<td>ORDERY BY</td>
+<td>$sort</td>
+</tr>
+<tr>
+<td>LIMIT</td>
+<td>$limit</td>
+</tr>
+<tr>
+<td>SUM</td>
+<td>$sum</td>
+</tr>
+<tr>
+<td>COUNT()</td>
+<td>$sum   $SortByCount</td>
+</tr>
+<tr>
+<td>join</td>
+<td>$lookup</td>
+</tr>
+</tbody></table>
+<p>sql语句 与对应的聚合函数<br><img src="https://s1.ax1x.com/2018/12/11/FYGv1U.md.png" alt="FYGv1U.md.png"></p>
+<h2 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h2><p><img src="https://s1.ax1x.com/2018/12/11/FYJJgS.md.png" alt="FYJJgS.md.png"></p>
+<p>Python 脚本导入数据</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> pymongo <span class="token keyword">import</span> MongoClient
+<span class="token keyword">from</span> random <span class="token keyword">import</span> randint
+<span class="token keyword">import</span> datetime
+
+client <span class="token operator">=</span> MongoClient<span class="token punctuation">(</span><span class="token punctuation">)</span>
+db <span class="token operator">=</span> client<span class="token punctuation">.</span>get_database<span class="token punctuation">(</span><span class="token string">'taobao'</span><span class="token punctuation">)</span>
+
+order <span class="token operator">=</span> db<span class="token punctuation">.</span>order_info
+
+status <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'A'</span><span class="token punctuation">,</span> <span class="token string">'B'</span><span class="token punctuation">,</span> <span class="token string">'C'</span><span class="token punctuation">]</span>
+
+cust_id <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'A123'</span><span class="token punctuation">,</span> <span class="token string">'B123'</span><span class="token punctuation">,</span> <span class="token string">'C123'</span><span class="token punctuation">]</span>
+
+price <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token number">250</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">]</span>
+
+sku <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'mmm'</span><span class="token punctuation">,</span> <span class="token string">'nnn'</span><span class="token punctuation">]</span>
+
+<span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    items_count <span class="token operator">=</span> randint<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> n <span class="token keyword">in</span> range<span class="token punctuation">(</span>items_count<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment" spellcheck="true"># sku 库存量  qty 数量</span>
+        items<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">"sku"</span><span class="token punctuation">:</span> sku<span class="token punctuation">[</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">"qty"</span><span class="token punctuation">:</span> randint<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"price"</span><span class="token punctuation">:</span> randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+    new <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token string">"status"</span><span class="token punctuation">:</span> status<span class="token punctuation">[</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token string">"cust_id"</span><span class="token punctuation">:</span> cust_id<span class="token punctuation">[</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token string">"price"</span><span class="token punctuation">:</span> price<span class="token punctuation">[</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token string">"ord_date"</span><span class="token punctuation">:</span> datetime<span class="token punctuation">.</span>datetime<span class="token punctuation">.</span>utcnow<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"items"</span><span class="token punctuation">:</span> items
+    <span class="token punctuation">}</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>new<span class="token punctuation">)</span>
+    order<span class="token punctuation">.</span>insert_one<span class="token punctuation">(</span>new<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>order<span class="token punctuation">.</span>estimated_document_count<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>数据格式</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+        <span class="token property">"_id"</span> <span class="token operator">:</span> ObjectId(<span class="token string">"5c0f1bc52a3cde1260163371"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token property">"status"</span> <span class="token operator">:</span> <span class="token string">"B"</span><span class="token punctuation">,</span>
+        <span class="token property">"cust_id"</span> <span class="token operator">:</span> <span class="token string">"C123"</span><span class="token punctuation">,</span>
+        <span class="token property">"price"</span> <span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+        <span class="token property">"ord_date"</span> <span class="token operator">:</span> ISODate(<span class="token string">"2018-12-11T02:07:01.598Z"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token property">"items"</span> <span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token punctuation">{</span>
+                        <span class="token property">"sku"</span> <span class="token operator">:</span> <span class="token string">"nnn"</span><span class="token punctuation">,</span>
+                        <span class="token property">"qty"</span> <span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                        <span class="token property">"price"</span> <span class="token operator">:</span> <span class="token number">5</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token punctuation">{</span>
+                        <span class="token property">"sku"</span> <span class="token operator">:</span> <span class="token string">"mmm"</span><span class="token punctuation">,</span>
+                        <span class="token property">"qty"</span> <span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                        <span class="token property">"price"</span> <span class="token operator">:</span> <span class="token number">4</span>
+                <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>查询每个cust_id 的所有price总和MapReduce</p>
+<pre class=" language-json"><code class="language-json">> #定义 map函数
+> var mapFunction1 = function(<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+...                        emit(this.cust_id<span class="token punctuation">,</span> this.price<span class="token punctuation">)</span><span class="token punctuation">;</span>
+...                    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+> #定义reduce函数
+> var reduceFunction1 = function(keyCustId<span class="token punctuation">,</span> valuesPrices<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+...                           return Array.sum(valuesPrices<span class="token punctuation">)</span><span class="token punctuation">;</span>
+...                       <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+> #执行mapreduce，输出到当前db的map_reduce_example集合中
+> db.order_info.mapReduce(
+...                      mapFunction1<span class="token punctuation">,</span>
+...                      reduceFunction1<span class="token punctuation">,</span>
+...                      <span class="token punctuation">{</span> out<span class="token operator">:</span> <span class="token string">"map_reduce_example"</span> <span class="token punctuation">}</span>
+...                    <span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        <span class="token property">"result"</span> <span class="token operator">:</span> <span class="token string">"map_reduce_example"</span><span class="token punctuation">,</span>
+        <span class="token property">"timeMillis"</span> <span class="token operator">:</span> <span class="token number">284</span><span class="token punctuation">,</span>
+        <span class="token property">"counts"</span> <span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"input"</span> <span class="token operator">:</span> <span class="token number">99</span><span class="token punctuation">,</span>
+                <span class="token property">"emit"</span> <span class="token operator">:</span> <span class="token number">99</span><span class="token punctuation">,</span>
+                <span class="token property">"reduce"</span> <span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+                <span class="token property">"output"</span> <span class="token operator">:</span> <span class="token number">3</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">"ok"</span> <span class="token operator">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>查看结果</p>
+<pre class=" language-json"><code class="language-json">> db.map_reduce_example.find(<span class="token punctuation">)</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token string">"A123"</span><span class="token punctuation">,</span> <span class="token property">"value"</span> <span class="token operator">:</span> <span class="token number">8350</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token string">"B123"</span><span class="token punctuation">,</span> <span class="token property">"value"</span> <span class="token operator">:</span> <span class="token number">9150</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token string">"C123"</span><span class="token punctuation">,</span> <span class="token property">"value"</span> <span class="token operator">:</span> <span class="token number">12800</span> <span class="token punctuation">}</span>
+>
+</code></pre>
+<p><strong>聚合管道操作命令</strong></p>
+<pre class=" language-json"><code class="language-json">> db.order_info.aggregate(<span class="token punctuation">{</span> $group<span class="token operator">:</span> <span class="token punctuation">{</span> _id<span class="token operator">:</span> <span class="token string">"$cust_id"</span><span class="token punctuation">,</span> total<span class="token operator">:</span> <span class="token punctuation">{</span> $sum<span class="token operator">:</span> <span class="token string">"$price"</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token string">"A123"</span><span class="token punctuation">,</span> <span class="token property">"total"</span> <span class="token operator">:</span> <span class="token number">8350</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token string">"B123"</span><span class="token punctuation">,</span> <span class="token property">"total"</span> <span class="token operator">:</span> <span class="token number">9150</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token string">"C123"</span><span class="token punctuation">,</span> <span class="token property">"total"</span> <span class="token operator">:</span> <span class="token number">12800</span> <span class="token punctuation">}</span>
+>
+</code></pre>
+<p>计算所有items 的平均库存 Mapreduce</p>
+<pre class=" language-json"><code class="language-json"># map函数
+> var mapFunction2 = function(<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+...                        for (var idx = <span class="token number">0</span><span class="token punctuation">;</span> idx &lt; this.items.length<span class="token punctuation">;</span> idx++<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+...                            var key = this.items<span class="token punctuation">[</span>idx<span class="token punctuation">]</span>.sku<span class="token punctuation">;</span>
+...                            var value = <span class="token punctuation">{</span>
+...                                          count<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+...                                          qty<span class="token operator">:</span> this.items<span class="token punctuation">[</span>idx<span class="token punctuation">]</span>.qty
+...                                        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+...                            emit(key<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+...                        <span class="token punctuation">}</span>
+...                     <span class="token punctuation">}</span><span class="token punctuation">;</span>
+>
+
+    
+#reduce函数
+
+> var reduceFunction2 = function(keySKU<span class="token punctuation">,</span> countObjVals<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+...                      reducedVal = <span class="token punctuation">{</span> count<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> qty<span class="token operator">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+...
+...                      for (var idx = <span class="token number">0</span><span class="token punctuation">;</span> idx &lt; countObjVals.length<span class="token punctuation">;</span> idx++<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+...                          reducedVal.count += countObjVals<span class="token punctuation">[</span>idx<span class="token punctuation">]</span>.count<span class="token punctuation">;</span>
+...                          reducedVal.qty += countObjVals<span class="token punctuation">[</span>idx<span class="token punctuation">]</span>.qty<span class="token punctuation">;</span>
+...                      <span class="token punctuation">}</span>
+...
+...                      return reducedVal<span class="token punctuation">;</span>
+...                   <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+#finalize函数
+
+> var finalizeFunction2 = function (key<span class="token punctuation">,</span> reducedVal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+...
+...                        reducedVal.avg = reducedVal.qty/reducedVal.count<span class="token punctuation">;</span>
+...
+...                        return reducedVal<span class="token punctuation">;</span>
+...
+...                     <span class="token punctuation">}</span><span class="token punctuation">;</span>
+>
+# 执行mapreduce
+> db.order_info.mapReduce( mapFunction2<span class="token punctuation">,</span>
+...                      reduceFunction2<span class="token punctuation">,</span>
+...                      <span class="token punctuation">{</span>
+...                        out<span class="token operator">:</span> <span class="token punctuation">{</span> merge<span class="token operator">:</span> <span class="token string">"map_reduce_example"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+...                        finalize<span class="token operator">:</span> finalizeFunction2
+...                      <span class="token punctuation">}</span>
+...                    <span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        <span class="token property">"result"</span> <span class="token operator">:</span> <span class="token string">"map_reduce_example"</span><span class="token punctuation">,</span>
+        <span class="token property">"timeMillis"</span> <span class="token operator">:</span> <span class="token number">121</span><span class="token punctuation">,</span>
+        <span class="token property">"counts"</span> <span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"input"</span> <span class="token operator">:</span> <span class="token number">99</span><span class="token punctuation">,</span>
+                <span class="token property">"emit"</span> <span class="token operator">:</span> <span class="token number">406</span><span class="token punctuation">,</span>
+                <span class="token property">"reduce"</span> <span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                <span class="token property">"output"</span> <span class="token operator">:</span> <span class="token number">5</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">"ok"</span> <span class="token operator">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>查看</p>
+<pre class=" language-js"><code class="language-js"><span class="token operator">></span> db<span class="token punctuation">.</span>map_reduce_example<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span> <span class="token string">"_id"</span> <span class="token punctuation">:</span> <span class="token string">"A123"</span><span class="token punctuation">,</span> <span class="token string">"value"</span> <span class="token punctuation">:</span> <span class="token number">8350</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token string">"_id"</span> <span class="token punctuation">:</span> <span class="token string">"B123"</span><span class="token punctuation">,</span> <span class="token string">"value"</span> <span class="token punctuation">:</span> <span class="token number">9150</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token string">"_id"</span> <span class="token punctuation">:</span> <span class="token string">"C123"</span><span class="token punctuation">,</span> <span class="token string">"value"</span> <span class="token punctuation">:</span> <span class="token number">12800</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token string">"_id"</span> <span class="token punctuation">:</span> <span class="token string">"mmm"</span><span class="token punctuation">,</span> <span class="token string">"value"</span> <span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">"count"</span> <span class="token punctuation">:</span> <span class="token number">211</span><span class="token punctuation">,</span> <span class="token string">"qty"</span> <span class="token punctuation">:</span> <span class="token number">1135</span><span class="token punctuation">,</span> <span class="token string">"avg"</span> <span class="token punctuation">:</span> <span class="token number">5.37914691943128</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token string">"_id"</span> <span class="token punctuation">:</span> <span class="token string">"nnn"</span><span class="token punctuation">,</span> <span class="token string">"value"</span> <span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">"count"</span> <span class="token punctuation">:</span> <span class="token number">195</span><span class="token punctuation">,</span> <span class="token string">"qty"</span> <span class="token punctuation">:</span> <span class="token number">1016</span><span class="token punctuation">,</span> <span class="token string">"avg"</span> <span class="token punctuation">:</span> <span class="token number">5.21025641025641</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span>
+</code></pre>
+<p><strong>聚合管道操作命令实现，计算其所有items 的平均库存,要求输出结果包含count和qty；</strong></p>
+<pre class=" language-json"><code class="language-json">> db.order_info.aggregate(<span class="token punctuation">{</span>$unwind<span class="token operator">:</span><span class="token string">"$items"</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>$group<span class="token operator">:</span><span class="token punctuation">{</span>_id<span class="token operator">:</span><span class="token string">"$items.sku"</span><span class="token punctuation">,</span>count<span class="token operator">:</span><span class="token punctuation">{</span>$sum<span class="token operator">:</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span>totallyqty<span class="token operator">:</span><span class="token punctuation">{</span><span class="token property">"$sum"</span><span class="token operator">:</span><span class="token string">"$items.qty"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>avgsku<span class="token operator">:</span><span class="token punctuation">{</span><span class="token property">"$avg"</span><span class="token operator">:</span><span class="token string">"$items.qty"</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token string">"nnn"</span><span class="token punctuation">,</span> <span class="token property">"count"</span> <span class="token operator">:</span> <span class="token number">195</span><span class="token punctuation">,</span> <span class="token property">"totallyqty"</span> <span class="token operator">:</span> <span class="token number">1016</span><span class="token punctuation">,</span> <span class="token property">"avgsku"</span> <span class="token operator">:</span> <span class="token number">5.21025641025641</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token string">"mmm"</span><span class="token punctuation">,</span> <span class="token property">"count"</span> <span class="token operator">:</span> <span class="token number">211</span><span class="token punctuation">,</span> <span class="token property">"totallyqty"</span> <span class="token operator">:</span> <span class="token number">1135</span><span class="token punctuation">,</span> <span class="token property">"avgsku"</span> <span class="token operator">:</span> <span class="token number">5.37914691943128</span> <span class="token punctuation">}</span>
+</code></pre>
+<p><strong>用聚合管道操作命令实现：根据cust_id，仓库编号进行分组，计算其所有items 的平均库存；</strong></p>
+<pre class=" language-json"><code class="language-json">> db.order_info.aggregate(<span class="token punctuation">{</span>$unwind<span class="token operator">:</span><span class="token string">"$items"</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>$group<span class="token operator">:</span><span class="token punctuation">{</span>_id<span class="token operator">:</span><span class="token punctuation">{</span>cust_id<span class="token operator">:</span>'$cust_id'<span class="token punctuation">,</span>skunn<span class="token operator">:</span>'$items.sku'<span class="token punctuation">}</span><span class="token punctuation">,</span>avgsku<span class="token operator">:</span><span class="token punctuation">{</span><span class="token property">"$avg"</span><span class="token operator">:</span><span class="token string">"$items.qty"</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token property">"cust_id"</span> <span class="token operator">:</span> <span class="token string">"B123"</span><span class="token punctuation">,</span> <span class="token property">"skunn"</span> <span class="token operator">:</span> <span class="token string">"mmm"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token property">"avgsku"</span> <span class="token operator">:</span> <span class="token number">5.283783783783784</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token property">"cust_id"</span> <span class="token operator">:</span> <span class="token string">"B123"</span><span class="token punctuation">,</span> <span class="token property">"skunn"</span> <span class="token operator">:</span> <span class="token string">"nnn"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token property">"avgsku"</span> <span class="token operator">:</span> <span class="token number">5.121212121212121</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token property">"cust_id"</span> <span class="token operator">:</span> <span class="token string">"C123"</span><span class="token punctuation">,</span> <span class="token property">"skunn"</span> <span class="token operator">:</span> <span class="token string">"nnn"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token property">"avgsku"</span> <span class="token operator">:</span> <span class="token number">5.216216216216216</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token property">"cust_id"</span> <span class="token operator">:</span> <span class="token string">"A123"</span><span class="token punctuation">,</span> <span class="token property">"skunn"</span> <span class="token operator">:</span> <span class="token string">"nnn"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token property">"avgsku"</span> <span class="token operator">:</span> <span class="token number">5.3090909090909095</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token property">"cust_id"</span> <span class="token operator">:</span> <span class="token string">"A123"</span><span class="token punctuation">,</span> <span class="token property">"skunn"</span> <span class="token operator">:</span> <span class="token string">"mmm"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token property">"avgsku"</span> <span class="token operator">:</span> <span class="token number">5.508196721311475</span> <span class="token punctuation">}</span>
+<span class="token punctuation">{</span> <span class="token property">"_id"</span> <span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token property">"cust_id"</span> <span class="token operator">:</span> <span class="token string">"C123"</span><span class="token punctuation">,</span> <span class="token property">"skunn"</span> <span class="token operator">:</span> <span class="token string">"mmm"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token property">"avgsku"</span> <span class="token operator">:</span> <span class="token number">5.368421052631579</span> <span class="token punctuation">}</span>
+</code></pre>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">清风笑丶</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.hphblog.cn/2018/12/11/mongodb-ju-he/">http://www.hphblog.cn/2018/12/11/mongodb-ju-he/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">清风笑丶</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/MongoDB/">
+                                    <span class="chip bg-color">MongoDB</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'tuHi6xrT9Lo49BgBR40slMTU-gzGzoHsz',
+        appKey: 'TABU3ijIaIdvsbw6B7BGSAFG',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/12/15/elasticsearch-jian-jie-yu-an-zhuang/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Elasticsearch简介与安装">
+                        
+                        <span class="card-title">Elasticsearch简介与安装</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            搜索就是在任何场景下，找寻你想要的信息，这个时候，会输入一段你要搜索的关键字，然后就期望找到这个关键字相关的有些信息
+垂直搜索站内搜索
+互联网搜索电商网站，招聘网站，新闻网站，各种app
+IT系统的搜索OA软件，办公自动化软件，会议管理，日
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-12-15
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/NOSQL/" class="post-category">
+                                    NOSQL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Elasticsearch/">
+                        <span class="chip bg-color">Elasticsearch</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/12/10/mongodb-suo-yin/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="MongoDB索引">
+                        
+                        <span class="card-title">MongoDB索引</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            简介索引就是用来加速查询的。数据库索引与书籍的索引类似：有了索引就不需要翻遍整本书，数据库则可以直接在索引中査找，使得查找速度能提高几个数量级。在索引中找到条目以后，就可以直接跳转到目标文档的位置。让这个比喻走个极端，可以说创建数据库索引就
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-12-10
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-category">
+                                    数据库
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/MongoDB/">
+                        <span class="chip bg-color">MongoDB</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="627702366"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">清风笑丶</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "6";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+            <span id="icp"><img src="/medias/icp.png" style="vertical-align: text-bottom;" />
+                <a href="http://beian.miit.gov.cn/" target="_blank">豫ICP备18042969号-1</a>
+            </span>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/bigdataxiaohan" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:467008580@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=467008580" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 467008580" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="https://www.zhihu.com/people/qing-feng-xiao-zhu-15" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/qing-feng-xiao-zhu-15" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?9b38e14d1abc688512d16851f1c0a313";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

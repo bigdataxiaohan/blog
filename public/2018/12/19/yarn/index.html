@@ -1,0 +1,1623 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Yarn, 分享大数据、JAVA、JavaWeb相关知识和工作中的经验心得">
+    <meta name="description" content="求知若饥，虚心若愚">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Yarn | 菜鸟清风</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">菜鸟清风</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">菜鸟清风</div>
+        <div class="logo-desc">
+            
+            求知若饥，虚心若愚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/bigdataxiaohan" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork And Start
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/bigdataxiaohan" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork And Start" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Yarn</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Yarn/">
+                                <span class="chip bg-color">Yarn</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                大数据
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-12-19
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    16 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="YARN的介绍"><a href="#YARN的介绍" class="headerlink" title="YARN的介绍"></a>YARN的介绍</h2><p>Apache Hadoop YARN （Yet Another Resource Negotiator，另一种资源协调者）是一种新的 Hadoop 资源管理器，它是一个通用资源管理系统，可为上层应用提供统一的资源管理和调度，它的引入为集群在利用率、资源统一管理和数据共享等方面带来了巨大好处。</p>
+<p>YARN是再MRv1发展过来的，它克服了NRv1的各种限制，因此我们先了解一下MRv1</p>
+<h3 id="MRv1"><a href="#MRv1" class="headerlink" title="MRv1"></a>MRv1</h3><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E6%95%B0%E6%8D%AE%E6%B9%96/FBb5dA.md.png" alt="FBb5dA.md.png"></p>
+<p>JobTracker：用户程序提交了一个Job，任务（job）会发给JobTracker，JobTracker是Map-Reduce框架中心，它负责把任务分解成map和reduce的作业（task）；需要与集群中的机器定时心跳(heartbeat)通信；需要管理那些程序应该跑在那些机器上；需要管理所有job失败、重启操作。</p>
+<p>Tasktracker是JobTracker和Task之间的桥梁，Tasktracker可以配置map和reduce的作业操(task slot)。TaskTracker通过心跳告知JobTracker自己还有空闲的作业Slot时，JobTrackr会向其分派任务。它将接收并执行JobTracker的各种命令:启动任务、提交任务、杀死任务。</p>
+<p>TaskScheduler工作再JobTracker上。根据JobTracker获得的slot信息完成具体的分配工作，TaskScheduler支持多种策略以提高集群工作效率。</p>
+<h4 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h4><ol>
+<li>扩展局限性：JobTracker同时要兼顾资源管理和作业控制的两个功能，成为系统的一个瓶颈，制约Hadoop集群计算能力的拓展。（4000节点任务数400000）</li>
+<li>MRv1采用master&#x2F;slave结构，其中JobTracker作为计算管理的master存在单点问题，它容易出现故障整个MRv1不可用。</li>
+<li>资源利用率局限。MRv1采用了基于作业槽位（slot）的资源分配模型，槽位时一个粗粒度的资源分配单位，通常一个作业不会用完槽位对应的物理资源，使得其他作业也无法再利用空闲资源。对于一些IO密集，CPU空闲,当作业槽占满之后其他CPU密集型的也无法使用集群。MRv1将槽分为Map和Reduce两种slot，且不允许他们之间共享，这样做会导致另一种槽位资源紧张，另外一种资源闲置。</li>
+<li>无法支持多种计算框架，随着数据处理要求越来越精细，Mapreduce这种基于磁盘的离线计算框架已经满足不了各方需求，从而出现了新的计算框架，如内存计算框架、流式计算框架、迭代计算资源框架、而MRv1不支持多种计算框架并存。</li>
+</ol>
+<h3 id="YARN"><a href="#YARN" class="headerlink" title="YARN"></a>YARN</h3><p>随着互联网的高速发展，新的计算框架不断出现，如内存计算框架、流式计算框架、迭代计算资源框架、这几种框架通常都会被用到考虑到资源的利用率运维和数据共享等因素，企业通常希望将所有的计算框架部署到一个 公共集群中，让他们共享集群的计算资源，并对资源进行同意使用，同时又能采用简单的资源隔离方案，这样便催生了轻量弹性计算平台需求Yarn的设计是一个弹性计算平台，不仅仅支持Mapreduce计算框架而是朝着对多种计算框架进行统一管理方向发展。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E6%95%B0%E6%8D%AE%E6%B9%96/FBvbzq.md.png" alt="FBvbzq.md.png"></p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ol>
+<li><p>资源利利用率高，按照框架角度进行资源划分，往往存在应用程序数据和计算资源需求的不均衡性，使得某段时间内计算资源紧张，而另外一种计算方式的资源空闲，共享集群模式则通过框架共享全部的计算资源，使得集群中的资源更加充分合理的利用。</p>
+</li>
+<li><p>运维成本低，如果使用：”一个框架一个集群“的模式，运维人员需要独立管理多个框架，进而增加运维的难度，共享模式通常只需要少数管理员可以完成多个框架的管理。</p>
+</li>
+<li><p>数据共享，随着数据量的增加，跨集群之间的数据不仅增加了硬件成本，而且耗费时间，共享集群模式可以共享框架和硬件资源，大大降低了数据移动带来的成本。</p>
+</li>
+</ol>
+<h4 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h4><p>YARN采用了Master&#x2F;Slave结构，在整个资源管理框架中ResourceManager为master，NodeManager为Slave。ResourceManager负责对各个 NodeManager上的资源进行统一的管理和调度，当用户提交一个应用程序时，需要生成以一个用于追踪和管理这个程序即ApplicationMaster，它负责向ResourceManager申请资源，并要求NodeManager启动可以占用一定的资源任务，不同的ApplicationMaster会被分不到不同的节点上，他们之间是相互独立的。</p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/FDCkZV"><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E6%95%B0%E6%8D%AE%E6%B9%96/FDCkZV.md.png" alt="FDCkZV.md.png"></a></p>
+<h5 id="ResourceManager-RM"><a href="#ResourceManager-RM" class="headerlink" title="ResourceManager(RM)"></a>ResourceManager(RM)</h5><p>ResourceManager负责整个系统的资源分配和管理，是一个全局的资源管理器。主要由两个组件构成：调度器和应用管理器。</p>
+<ol>
+<li>调度器(Scheduler)：调度器根据队列、容器等限制条件（每个队列配给  一定的资源，最多执行一定数量的作业等），将系统中的资源分配给各自正在运行的程序。调度器仅根据各个应用程序的资源需求进行资源分配，而资源分配单位用一个抽象的概念”资源容器“(Container)从而限定每个使用的资源量，容器用于执行的特定应用的进程每个容器都有所有资源限制（CPU 内存 等）一个容器可以是一个Unix进程也可以是一个Linux cgroup(Linux内核提升的一种限值，记录隔离进程并且使用的物理资源 CPU 内存 IO 等 谷歌提出)调度器相应应用程序的资源请求，是可插拔的，如Capcity  Scheduler、Fair Scheduler。</li>
+<li>应用程序管理器（Applications Manager）：应用程序管理器负责管理整个系统的所有应用程序，包括应用程序提交，与调度器协商资源以启动ApplicationMaster、监控ApplicationMaster运行状态并在失败时重新启动等，追踪分给的Container的情况。</li>
+</ol>
+<h5 id="ApplicationMaster-AM"><a href="#ApplicationMaster-AM" class="headerlink" title="ApplicationMaster(AM)"></a>ApplicationMaster(AM)</h5><p>ApplicationMaster是一个详细的框架库，它结合了ResourceManager获取资源和NodeManager协同工作来运行和监控任务，用户提交的每一个应用程序军包含一个AM，主要的功能是：</p>
+<ol>
+<li>与ResourceManager调度器协商以获取抽象资源(Container);</li>
+<li>负责应用的监控，追踪应用执行状态重启任务失败等。</li>
+<li>与NodeManager协同工作完成Task的执行和监控。</li>
+</ol>
+<p>MRappMaster是Mapreduce的ApplicationMaster实现，它是的Mapreduce应用程序可以直接在YARN平台之上，MRApplication负责Mappreduce应用的生命周期、作业管理资源申请再分配、container启动与释放、作业恢复等。其他的如计算框架如 Spark on YARN ,Storm on Yarn。如果需要可以自己写一个符合规范的YARN的应用模型。</p>
+<h5 id="NodeManager-NM"><a href="#NodeManager-NM" class="headerlink" title="NodeManager(NM)"></a>NodeManager(NM)</h5><p>NM是每个节点上的资源和任务管理器，他会定时地向RM汇报 本节点上地资源使用情况和各个Container地运行状态；同时会接受AM的Container启动&#x2F;停止等请求。</p>
+<h5 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h5><p>YARN 资源抽象 ，封存了某个节点是的多维度资源，如内存、CPU、磁盘、网络等。当AM向RM申请资源时，RM为AM返回资源是用Container表示的 。YARN为每一个任务分配给一个Container且该任务只能读取该Container中描述的资源。Container不同于MRv1的slot，他是一个动态划分单位，根据应用程序的需求动态生成的。</p>
+<h5 id="Yarn的工作流程"><a href="#Yarn的工作流程" class="headerlink" title="Yarn的工作流程"></a>Yarn的工作流程</h5><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E6%95%B0%E6%8D%AE%E6%B9%96/FDkeTx.md.png" alt="FDkeTx.md.png"></p>
+<ol>
+<li>用户向YARN提交应用程序，其中还包含了ApplicationMaster程序，启动AM的命令，命令参数和用户程序等等；本步骤需要准确描述运行AplicationMaster的unixs进程的所有信息。通常由YarnClient完成。</li>
+<li>Resource Manager为该应用程序分配一个Container，和对应的NameNode进行通信，要求他在Container中启动ApplicationMaster；</li>
+<li>ApplicationMaster首先向ResourceManager注册，这样用户可以直接通过RM查看程序的运行状态。然后它将为各个任务申请资源，并监控他的运行状态，知道运行结束，重复4~7；</li>
+<li>ApplicationMaster采用轮询的方式通过RPC方式向ResourceManager申请和领取资源，资源的协调通过异步方式完成。</li>
+<li>ApplicationMaster一旦申请资源后，便开始与对应的NodeManager通信，要求他们启动作业。</li>
+<li>NodeManager为作业设置好运行环境（环境变量，jar包，二进制程序）将任务写道一个脚本中，并通过运行该脚本启动作业。</li>
+<li>各个作业通过协议RPC方式向ApplicationMaster同步汇报自己当前的进度和状态，AM随时掌握各个作业的运行状态，从而在作业失败的时候重启作业。</li>
+<li>应用程序运行完成后，ApplicationMaster向ResourceManager注销并关闭。</li>
+</ol>
+<h5 id="YARN资源模型"><a href="#YARN资源模型" class="headerlink" title="YARN资源模型"></a>YARN资源模型</h5><p>一个应用程序可以通过ApplicationMaster请求特定的资源需求来满足它的资源需要。调度器会被分配给一个Container来相应资源需求、用于满足ApplicationMaster在ResourceRequst中提出的要求。Container包含5类信息：优先级、期望资源所在节点、资源量、container数目、松弛本地性(是否没有满足本地资源时，选择机架本地资源)</p>
+<p>ResourceRequst包含物种信息:</p>
+<ul>
+<li>资源名称：期望所在的主机名、机架、用*表示没有特殊要求。</li>
+<li>优先级： 程序内部请求的优先级，用来调整程序内部各个ResourceRequst的次序。</li>
+<li>资源需求：需要的资源量，表示成内存里，CPU核数的元组(目前YARN仅支持内存和CPU两种资源)</li>
+<li>container数：表示 需要container数量，它决定了用该ResourceRequst指定的Container总数。</li>
+<li>是否松弛本地性：在本机架资源剩余量无法满足要求是改为只要运行在服务器所在的机架上进行就行。</li>
+</ul>
+<p>本质上Container是一种资源分配的形式，是ResourceManager为ResourceRequst成功分配资源的结果。Container授予节点在机器上使用资源（如内存、CPU）的权利，YARN允许的不仅仅是Java的应用程序，概念上Container在YARN分配任务分为两层：第一层为ResourceManage调度器结果分配给用用程序ApplicationMaster，第二层，作为运行环境用ApplicationMaster分配给作业资源。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E6%95%B0%E6%8D%AE%E6%B9%96/FDJTAK.md.png" alt="FDJTAK.md.png"></p>
+<p>​                                        YARN启动应用程序流程</p>
+<p>首先，客户端通知ResourceManager它要提交一个应用程序。随后ResourceManager在应答中返回一个ApplicationId以及必要的客户端请求资源的集群容量信息，资源请求分为两步：1.提交Application请求 2.返回ApplicationID。</p>
+<p>3.客户端使用“Application submission Contex”发起响应，Application subminssion上下文包含了ApplicationID、客户名、队列以及其他启动Application所需要的信息。“ContainerLaunch Context”(CLC)也会发送给ResourceManager,CLC提供资源需求、作业文件、安全令牌以及在节点上启动ApplicationMaster所需要的其他信息。应用程序被提交之后，客户端可以向ResourceManager请求结束这个应用或者提供这个应用程序的状态。</p>
+<p>4.当ResourceManager接收到客户端的应用提交上下文，它会为ApplcationMaster调度一个可用的Container来启动AM。如果合适的Container，Resource会联系相应的NodeManager并启动ApplicationMaster。如果没有合适的Container，则请求必须等待。ApplicationMaster会发送注册请求到ResourceManager，RM可以通过RPC的方式监控应用程序的状态。在注册请求中，ResourceManager会发送集群的最大和最小的容器容量(第5步)，供ApplicationMaster决定如何使用当前集群的可用资源。</p>
+<p>基于ResourceMangaer的可用资源信息，ApplicationMaster会请求一定数量的Container（第6步），ResourceManager根据调度政策，尽量为Application分配资源，最为资源请求应答发送给ApplicationMaster（第7步）。</p>
+<p>应用启动之后，ApplicationMaster将心跳和进度信息通过心跳发送给ResourceManager，这些心跳中，ApplicationMaster可以请求或释放Container。应用结束时ApplicationMaster发送给结束信息到ResourceManager以注销自己。</p>
+<p><img src="https://s1.ax1x.com/2018/12/19/FDU9N6.md.png" alt="FDU9N6.md.png"></p>
+<p>ResourceManager已经将分配的NodeManager的控制权移交给ApplicationMaster。ApplicationMaster将独立联系其指定的节点管理器，并提供Container Launch Context，CLC包括环境便利，远程存储依赖文件、以及环境依赖文件，数据文件都被拷贝到节点的本地存储上。同一个节点的依赖文件都可以被同一应用程序Container共享。</p>
+<p>一旦所有的Container都启动完成，ApplicationMaster就可以检查他们的状态。ResourceManager不参与应用程序的执行，只处理调度和监控其他资源。ResourceManager可以命令NodeManager杀死Container，比如ApplicationMaster通知ResourceManager自己的任务结束或者时ResourceManager需要为其他应用程序抢占资源。或者Container超出资源限制时都可能发生杀死Container事件。当Container被销毁后，NodeManager会清理它的本地工作目录。    应停用程序结束后，ApplicationMaster会发送结束信号通知ResourceManager，然后ResourceManager通知NodeManager收集日志并清理Container专用文件。如果Container还没退出，NodeManager也可以接收指令去杀死剩余的Container。</p>
+<h4 id="YARN-中的调度"><a href="#YARN-中的调度" class="headerlink" title="YARN 中的调度"></a>YARN 中的调度</h4><h4 id="FIFO"><a href="#FIFO" class="headerlink" title="FIFO"></a>FIFO</h4><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E6%95%B0%E6%8D%AE%E6%B9%96/FDdr7R.png" alt="FDdr7R.png"></p>
+<p>简单易懂，不需要任何配置(FIFO Scheduler),容量调度器(Capcity Scheduler)和公平调度器（Fair Scheduler）。FIFO调度器将应用放置在一个队列中然后按照提交的顺序(先进先出)运行应用，首先为队列中的第一个任务请求分配资源。第一个应用的请求被满足后再一次为队列的下一条进行服务。</p>
+<h4 id="Capacity"><a href="#Capacity" class="headerlink" title="Capacity"></a>Capacity</h4><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E6%95%B0%E6%8D%AE%E6%B9%96/FDdDB9.png" alt="FDdDB9.png"></p>
+<p>一个独立的专门队列保证小作业提交就可以启动，由于队列容量是为了那个队列中的作业所保留的。这意味这与使用FIFO调度器相比，大作业执行的事件要长。容量调度器允许多个组织共享一个Hadoop集群，每个组织可以分配到全部集群资源的一部分。每个组织都被配置一个专门的队列，每个队列都被配置为可以使用一定的集群资源。队列可以进一步按层次划分，这样每个组织内的不同用户能够共享该组织队列所分配的资源。在一个队列内，使用FIFO调度政策对应用进行调度。单个作业使用的资源不会超过其队列容量然而，如果队列中由多个作业，并且队列资源不够用，如果仍有可用的空闲资源，那么容量调度器可能会被空余的资源分配给队列的作业，哪怕这超出队列容量。这称之为为“弹性队列”。</p>
+<h4 id="Fair"><a href="#Fair" class="headerlink" title="Fair"></a>Fair</h4><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E6%95%B0%E6%8D%AE%E6%B9%96/FDwZDJ.png" alt="FDwZDJ.png"></p>
+<p>Fair调度器是一个队列资源分配方式，在整个时间线上，所有的Job平均的获取资源。默认情况下，Fair调度器知识对内存资源做公平的调度和分配。当集群中只有一个任务运行时，那么此任务会占用整个集群的资源。当其他的任务提交后，那些释放的资源就会被分配给新的Job，所以每个任务最终都能够获取几乎一样多的资源。</p>
+<h4 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h4><table>
+<thead>
+<tr>
+<th>调度器</th>
+<th>FIFO</th>
+<th>Capcity</th>
+<th>Fair</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>设计目的</td>
+<td>最简单的调度器，易于理解和上手。</td>
+<td>多用户的情况下，最大化集群的吞吐和利用率。</td>
+<td>多用户的情况下，强调用户公平地贡献资源。</td>
+</tr>
+<tr>
+<td>队列 组织方式</td>
+<td>d单队列</td>
+<td>树状组织队列，无论夫队列还是子队列都会由资源参数限制，子队列地资源限制计算是基于父队列地。应用提交到叶子队列。</td>
+<td>树状组织队列。但是父队列和子队列没有参数继承关系。父队列地资源限制对于子队列没有影响。应用提交到叶子队列。</td>
+</tr>
+<tr>
+<td>资源限制</td>
+<td>无</td>
+<td>父子队列之间有容量关系。每个队列限制了资源使用了，全局最大资源使用了，最大活跃应用数量。</td>
+<td>每个叶子队列有最小共享量，最大资源量和最大活跃应用了。用户有最大活跃应用数量地全局被指。</td>
+</tr>
+<tr>
+<td>队列ACL限制</td>
+<td>可以限制应用提交权限</td>
+<td>可以限制应用提交权限和队列开关继承，父子队列间地ACL会继承</td>
+<td>可以限制应用提交权限，父子队列间地ACL会继承。但是由于支持客户端动态创建队列，需要限制默认队列地应用数量。</td>
+</tr>
+<tr>
+<td>队列排序算法</td>
+<td>无</td>
+<td>按照队列地资源使用了最小的优先</td>
+<td>可以限制应用提交权限，父子队列间的ACL会继承。但是由于支持客户端动态创建队列，需要限制默认队列的应用数量。目前，还看不到关闭动态创建队列的选项。</td>
+</tr>
+<tr>
+<td>应用选择算法</td>
+<td>先进先出</td>
+<td>先进先出</td>
+<td>公平排序算法排序</td>
+</tr>
+<tr>
+<td>本地优先分配</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>延迟调度</td>
+<td>不支持</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>资源抢占</td>
+<td>不支持</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+</tbody></table>
+<p>总结：</p>
+<ul>
+<li>FIFO： 最简单的调度器，按照先进先出的方式处理应用。只有一个队列可提交应用，所有的用户提交到这个队列。可以针对这个队列设置ACL，没有应用优先级可以配置。</li>
+<li>Capcity：可以看作是FIFO的多队列版本，每个队列可以限制资源使用量。但是队列间的资源分配 以使用量安培作为依据，使得容量小的队列有竞争优势，集群整体吞较大。延迟调度机制使得应用可以放弃，跨机器或者跨机架的调度机会，争取本地调度。</li>
+<li>Fair：多队列，多用户共享资源。特有的客户端创建队列的特性，使得权限控制不太完美，根据队列设定的最小共享量或者权重等参数，按照比例共享资源。延迟调度机制跟Capcity的牡蛎类似但是实现方式稍微不同，资源抢占特性，是指调度容器能够依据公平共享算法，计算每个队列应得的资源，将超额资源的队列的部分容器释放掉的特性。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img src="https://s1.ax1x.com/2018/12/19/FD0qOg.png" alt="FD0qOg.png"></p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">清风笑丶</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.hphblog.cn/2018/12/19/yarn/">http://www.hphblog.cn/2018/12/19/yarn/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">清风笑丶</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Yarn/">
+                                    <span class="chip bg-color">Yarn</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'tuHi6xrT9Lo49BgBR40slMTU-gzGzoHsz',
+        appKey: 'TABU3ijIaIdvsbw6B7BGSAFG',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/12/20/hadoop-de-io-cao-zuo/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Hadoop的I/O操作">
+                        
+                        <span class="card-title">Hadoop的I/O操作</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Hadoop自带的一条原子操作作用域数据I&#x2F;O操作,其中有一些技术比Hadoop更常用,如数据完整性保持和压缩在处理好几个TB级别的数据集时值得关注.
+数据完整性Hadoop用户不希望在存储和处理数据时丢失或损坏任何数据，但是当系
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-12-20
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Hadoop/">
+                        <span class="chip bg-color">Hadoop</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/12/19/hdfs-gao-ji-gong-neng/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="HDFS高级功能">
+                        
+                        <span class="card-title">HDFS高级功能</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            安全模式安全模式是HDFS所处的一种特殊状态，在这种状态下，文件系统只接受读数据请求，而不接受删除、修改等变更请求。在NameNode主节点启动时，HDFS首先进入安全模式，DataNode在启动的时候会向namenode汇报可用的bloc
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-12-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/HDFS/">
+                        <span class="chip bg-color">HDFS</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="627702366"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">清风笑丶</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "6";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+            <span id="icp"><img src="/medias/icp.png" style="vertical-align: text-bottom;" />
+                <a href="http://beian.miit.gov.cn/" target="_blank">豫ICP备18042969号-1</a>
+            </span>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/bigdataxiaohan" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:467008580@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=467008580" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 467008580" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="https://www.zhihu.com/people/qing-feng-xiao-zhu-15" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/qing-feng-xiao-zhu-15" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?9b38e14d1abc688512d16851f1c0a313";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

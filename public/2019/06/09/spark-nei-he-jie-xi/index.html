@@ -1,0 +1,1920 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Spark内核解析1, 分享大数据、JAVA、JavaWeb相关知识和工作中的经验心得">
+    <meta name="description" content="求知若饥，虚心若愚">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Spark内核解析1 | 菜鸟清风</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">菜鸟清风</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">菜鸟清风</div>
+        <div class="logo-desc">
+            
+            求知若饥，虚心若愚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/bigdataxiaohan" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork And Start
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/bigdataxiaohan" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork And Start" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Spark内核解析1</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Spark/">
+                                <span class="chip bg-color">Spark</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                大数据
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-06-09
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    17 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Spark 内核泛指 Spark 的核心运行机制，包括 Spark 核心组件的运行机制、Spark 任务调度机制、Spark 内存管理机制、Spark 核心功能的运行原理。</p>
+<h2 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h2><h3 id="Driver"><a href="#Driver" class="headerlink" title="Driver"></a>Driver</h3><p>Spark 驱动器节点，用于执行 Spark 任务中的 main 方法，负责实际代码的执行工作。Driver 在 Spark 作业执行时主要负责：</p>
+<ol>
+<li><p>将用户程序转化为任务（job）；</p>
+</li>
+<li><p>在 Executor 之间调度任务（task）；</p>
+</li>
+<li><p>跟踪 Executor 的执行情况；</p>
+</li>
+<li><p>通过 UI 展示查询运行情况；</p>
+</li>
+</ol>
+<h3 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h3><p>Spark Executor 节点是一个 JVM 进程，负责在 Spark 作业中运行具体任务，任务彼此之间相互独立。Spark 应用启动时， Executor  节点被同时启动， 并且始终伴随着整个 Spark  应用的生命周期而存在。如果有 Executor 节点发生了故障或崩溃，Spark 应用也可以继续执行， 会将出错节点上的任务调度到其他 Executor 节点上继续运行。</p>
+<p>Executor 有两个核心功能：</p>
+<ol>
+<li><p>负责运行组成 Spark 应用的任务，并将结果返回给驱动器进程； </p>
+</li>
+<li><p>它们通过自身的块管理器（ Block Manager）为用户程序中要求缓存的 RDD提供内存式存储。RDD  是直接缓存在 Executor  进程内的，因此任务可以在运行时充分利用缓存数据加速运算。</p>
+</li>
+</ol>
+<h3 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h3><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/Graphx/20190609103825.png"></p>
+<p>Spark 通用运行流程， 不论 Spark 以何种模式进行部署， 任务提交后， 都会先启动 Driver 进程，随后 Driver 进程向集群管理器注册应用程序，之后集群管理器根据此任务的配置文件分配 Executor 并启动，当 Driver 所需的资源全部满足后， </p>
+<p>Driver 开始执行 main 函数， Spark 查询为懒执行， 当执行到 action 算子时开始<code>反向推算</code>，根据宽依赖进行 stage 的划分，随后每一个 stage 对应一个 taskset，taskset 中有多个 task，根据本地化原则， task 会被分发到指定的 Executor 去执行，在任务执行的过程中， Executor 也会不断与 Driver 进行通信，报告任务运行情况。</p>
+<h2 id="部署模式"><a href="#部署模式" class="headerlink" title="部署模式"></a>部署模式</h2><h3 id="Standalone"><a href="#Standalone" class="headerlink" title="Standalone"></a>Standalone</h3><p>Standalone 集群有四个重要组成部分， 分别是：</p>
+<p>Driver： 是一个进程，我们编写的 Spark  应用程序就运行在 Driver  上， 由Driver 进程执行； </p>
+<p>Master：是一个进程，主要负责资源的调度和分配，并进行集群的监控等职责； </p>
+<p>Worker：是一个进程，一个 Worker 运行在集群中的一台服务器上，主要负责两个职责，一个是用自己的内存存储 RDD 的某个或某些 partition；另一个是启动其他进程和线程（Executor） ，对 RDD 上的 partition 进行并行的处理和计算。</p>
+<p>Executor：是一个进程， 一个 Worker 上可以运行多个 Executor， Executor 通过启动多个线程（ task）来执行对 RDD 的 partition 进行并行计算，也就是执行我们对 RDD 定义的例如 map、flatMap、reduce 等算子操作。</p>
+<h4 id="Standalone-Client"><a href="#Standalone-Client" class="headerlink" title="Standalone Client"></a>Standalone Client</h4><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/%E5%86%85%E6%A0%B8/20190609114709.png"></p>
+<p>Standalone Client 模式下，Driver 在任务提交的本地机器上运行，Driver 启动后向 Master 注册应用程序，Master 根据 submit 脚本的资源需求找到内部资源至少可以启动一个 Executor 的所有 Worker，然后在这些 Worker 之间分配 Executor，Worker 上的 Executor 启动后会向 Driver 反向注册，所有的 Executor 注册完成后，Driver 开始执行 main 函数，之后执行到 Action 算子时，开始划分 stage，每个 stage 生成对应的 taskSet，之后将 task 分发到各个 Executor 上执行。</p>
+<h4 id="Standalone-Cluster"><a href="#Standalone-Cluster" class="headerlink" title="Standalone Cluster"></a>Standalone Cluster</h4><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/%E5%86%85%E6%A0%B8/20190609115516.png"></p>
+<p> Standalone Cluster 模式下，任务提交后，Master 会找到一个 Worker 启动 Driver进程， Driver 启动后向 Master 注册应用程序， Master 根据 submit 脚本的资源需求找到内部资源至少可以启动一个 Executor 的所有 Worker，然后在这些 Worker 之间分配 Executor，Worker 上的 Executor 启动后会向 Driver 反向注册，所有的 Executor 注册完成后，Driver 开始执行 main 函数，之后执行到 Action 算子时，开始划分 stage，每个 stage 生成对应的 taskSet，之后将 task 分发到各个 Executor 上执行。</p>
+<p>注意， Standalone  的两种模式下（ client&#x2F;Cluster） ， Master  在接到 Driver  注册</p>
+<p>Spark 应用程序的请求后，会获取其所管理的剩余资源能够启动一个 Executor 的所有 Worker， 然后在这些 Worker 之间分发 Executor， 此时的分发只考虑 Worker 上的资源是否足够使用，直到当前应用程序所需的所有 Executor 都分配完毕， Executor 反向注册完毕后，Driver 开始执行 main 程序。</p>
+<h3 id="YARN-Client"><a href="#YARN-Client" class="headerlink" title="YARN Client"></a>YARN Client</h3><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/%E5%86%85%E6%A0%B8/20190609115616.png"></p>
+<p>在 YARN Client 模式下，Driver 在任务提交的本地机器上运行，Driver 启动后会和 ResourceManager 通讯申请启动 ApplicationMaster， 随后 ResourceManager 分配 container ， 在 合 适 的 NodeManager   上启动 ApplicationMaster ，此时的 </p>
+<p>ApplicationMaster  的功能相当于一个 ExecutorLaucher， 只负责向 ResourceManager 申请 Executor 内存。</p>
+<p>ResourceManager  接到 ApplicationMaster  的资源申请后会分配 container，然后ApplicationMaster 在资源分配指定的 NodeManager 上启动 Executor 进程， Executor 进程启动后会向 Driver 反向注册， Executor 全部注册完成后 Driver 开始执行 main 函数，之后执行到 Action 算子时，触发一个 job，并根据宽依赖开始划分 stage，每个 stage 生成对应的 taskSet，之后将 task 分发到各个 Executor 上执行。</p>
+<h3 id="YARN-Cluster"><a href="#YARN-Cluster" class="headerlink" title="YARN Cluster"></a>YARN Cluster</h3><p>在 YARN  Cluster  模式下， 任务提交后会和 ResourceManager  通讯申请启动ApplicationMaster， 随后 ResourceManager  分配 container，在合适的 NodeManager上启动 ApplicationMaster，此时的 ApplicationMaster 就是 Driver。</p>
+<p>Driver 启动后向 ResourceManager 申请 Executor 内存， ResourceManager 接到ApplicationMaster 的资源申请后会分配 container，然后在合适的 NodeManager 上启动 Executor 进程，Executor 进程启动后会向 Driver 反向注册， Executor 全部注册完成后 Driver 开始执行 main 函数，之后执行到 Action 算子时，触发一个 job，并根据宽依赖开始划分 stage，每个 stage  生成对应的 taskSet，之后将 task  分发到各个Executor 上执行。</p>
+<h2 id="通讯架构"><a href="#通讯架构" class="headerlink" title="通讯架构"></a>通讯架构</h2><p>Spark2.x 版本使用 Netty 通讯框架作为内部通讯组件。spark  基于 netty 新的 rpc框架借鉴了 Akka 的中的设计， 它是基于Actor 模型。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/%E5%86%85%E6%A0%B8/20190609120140.png"></p>
+<p>Scala里面处理通信采用Actor架构，Actor架构其实就是一个邮局模型， AKKA为给予Actor模型的工程实现。Akka不同版本之间无法通信，存在兼容性问题。用户使用Akka与Spark中的Akka存在冲突。Spark对Akka没有自身维护，需要新功能时只能等待新版本，比较牵制Spark发展。因此在Spark2中已经抛弃了Akka。</p>
+<p>Spark早期版本中采用Akka作为内部通信部件。<br>Spark1.3中引入Netty通信框架，为了解决Shuffle的大数据传输问题使用<br>Spark1.6中Akka和Netty可以配置使用。Netty完全实现了Akka在Spark中的功能。<br>Spark2系列中，Spark抛弃Akka，使用Netty。</p>
+<p>Spark 通讯框架中各个组件（ Client&#x2F;Master&#x2F;Worker）可以认为是一个个独立的实体，各个实体之间通过消息来进行通信。具体各个组件之间的关系图如下： </p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/%E5%86%85%E6%A0%B8/20190609120949.png"></p>
+<p>Endpoint（ Client&#x2F;Master&#x2F;Worker）有 1 个 InBox 和 N 个 OutBox（ N&gt;&#x3D;1，N 取决于当前 Endpoint 与多少其他的 Endpoint 进行通信， 一个与其通讯的其他 Endpoint 对应一个 OutBox）， Endpoint  接收到的消息被写入 InBox， 发送出去的消息写入OutBox 并被发送到其他 Endpoint 的 InBox 中。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/%E5%86%85%E6%A0%B8/20190609121127.png"></p>
+<ol>
+<li><p>RpcEndpoint：RPC 端点，Spark 针对每个节点（ Client&#x2F;Master&#x2F;Worker）都称之为一个 Rpc 端点，且都实现 RpcEndpoint 接口，内部根据不同端点的需求，设计不同的消息和不同的业务处理，如果需要发送（询问）则调用 Dispatcher；</p>
+</li>
+<li><p>RpcEnv： RPC  上下文环境， 每个 RPC  端点运行时依赖的上下文环境称为RpcEnv；</p>
+</li>
+<li><p>Dispatcher：消息分发器，针对于 RPC 端点需要发送消息或者从远程 RPC 接收到的消息，分发至对应的指令收件箱&#x2F;发件箱。如果指令接收方是自己则存入收件箱，如果指令接收方不是自己，则放入发件箱； </p>
+</li>
+<li><p>Inbox：指令消息收件箱，一个本地 RpcEndpoint 对应一个收件箱，Dispatcher 在每次向 Inbox 存入消息时， 都将对应 EndpointData 加入内部 ReceiverQueue 中， 另外 Dispatcher 创建时会启动一个单独线程进行轮询 ReceiverQueue，进行收件箱消息消费； </p>
+</li>
+<li><p>RpcEndpointRef：RpcEndpointRef 是对远程 RpcEndpoint 的一个引用。当我们需要向一个具体的 RpcEndpoint 发送消息时，一般我们需要获取到该 RpcEndpoint 的引用，然后通过该应用发送消息。</p>
+</li>
+<li><p>OutBox ： 指令消息发件箱 ， 对于当前 RpcEndpoint 来说 ， 一个目标RpcEndpoint  对应一个发件箱， 如果向多个目标 RpcEndpoint 发送信息， 则有多个OutBox。当消息放入 Outbox 后，紧接着通过 TransportClient 将消息发送出去。消息放入发件箱以及发送过程是在同一个线程中进行； </p>
+</li>
+<li><p>RpcAddress： 表示远程的 RpcEndpointRef 的地址， Host + Port。</p>
+</li>
+<li><p>TransportClient：Netty 通信客户端，一个 OutBox 对应一个 TransportClient，TransportClient 不断轮询 OutBox，根据 OutBox 消息的 receiver 信息，请求对应的远程 TransportServer；</p>
+</li>
+<li><p>TransportServer ： Netty通信服务端 ， 一 个 RpcEndpoint 对应一个TransportServer，接受远程消息后调用Dispatcher 分发消息至对应收发件箱；</p>
+</li>
+</ol>
+<p>RpcEndPoint就代表一个通信端点， 一个端点就有一个inbox，  一个 transportServer  一个 Dispatcher，  根据你通信的其他端点的数目，就有多个Outbox， 一个outbox有一个 transportClient，   transportClient主要负责和 transportServer来通信。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/%E5%86%85%E6%A0%B8/20190609122558.png"></p>
+<p>在我们的传统认知中，多个端点要通信，中间要有一个节点类似于总的路由，节点之间的通信靠中间的“路由”，而 Spark没有中间的这个“路由”，如果中间的“路由”存在一定会存在瓶颈问题。Spark很巧妙的把中间的“路由”拆分到各个节点上。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/%E5%86%85%E6%A0%B8/20190609123350.png"></p>
+<h3 id="高层视图"><a href="#高层视图" class="headerlink" title="高层视图"></a>高层视图</h3><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/%E5%86%85%E6%A0%B8/20190609121509.png"></p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/%E5%86%85%E6%A0%B8/20190609123756.png"></p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">private</span><span class="token punctuation">[</span>spark<span class="token punctuation">]</span> <span class="token keyword">trait</span> RpcEndpoint <span class="token punctuation">{</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * The [[RpcEnv]] that this [[RpcEndpoint]] is registered to.
+   */</span>
+  <span class="token keyword">val</span> rpcEnv<span class="token operator">:</span> RpcEnv
+   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+
+ <span class="token comment" spellcheck="true">/**
+   * Process messages from [[RpcEndpointRef.send]] or [[RpcCallContext.reply)]]. If receiving a
+   * unmatched message, [[SparkException]] will be thrown and sent to `onError`.
+   */</span>
+  <span class="token keyword">def</span> receive<span class="token operator">:</span> PartialFunction<span class="token punctuation">[</span><span class="token builtin">Any</span><span class="token punctuation">,</span> <span class="token builtin">Unit</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> _ <span class="token keyword">=></span> <span class="token keyword">throw</span> <span class="token keyword">new</span> SparkException<span class="token punctuation">(</span><span class="token keyword">self</span> <span class="token operator">+</span> <span class="token string">" does not implement 'receive'"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+ <span class="token comment" spellcheck="true">/**
+   * Process messages from [[RpcEndpointRef.ask]]. If receiving a unmatched message,
+   * [[SparkException]] will be thrown and sent to `onError`.
+   */</span>
+  <span class="token keyword">def</span> receiveAndReply<span class="token punctuation">(</span>context<span class="token operator">:</span> RpcCallContext<span class="token punctuation">)</span><span class="token operator">:</span> PartialFunction<span class="token punctuation">[</span><span class="token builtin">Any</span><span class="token punctuation">,</span> <span class="token builtin">Unit</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> _ <span class="token keyword">=></span> context<span class="token punctuation">.</span>sendFailure<span class="token punctuation">(</span><span class="token keyword">new</span> SparkException<span class="token punctuation">(</span><span class="token keyword">self</span> <span class="token operator">+</span> <span class="token string">" won't reply anything"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Invoked before [[RpcEndpoint]] starts to handle any message.
+   */</span>
+  <span class="token keyword">def</span> onStart<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// By default, do nothing.</span>
+  <span class="token punctuation">}</span>
+</code></pre>
+<p>   RpcEndpoint  注意三个方法，</p>
+<p>1、receive   改方法被子类实现，用于接收其他节点发送的消息。<br>2、receiveAndReply    该方法被子类实现，用于接收并回复其他节点发送的消息。<br>3、onStart    该方法被子类实现，该方法在端口启动的时候自动调用。</p>
+<p>我们查看以下RpcEnv的实现发现实现是NettyRpcEnv</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">private</span><span class="token punctuation">[</span>netty<span class="token punctuation">]</span> <span class="token keyword">class</span> NettyRpcEnv<span class="token punctuation">(</span>
+    <span class="token keyword">val</span> conf<span class="token operator">:</span> SparkConf<span class="token punctuation">,</span>
+    javaSerializerInstance<span class="token operator">:</span> JavaSerializerInstance<span class="token punctuation">,</span>
+    host<span class="token operator">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+    securityManager<span class="token operator">:</span> SecurityManager<span class="token punctuation">)</span> <span class="token keyword">extends</span> RpcEnv<span class="token punctuation">(</span>conf<span class="token punctuation">)</span> <span class="token keyword">with</span> Logging <span class="token punctuation">{</span>
+
+  <span class="token keyword">private</span><span class="token punctuation">[</span>netty<span class="token punctuation">]</span> <span class="token keyword">val</span> transportConf <span class="token operator">=</span> SparkTransportConf<span class="token punctuation">.</span>fromSparkConf<span class="token punctuation">(</span>
+    conf<span class="token punctuation">.</span>clone<span class="token punctuation">.</span>set<span class="token punctuation">(</span><span class="token string">"spark.rpc.io.numConnectionsPerPeer"</span><span class="token punctuation">,</span> <span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"rpc"</span><span class="token punctuation">,</span>
+    conf<span class="token punctuation">.</span>getInt<span class="token punctuation">(</span><span class="token string">"spark.rpc.io.threads"</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+  <span class="token comment" spellcheck="true">// 设置一个消息分发器</span>
+  <span class="token keyword">private</span> <span class="token keyword">val</span> dispatcher<span class="token operator">:</span> Dispatcher <span class="token operator">=</span> <span class="token keyword">new</span> Dispatcher<span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">val</span> streamManager <span class="token operator">=</span> <span class="token keyword">new</span> NettyStreamManager<span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">val</span> transportContext <span class="token operator">=</span> <span class="token keyword">new</span> TransportContext<span class="token punctuation">(</span>transportConf<span class="token punctuation">,</span>
+    <span class="token keyword">new</span> NettyRpcHandler<span class="token punctuation">(</span>dispatcher<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">,</span> streamManager<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">def</span> createClientBootstraps<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>List<span class="token punctuation">[</span>TransportClientBootstrap<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>securityManager<span class="token punctuation">.</span>isAuthenticationEnabled<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Arrays<span class="token punctuation">.</span>asList<span class="token punctuation">(</span><span class="token keyword">new</span> SaslClientBootstrap<span class="token punctuation">(</span>transportConf<span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">,</span> securityManager<span class="token punctuation">,</span>
+        securityManager<span class="token punctuation">.</span>isSaslEncryptionEnabled<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Collections<span class="token punctuation">.</span>emptyList<span class="token punctuation">[</span>TransportClientBootstrap<span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">val</span> clientFactory <span class="token operator">=</span> transportContext<span class="token punctuation">.</span>createClientFactory<span class="token punctuation">(</span>createClientBootstraps<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * A separate client factory for file downloads. This avoids using the same RPC handler as
+   * the main RPC context, so that events caused by these clients are kept isolated from the
+   * main RPC traffic.
+   *
+   * It also allows for different configuration of certain properties, such as the number of
+   * connections per peer.
+   */</span>
+  <span class="token annotation punctuation">@volatile</span> <span class="token keyword">private</span> <span class="token keyword">var</span> fileDownloadFactory<span class="token operator">:</span> TransportClientFactory <span class="token operator">=</span> _
+
+  <span class="token keyword">val</span> timeoutScheduler <span class="token operator">=</span> ThreadUtils<span class="token punctuation">.</span>newDaemonSingleThreadScheduledExecutor<span class="token punctuation">(</span><span class="token string">"netty-rpc-env-timeout"</span><span class="token punctuation">)</span>
+
+  <span class="token comment" spellcheck="true">// Because TransportClientFactory.createClient is blocking, we need to run it in this thread pool</span>
+  <span class="token comment" spellcheck="true">// to implement non-blocking send/ask.</span>
+  <span class="token comment" spellcheck="true">// TODO: a non-blocking TransportClientFactory.createClient in future</span>
+  <span class="token keyword">private</span><span class="token punctuation">[</span>netty<span class="token punctuation">]</span> <span class="token keyword">val</span> clientConnectionExecutor <span class="token operator">=</span> ThreadUtils<span class="token punctuation">.</span>newDaemonCachedThreadPool<span class="token punctuation">(</span>
+    <span class="token string">"netty-rpc-connection"</span><span class="token punctuation">,</span>
+    conf<span class="token punctuation">.</span>getInt<span class="token punctuation">(</span><span class="token string">"spark.rpc.connect.threads"</span><span class="token punctuation">,</span> <span class="token number">64</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+  <span class="token annotation punctuation">@volatile</span> <span class="token keyword">private</span> <span class="token keyword">var</span> server<span class="token operator">:</span> TransportServer <span class="token operator">=</span> _
+
+  <span class="token keyword">private</span> <span class="token keyword">val</span> stopped <span class="token operator">=</span> <span class="token keyword">new</span> AtomicBoolean<span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * A map for [[RpcAddress]] and [[Outbox]]. When we are connecting to a remote [[RpcAddress]],
+   * we just put messages to its [[Outbox]] to implement a non-blocking `send` method.
+   */</span>
+    <span class="token comment" spellcheck="true">// 多个地址对应的发件箱</span>
+  <span class="token keyword">private</span> <span class="token keyword">val</span> outboxes <span class="token operator">=</span> <span class="token keyword">new</span> ConcurrentHashMap<span class="token punctuation">[</span>RpcAddress<span class="token punctuation">,</span> Outbox<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Remove the address's Outbox and stop it.
+   */</span>
+  <span class="token keyword">private</span><span class="token punctuation">[</span>netty<span class="token punctuation">]</span> <span class="token keyword">def</span> removeOutbox<span class="token punctuation">(</span>address<span class="token operator">:</span> RpcAddress<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token keyword">val</span> outbox <span class="token operator">=</span> outboxes<span class="token punctuation">.</span>remove<span class="token punctuation">(</span>address<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>outbox <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      outbox<span class="token punctuation">.</span>stop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">// 启动TransportServer来接收远程消息</span>
+  <span class="token keyword">def</span> startServer<span class="token punctuation">(</span>bindAddress<span class="token operator">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span> port<span class="token operator">:</span> <span class="token builtin">Int</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token keyword">val</span> bootstraps<span class="token operator">:</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>List<span class="token punctuation">[</span>TransportServerBootstrap<span class="token punctuation">]</span> <span class="token operator">=</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>securityManager<span class="token punctuation">.</span>isAuthenticationEnabled<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Arrays<span class="token punctuation">.</span>asList<span class="token punctuation">(</span><span class="token keyword">new</span> SaslServerBootstrap<span class="token punctuation">(</span>transportConf<span class="token punctuation">,</span> securityManager<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Collections<span class="token punctuation">.</span>emptyList<span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    server <span class="token operator">=</span> transportContext<span class="token punctuation">.</span>createServer<span class="token punctuation">(</span>bindAddress<span class="token punctuation">,</span> port<span class="token punctuation">,</span> bootstraps<span class="token punctuation">)</span>
+    dispatcher<span class="token punctuation">.</span>registerRpcEndpoint<span class="token punctuation">(</span>
+      RpcEndpointVerifier<span class="token punctuation">.</span>NAME<span class="token punctuation">,</span> <span class="token keyword">new</span> RpcEndpointVerifier<span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> dispatcher<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token annotation punctuation">@Nullable</span>
+  <span class="token keyword">override</span> <span class="token keyword">lazy</span> <span class="token keyword">val</span> address<span class="token operator">:</span> RpcAddress <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>server <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> RpcAddress<span class="token punctuation">(</span>host<span class="token punctuation">,</span> server<span class="token punctuation">.</span>getPort<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token keyword">null</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// 注册当前端点</span>
+  <span class="token keyword">override</span> <span class="token keyword">def</span> setupEndpoint<span class="token punctuation">(</span>name<span class="token operator">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span> endpoint<span class="token operator">:</span> RpcEndpoint<span class="token punctuation">)</span><span class="token operator">:</span> RpcEndpointRef <span class="token operator">=</span> <span class="token punctuation">{</span>
+    dispatcher<span class="token punctuation">.</span>registerRpcEndpoint<span class="token punctuation">(</span>name<span class="token punctuation">,</span> endpoint<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> 
+</code></pre>
+<p>我们似乎没有看到Inbox在哪里点击Dispatcher</p>
+<pre class=" language-scala"><code class="language-scala">  <span class="token keyword">private</span> <span class="token keyword">class</span> EndpointData<span class="token punctuation">(</span>
+      <span class="token keyword">val</span> name<span class="token operator">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+      <span class="token keyword">val</span> endpoint<span class="token operator">:</span> RpcEndpoint<span class="token punctuation">,</span>
+      <span class="token keyword">val</span> ref<span class="token operator">:</span> NettyRpcEndpointRef<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">val</span> inbox <span class="token operator">=</span> <span class="token keyword">new</span> Inbox<span class="token punctuation">(</span>ref<span class="token punctuation">,</span> endpoint<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+</code></pre>
+<h2 id="启动脚本"><a href="#启动脚本" class="headerlink" title="启动脚本"></a>启动脚本</h2><h3 id="start-all-sh"><a href="#start-all-sh" class="headerlink" title="start-all.sh"></a>start-all.sh</h3><pre class=" language-shell"><code class="language-shell"># Start all spark daemons.
+# Starts the master on this node.
+# Starts a worker on each node specified in conf/slaves
+
+if [ -z "${SPARK_HOME}" ]; then  #如果没有发现Spark环境变量
+  export SPARK_HOME="$(cd "`dirname "$0"`"/..; pwd)" # 获得当前的目录把当前目录设置为SPARK_HOME
+fi
+
+# Load the Spark configuration
+. "${SPARK_HOME}/sbin/spark-config.sh" #加载 spark-config.sh配置
+
+# Start Master
+"${SPARK_HOME}/sbin"/start-master.sh
+
+# Start Workers
+"${SPARK_HOME}/sbin"/start-slaves.sh
+</code></pre>
+<h3 id="spark-config-sh"><a href="#spark-config-sh" class="headerlink" title="spark-config.sh"></a>spark-config.sh</h3><pre class=" language-shell"><code class="language-shell"># included in all the spark scripts with source command
+# should not be executable directly
+# also should not be passed any arguments, since we need original $*
+
+# symlink and absolute path should rely on SPARK_HOME to resolve
+if [ -z "${SPARK_HOME}" ]; then
+  export SPARK_HOME="$(cd "`dirname "$0"`"/..; pwd)"
+fi
+
+export SPARK_CONF_DIR="${SPARK_CONF_DIR:-"${SPARK_HOME}/conf"}" #设置 SPARK_CONF_DIR 目录
+# Add the PySpark classes to the PYTHONPATH:
+if [ -z "${PYSPARK_PYTHONPATH_SET}" ]; then
+  export PYTHONPATH="${SPARK_HOME}/python:${PYTHONPATH}"
+  export PYTHONPATH="${SPARK_HOME}/python/lib/py4j-0.10.4-src.zip:${PYTHONPATH}"
+  export PYSPARK_PYTHONPATH_SET=1
+fi
+export JAVA_HOME=/opt/module/jdk1.8.0_162
+</code></pre>
+<h3 id="start-master-sh"><a href="#start-master-sh" class="headerlink" title="start-master.sh"></a>start-master.sh</h3><pre class=" language-shell"><code class="language-shell"># Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Starts the master on the machine this script is executed on.
+
+if [ -z "${SPARK_HOME}" ]; then
+  export SPARK_HOME="$(cd "`dirname "$0"`"/..; pwd)"
+fi
+
+# NOTE: This exact class name is matched downstream by SparkSubmit.
+# Any changes need to be reflected there.
+CLASS="org.apache.spark.deploy.master.Master"  #调用Master
+
+if [[ "$@" = *--help ]] || [[ "$@" = *-h ]]; then
+  echo "Usage: ./sbin/start-master.sh [options]"
+  pattern="Usage:"
+  pattern+="\|Using Spark's default log4j profile:"
+  pattern+="\|Registered signal handlers for"
+
+  "${SPARK_HOME}"/bin/spark-class $CLASS --help 2>&1 | grep -v "$pattern" 1>&2
+  exit 1
+fi
+
+ORIGINAL_ARGS="$@"
+
+. "${SPARK_HOME}/sbin/spark-config.sh"  
+
+. "${SPARK_HOME}/bin/load-spark-env.sh" #加载环境变量
+
+if [ "$SPARK_MASTER_PORT" = "" ]; then # 如果没有端口 默认7077
+  SPARK_MASTER_PORT=7077
+fi
+
+if [ "$SPARK_MASTER_HOST" = "" ]; then
+  case `uname` in
+      (SunOS)           # 如果没有设置HOST 则把/usr/sbin/check-hostname作为主机名
+          SPARK_MASTER_HOST="`/usr/sbin/check-hostname | awk '{print $NF}'`"
+          ;;
+      (*)
+          SPARK_MASTER_HOST="`hostname -f`"
+          ;;
+  esac
+fi
+
+if [ "$SPARK_MASTER_WEBUI_PORT" = "" ]; then
+  SPARK_MASTER_WEBUI_PORT=8080
+fi
+
+"${SPARK_HOME}/sbin"/spark-daemon.sh start $CLASS 1 \
+  --host $SPARK_MASTER_HOST --port $SPARK_MASTER_PORT --webui-port $SPARK_MASTER_WEBUI_PORT \
+  $ORIGINAL_ARGS
+</code></pre>
+<pre class=" language-scala"><code class="language-scala">  <span class="token keyword">def</span> main<span class="token punctuation">(</span>argStrings<span class="token operator">:</span> Array<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 1、初始化log对象</span>
+    Utils<span class="token punctuation">.</span>initDaemon<span class="token punctuation">(</span>log<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// 2、加载SparkConf</span>
+    <span class="token keyword">val</span> conf <span class="token operator">=</span> <span class="token keyword">new</span> SparkConf
+    <span class="token comment" spellcheck="true">// 3、解析Master启动参数</span>
+    <span class="token keyword">val</span> args <span class="token operator">=</span> <span class="token keyword">new</span> MasterArguments<span class="token punctuation">(</span>argStrings<span class="token punctuation">,</span> conf<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// 4、启动RPC框架端点</span>
+    <span class="token keyword">val</span> <span class="token punctuation">(</span>rpcEnv<span class="token punctuation">,</span> _<span class="token punctuation">,</span> _<span class="token punctuation">)</span> <span class="token operator">=</span> startRpcEnvAndEndpoint<span class="token punctuation">(</span>args<span class="token punctuation">.</span>host<span class="token punctuation">,</span> args<span class="token punctuation">.</span>port<span class="token punctuation">,</span> args<span class="token punctuation">.</span>webUiPort<span class="token punctuation">,</span> conf<span class="token punctuation">)</span>
+    rpcEnv<span class="token punctuation">.</span>awaitTermination<span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+</code></pre>
+<h3 id="start-slaves-sh"><a href="#start-slaves-sh" class="headerlink" title="start-slaves.sh"></a>start-slaves.sh</h3><pre class=" language-shell"><code class="language-shell"># Starts a slave instance on each machine specified in the conf/slaves file.
+
+if [ -z "${SPARK_HOME}" ]; then
+  export SPARK_HOME="$(cd "`dirname "$0"`"/..; pwd)" #获取当前的目录
+fi
+
+. "${SPARK_HOME}/sbin/spark-config.sh"
+. "${SPARK_HOME}/bin/load-spark-env.sh" #加载配置
+
+# Find the port number for the master
+if [ "$SPARK_MASTER_PORT" = "" ]; then
+  SPARK_MASTER_PORT=7077
+fi
+
+if [ "$SPARK_MASTER_HOST" = "" ]; then
+  case `uname` in
+      (SunOS)
+          SPARK_MASTER_HOST="`/usr/sbin/check-hostname | awk '{print $NF}'`"
+          ;;
+      (*)
+          SPARK_MASTER_HOST="`hostname -f`"
+          ;;
+  esac
+fi
+
+# Launch the slaves 调用了start-slave.sh
+"${SPARK_HOME}/sbin/slaves.sh" cd "${SPARK_HOME}" \; "${SPARK_HOME}/sbin/start-slave.sh" "spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT"
+</code></pre>
+<h3 id="start-slave-sh"><a href="#start-slave-sh" class="headerlink" title="start-slave.sh"></a>start-slave.sh</h3><pre class=" language-shell"><code class="language-shell"># Starts a slave on the machine this script is executed on.
+#
+# Environment Variables
+#
+#   SPARK_WORKER_INSTANCES  The number of worker instances to run on this
+#                           slave.  Default is 1.
+#   SPARK_WORKER_PORT       The base port number for the first worker. If set,
+#                           subsequent workers will increment this number.  If
+#                           unset, Spark will find a valid port number, but
+#                           with no guarantee of a predictable pattern.
+#   SPARK_WORKER_WEBUI_PORT The base port for the web interface of the first
+#                           worker.  Subsequent workers will increment this
+#                           number.  Default is 8081.
+
+if [ -z "${SPARK_HOME}" ]; then
+  export SPARK_HOME="$(cd "`dirname "$0"`"/..; pwd)"
+fi
+
+# NOTE: This exact class name is matched downstream by SparkSubmit.
+# Any changes need to be reflected there.
+CLASS="org.apache.spark.deploy.worker.Worker"
+
+if [[ $# -lt 1 ]] || [[ "$@" = *--help ]] || [[ "$@" = *-h ]]; then
+  echo "Usage: ./sbin/start-slave.sh [options] <master>"
+  pattern="Usage:"
+  pattern+="\|Using Spark's default log4j profile:"
+  pattern+="\|Registered signal handlers for"
+
+  "${SPARK_HOME}"/bin/spark-class $CLASS --help 2>&1 | grep -v "$pattern" 1>&2
+  exit 1
+fi
+
+. "${SPARK_HOME}/sbin/spark-config.sh"
+
+. "${SPARK_HOME}/bin/load-spark-env.sh"
+
+# First argument should be the master; we need to store it aside because we may
+# need to insert arguments between it and the other arguments
+MASTER=$1
+shift
+
+# Determine desired worker port
+if [ "$SPARK_WORKER_WEBUI_PORT" = "" ]; then
+  SPARK_WORKER_WEBUI_PORT=8081
+fi
+
+# Start up the appropriate number of workers on this machine.
+# quick local function to start a worker
+function start_instance {
+  WORKER_NUM=$1
+  shift
+
+  if [ "$SPARK_WORKER_PORT" = "" ]; then
+    PORT_FLAG=
+    PORT_NUM=
+  else
+    PORT_FLAG="--port"
+    PORT_NUM=$(( $SPARK_WORKER_PORT + $WORKER_NUM - 1 ))
+  fi
+  WEBUI_PORT=$(( $SPARK_WORKER_WEBUI_PORT + $WORKER_NUM - 1 ))
+   #调用org.apache.spark.deploy.worker.Worker
+  "${SPARK_HOME}/sbin"/spark-daemon.sh start $CLASS $WORKER_NUM \
+     --webui-port "$WEBUI_PORT" $PORT_FLAG $PORT_NUM $MASTER "$@" 
+}
+
+if [ "$SPARK_WORKER_INSTANCES" = "" ]; then
+  start_instance 1 "$@"
+else
+  for ((i=0; i<$SPARK_WORKER_INSTANCES; i++)); do
+    start_instance $(( 1 + $i )) "$@"
+  done
+fi
+</code></pre>
+<p>workerMain方法</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">def</span> main<span class="token punctuation">(</span>argStrings<span class="token operator">:</span> Array<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Utils<span class="token punctuation">.</span>initDaemon<span class="token punctuation">(</span>log<span class="token punctuation">)</span>
+    <span class="token keyword">val</span> conf <span class="token operator">=</span> <span class="token keyword">new</span> SparkConf
+    <span class="token keyword">val</span> args <span class="token operator">=</span> <span class="token keyword">new</span> WorkerArguments<span class="token punctuation">(</span>argStrings<span class="token punctuation">,</span> conf<span class="token punctuation">)</span>
+    <span class="token keyword">val</span> rpcEnv <span class="token operator">=</span> startRpcEnvAndEndpoint<span class="token punctuation">(</span>args<span class="token punctuation">.</span>host<span class="token punctuation">,</span> args<span class="token punctuation">.</span>port<span class="token punctuation">,</span> args<span class="token punctuation">.</span>webUiPort<span class="token punctuation">,</span> args<span class="token punctuation">.</span>cores<span class="token punctuation">,</span>
+      args<span class="token punctuation">.</span>memory<span class="token punctuation">,</span> args<span class="token punctuation">.</span>masters<span class="token punctuation">,</span> args<span class="token punctuation">.</span>workDir<span class="token punctuation">,</span> conf <span class="token operator">=</span> conf<span class="token punctuation">)</span>
+    rpcEnv<span class="token punctuation">.</span>awaitTermination<span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+</code></pre>
+<h2 id="任务提交"><a href="#任务提交" class="headerlink" title="任务提交"></a>任务提交</h2><h3 id="spark-submit"><a href="#spark-submit" class="headerlink" title="spark-submit"></a>spark-submit</h3><pre class=" language-shell"><code class="language-shell">if [ -z "${SPARK_HOME}" ]; then
+  source "$(dirname "$0")"/find-spark-home
+fi
+
+# disable randomized hash for string in Python 3.3+
+export PYTHONHASHSEED=0
+
+exec "${SPARK_HOME}"/bin/spark-class org.apache.spark.deploy.SparkSubmit "$@"
+</code></pre>
+<h3 id="spark-class"><a href="#spark-class" class="headerlink" title="spark-class"></a>spark-class</h3><p>&#96;&#96;&#96;shell<br>if [ -z “${SPARK_HOME}” ]; then<br>  source “$(dirname “$0”)”&#x2F;find-spark-home<br>fi</p>
+<p>. “${SPARK_HOME}”&#x2F;bin&#x2F;load-spark-env.sh</p>
+<h1 id="Find-the-java-binary"><a href="#Find-the-java-binary" class="headerlink" title="Find the java binary"></a>Find the java binary</h1><p>if [ -n “${JAVA_HOME}” ]; then<br>  RUNNER&#x3D;”${JAVA_HOME}&#x2F;bin&#x2F;java”<br>else<br>  if [ “$(command -v java)” ]; then<br>    RUNNER&#x3D;”java”<br>  else<br>    echo “JAVA_HOME is not set” &gt;&amp;2<br>    exit 1<br>  fi<br>fi</p>
+<h1 id="Find-Spark-jars"><a href="#Find-Spark-jars" class="headerlink" title="Find Spark jars."></a>Find Spark jars.</h1><p>if [ -d “${SPARK_HOME}&#x2F;jars” ]; then<br>  SPARK_JARS_DIR&#x3D;”${SPARK_HOME}&#x2F;jars”<br>else<br>  SPARK_JARS_DIR&#x3D;”${SPARK_HOME}&#x2F;assembly&#x2F;target&#x2F;scala-$SPARK_SCALA_VERSION&#x2F;jars”<br>fi</p>
+<p>if [ ! -d “$SPARK_JARS_DIR” ] &amp;&amp; [ -z “$SPARK_TESTING$SPARK_SQL_TESTING” ]; then<br>  echo “Failed to find Spark jars directory ($SPARK_JARS_DIR).” 1&gt;&amp;2<br>  echo “You need to build Spark with the target &quot;package&quot; before running this program.” 1&gt;&amp;2<br>  exit 1<br>else<br>  LAUNCH_CLASSPATH&#x3D;”$SPARK_JARS_DIR&#x2F;*”<br>fi</p>
+<h1 id="Add-the-launcher-build-dir-to-the-classpath-if-requested"><a href="#Add-the-launcher-build-dir-to-the-classpath-if-requested" class="headerlink" title="Add the launcher build dir to the classpath if requested."></a>Add the launcher build dir to the classpath if requested.</h1><p>if [ -n “$SPARK_PREPEND_CLASSES” ]; then<br>  LAUNCH_CLASSPATH&#x3D;”${SPARK_HOME}&#x2F;launcher&#x2F;target&#x2F;scala-$SPARK_SCALA_VERSION&#x2F;classes:$LAUNCH_CLASSPATH”<br>fi</p>
+<h1 id="For-tests"><a href="#For-tests" class="headerlink" title="For tests"></a>For tests</h1><p>if [[ -n “$SPARK_TESTING” ]]; then<br>  unset YARN_CONF_DIR<br>  unset HADOOP_CONF_DIR<br>fi</p>
+<h1 id="The-launcher-library-will-print-arguments-separated-by-a-NULL-character-to-allow-arguments-with"><a href="#The-launcher-library-will-print-arguments-separated-by-a-NULL-character-to-allow-arguments-with" class="headerlink" title="The launcher library will print arguments separated by a NULL character, to allow arguments with"></a>The launcher library will print arguments separated by a NULL character, to allow arguments with</h1><h1 id="characters-that-would-be-otherwise-interpreted-by-the-shell-Read-that-in-a-while-loop-populating"><a href="#characters-that-would-be-otherwise-interpreted-by-the-shell-Read-that-in-a-while-loop-populating" class="headerlink" title="characters that would be otherwise interpreted by the shell. Read that in a while loop, populating"></a>characters that would be otherwise interpreted by the shell. Read that in a while loop, populating</h1><h1 id="an-array-that-will-be-used-to-exec-the-final-command"><a href="#an-array-that-will-be-used-to-exec-the-final-command" class="headerlink" title="an array that will be used to exec the final command."></a>an array that will be used to exec the final command.</h1><h1 id=""><a href="#" class="headerlink" title=""></a></h1><h1 id="The-exit-code-of-the-launcher-is-appended-to-the-output-so-the-parent-shell-removes-it-from-the"><a href="#The-exit-code-of-the-launcher-is-appended-to-the-output-so-the-parent-shell-removes-it-from-the" class="headerlink" title="The exit code of the launcher is appended to the output, so the parent shell removes it from the"></a>The exit code of the launcher is appended to the output, so the parent shell removes it from the</h1><h1 id="command-array-and-checks-the-value-to-see-if-the-launcher-succeeded"><a href="#command-array-and-checks-the-value-to-see-if-the-launcher-succeeded" class="headerlink" title="command array and checks the value to see if the launcher succeeded."></a>command array and checks the value to see if the launcher succeeded.</h1><p>build_command() {<br>  “$RUNNER” -Xmx128m -cp “$LAUNCH_CLASSPATH” org.apache.spark.launcher.Main “$@”<br>  printf “%d\0” $?<br>}</p>
+<p>CMD&#x3D;()<br>while IFS&#x3D; read -d ‘’ -r ARG; do<br>  CMD+&#x3D;(“$ARG”)<br>done &lt; &lt;(build_command “$@”)</p>
+<p>COUNT&#x3D;$</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">清风笑丶</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.hphblog.cn/2019/06/09/spark-nei-he-jie-xi/">http://www.hphblog.cn/2019/06/09/spark-nei-he-jie-xi/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">清风笑丶</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Spark/">
+                                    <span class="chip bg-color">Spark</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'tuHi6xrT9Lo49BgBR40slMTU-gzGzoHsz',
+        appKey: 'TABU3ijIaIdvsbw6B7BGSAFG',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/06/09/spark-nei-he-jie-xi-2/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Spark内核解析2">
+                        
+                        <span class="card-title">Spark内核解析2</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+Master启动时首先创一个RpcEnv对象，负责管理所有通信逻辑Master通过RpcEnv对象创建一个Endpoint，Master就是一个Endpoint，Worker可以与其进行通信Worker启动时也是创一个RpcEnv对象Wo
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-09
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spark/">
+                        <span class="chip bg-color">Spark</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/06/08/spark-zhi-graphx/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Spark之GraphX">
+                        
+                        <span class="card-title">Spark之GraphX</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            GraphX 是 Spark 图表和图形并行计算的新组件。GraphX 延伸 Spark RDD 通过引入新的图形的抽象：计算与连接到每个顶点和边缘性的向量。以支持图形计算，GraphX 公开了一组基本的操作符（例如  subgraph, 
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-08
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/GraphX/">
+                        <span class="chip bg-color">GraphX</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="627702366"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">清风笑丶</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "6";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+            <span id="icp"><img src="/medias/icp.png" style="vertical-align: text-bottom;" />
+                <a href="http://beian.miit.gov.cn/" target="_blank">豫ICP备18042969号-1</a>
+            </span>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/bigdataxiaohan" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:467008580@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=467008580" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 467008580" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="https://www.zhihu.com/people/qing-feng-xiao-zhu-15" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/qing-feng-xiao-zhu-15" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?9b38e14d1abc688512d16851f1c0a313";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

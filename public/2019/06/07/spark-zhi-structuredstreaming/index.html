@@ -1,0 +1,1905 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Spark之StructuredStreaming, 分享大数据、JAVA、JavaWeb相关知识和工作中的经验心得">
+    <meta name="description" content="求知若饥，虚心若愚">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Spark之StructuredStreaming | 菜鸟清风</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">菜鸟清风</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">菜鸟清风</div>
+        <div class="logo-desc">
+            
+            求知若饥，虚心若愚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/bigdataxiaohan" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork And Start
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/bigdataxiaohan" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork And Start" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Spark之StructuredStreaming</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Spark/">
+                                <span class="chip bg-color">Spark</span>
+                            </a>
+                        
+                            <a href="/tags/Structured-Streaming/">
+                                <span class="chip bg-color">Structured Streaming</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                大数据
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-06-07
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.1k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    23 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p> Structured Streaming是Spark2.0版本提出的新的实时流框架，是一种基于Spark SQL引擎的可扩展且容错的流处理引擎。在内部，默认情况下，结构化流式查询使用微批处理引擎进行处理，该引擎将数据流作为一系列小批量作业处理，从而实现低至100毫秒的端到端延迟和完全一次的容错保证。自Spark 2.3以来，引入了一种称为连续处理的新型低延迟处理模式，它可以实现低至1毫秒的端到端延迟，并且具有至少一次保证。</p>
+<p>相比于Spark Streaming，优点如下：</p>
+<p>支持多种数据源的输入和输出<br>以结构化的方式操作流式数据，能够像使用Spark SQL处理离线的批处理一样，处理流数据，代码更简洁，写法更简单<br>基于Event-Time，相比于Spark Streaming的Processing-Time更精确，更符合业务场景<br>解决了Spark Streaming存在的代码升级，DAG图变化引起的任务失败，无法断点续传的问题。</p>
+<h2 id="WordCount"><a href="#WordCount" class="headerlink" title="WordCount"></a>WordCount</h2><pre class=" language-scala"><code class="language-scala"><span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span>sql<span class="token punctuation">.</span>SparkSession
+
+<span class="token comment" spellcheck="true">/**
+  * Created by 清风笑丶 Cotter on 2019/6/7.
+  */</span>
+<span class="token keyword">object</span> WordCount <span class="token punctuation">{</span>
+  <span class="token keyword">def</span> main<span class="token punctuation">(</span>args<span class="token operator">:</span> Array<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token keyword">val</span> spark <span class="token operator">=</span> SparkSession<span class="token punctuation">.</span>builder<span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>appName<span class="token punctuation">(</span><span class="token string">"StructuredNetworkWordCount"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>master<span class="token punctuation">(</span><span class="token string">"local[*]"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>getOrCreate<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">val</span> lines <span class="token operator">=</span> spark<span class="token punctuation">.</span>readStream
+      <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"socket"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>option<span class="token punctuation">(</span><span class="token string">"host"</span><span class="token punctuation">,</span> <span class="token string">"datanode1"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>option<span class="token punctuation">(</span><span class="token string">"port"</span><span class="token punctuation">,</span> <span class="token number">9999</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">import</span> spark<span class="token punctuation">.</span>implicits<span class="token punctuation">.</span>_
+    <span class="token keyword">val</span> words <span class="token operator">=</span> lines<span class="token punctuation">.</span>as<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token punctuation">.</span>flatMap<span class="token punctuation">(</span>_<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">val</span> wordCounts <span class="token operator">=</span> words<span class="token punctuation">.</span>groupBy<span class="token punctuation">(</span><span class="token string">"value"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">val</span> query <span class="token operator">=</span> wordCounts<span class="token punctuation">.</span>writeStream
+      <span class="token punctuation">.</span>outputMode<span class="token punctuation">(</span><span class="token string">"complete"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"console"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    query<span class="token punctuation">.</span>awaitTermination<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SparkStreaming/StructuredStreaming.gif"></p>
+<h2 id="编程模型"><a href="#编程模型" class="headerlink" title="编程模型"></a>编程模型</h2><p>结构化流的关键思想是将活生生的数据流看作一张正在被连续追加数据的表。产生了一个与批处理模型非常相似的新的流处理模型。可以像在静态表之上的标准批处理查询一样，Spark是使用在一张无界的输入表之上的增量式查询来执行流计算的。</p>
+<p><img src="http://spark.apache.org/docs/latest/img/structured-streaming-stream-as-a-table.png" alt="Stream as a Table"></p>
+<p>数据流Data Stream看成了表的行数据，连续地往表中追加。结构化流查询将会产生一张结果表（Result Table）:</p>
+<p><img src="http://spark.apache.org/docs/latest/img/structured-streaming-model.png" alt="Model"></p>
+<p>第一行是Time，每秒有个触发器，第二行是输入流，对输入流执行查询后产生的结果最终会被更新到第三行的结果表中。第四行驶输出，图中显示的输出模式是完全模式（Complete Mode）。图中显示的是无论结果表何时得到更新，我们将希望将改变的结果行写入到外部存储。输出有三种不同的模式：</p>
+<p>（1）完全模式（Complete Mode）</p>
+<p>整个更新的结果表（Result Table）将被写入到外部存储。这取决于外部连接决定如何操作整个表的写入。</p>
+<p>（2）追加模式（Append Mode）</p>
+<p>只有从上一次触发后追加到结果表中新行会被写入到外部存储。适用于已经存在结果表中的行不期望被改变的查询。</p>
+<p>（3）更新模式（Update Mode）</p>
+<p>只有从上一次触发后在结果表中更新的行将会写入外部存储（Spark 2.1.1之后才可用）。这种模式不同于之前的完全模式，它仅仅输出上一次触发后改变的行。如果查询中不包含聚合，这种模式与追加模式等价的。每种模式适用于特定类型的查询。下面以单词计数的例子说明三种模式的区别（单词计数中使用了聚合）</p>
+<p><img src="http://spark.apache.org/docs/latest/img/structured-streaming-example-model.png" alt="Model"></p>
+<h3 id="Event-time-Late-Data"><a href="#Event-time-Late-Data" class="headerlink" title="Event-time Late Data"></a>Event-time Late Data</h3><p> Event-time是嵌入到数据本身的基于事件的时间。对于许多的应用来说，你可能希望操作这个事件-时间。例如，如果你想获得每分钟物联网设备产生的事件数量，然后想使用数据产生时的时间（也就是数据的event-time），而不是Spark接收他们的时间。每个设备中的事件是表中的一行，而事件-时间是行中的一个列值。这就允许将基于窗口的聚合（比如每分钟的事件数）看成是事件-时间列的分组和聚合的特殊类型——每个时间窗口是一个组，每行可以属于多个窗口&#x2F;组。</p>
+<p> 进一步，这个模型自然处理那些比期望延迟到达的事件-时间数据。当Spark正在更新结果表时，当有延迟数据，它就会完全控制更新旧的聚合，而且清理旧的聚合去限制中间状态数据的大小。从Spark 2.1开始，我们已经开始支持水印（watermarking ），它允许用户确定延迟的阈值，允许引擎相应地删除旧的状态。</p>
+<h3 id="窗口操作"><a href="#窗口操作" class="headerlink" title="窗口操作"></a>窗口操作</h3><p>在滑动的事件-时间窗口上的聚合对于结构化流是简单的，非常类似于分组聚合。在分组聚合中，聚合的值对用户确定分组的列保持唯一的。在基于窗口的聚合中，聚合的值对每个窗口的事件-时间保持唯一的。</p>
+<p> 修改我们前面的单词计数的例子，现在当产生一行句子时，附件一个时间戳。我们想每5分钟统计一次10分钟内的单词数。例如，12:00 - 12:10, 12:05 - 12:15, 12:10 - 12:20等。注意到12:00 - 12:10是一个窗口，表示数据12:00之后12:10之前到达。比如12:07到达的单词，这个单词应该在12:00 - 12:10和12:05 - 12:15两个窗口中都要被统计。如图：</p>
+<p><img src="http://spark.apache.org/docs/latest/img/structured-streaming-window.png" alt="img"></p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">import</span> java<span class="token punctuation">.</span>sql<span class="token punctuation">.</span>Timestamp
+
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span>sql<span class="token punctuation">.</span>SparkSession
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span>sql<span class="token punctuation">.</span>functions<span class="token punctuation">.</span>_
+
+<span class="token comment" spellcheck="true">/**
+  * Created by 清风笑丶 Cotter on 2019/6/7.
+  */</span>
+<span class="token keyword">object</span> WindowOnEventTime <span class="token punctuation">{</span>
+
+  <span class="token keyword">case</span> <span class="token keyword">class</span> TimeWord<span class="token punctuation">(</span>word<span class="token operator">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span> timestamp<span class="token operator">:</span> Timestamp<span class="token punctuation">)</span>
+
+  <span class="token keyword">def</span> main<span class="token punctuation">(</span>args<span class="token operator">:</span> Array<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token keyword">val</span> spark <span class="token operator">=</span> SparkSession<span class="token punctuation">.</span>builder<span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>appName<span class="token punctuation">(</span><span class="token string">"Structrued-Streaming"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>master<span class="token punctuation">(</span><span class="token string">"local[*]"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>getOrCreate<span class="token punctuation">(</span><span class="token punctuation">)</span>
+      
+    <span class="token keyword">val</span> lines <span class="token operator">=</span> spark<span class="token punctuation">.</span>readStream
+      <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"socket"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>option<span class="token punctuation">(</span><span class="token string">"host"</span><span class="token punctuation">,</span> <span class="token string">"datanode1"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>option<span class="token punctuation">(</span><span class="token string">"port"</span><span class="token punctuation">,</span> <span class="token number">9999</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>option<span class="token punctuation">(</span><span class="token string">"includeTimestamp"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//添加时间戳</span>
+      <span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">import</span> spark<span class="token punctuation">.</span>implicits<span class="token punctuation">.</span>_
+
+    <span class="token keyword">val</span> words <span class="token operator">=</span> lines<span class="token punctuation">.</span>as<span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token builtin">String</span><span class="token punctuation">,</span> Timestamp<span class="token punctuation">)</span><span class="token punctuation">]</span>
+      <span class="token punctuation">.</span>flatMap<span class="token punctuation">(</span>line <span class="token keyword">=></span> line<span class="token punctuation">.</span>_1<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span>map<span class="token punctuation">(</span>word <span class="token keyword">=></span> TimeWord<span class="token punctuation">(</span>word<span class="token punctuation">,</span> line<span class="token punctuation">.</span>_2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>toDF<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true">// 计数</span>
+    <span class="token keyword">val</span> windowedCounts <span class="token operator">=</span> words<span class="token punctuation">.</span>groupBy<span class="token punctuation">(</span>
+      window<span class="token punctuation">(</span>$<span class="token string">"timestamp"</span><span class="token punctuation">,</span><span class="token string">"10 seconds"</span> <span class="token punctuation">,</span><span class="token string">"5 seconds"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> $<span class="token string">"word"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>orderBy<span class="token punctuation">(</span><span class="token string">"window"</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true">// 查询</span>
+    <span class="token keyword">val</span> query <span class="token operator">=</span> windowedCounts<span class="token punctuation">.</span>writeStream
+      <span class="token punctuation">.</span>outputMode<span class="token punctuation">(</span><span class="token string">"complete"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"console"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>option<span class="token punctuation">(</span><span class="token string">"truncate"</span><span class="token punctuation">,</span> <span class="token string">"false"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    query<span class="token punctuation">.</span>awaitTermination<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SparkStreaming/StructuredStreaming_WindowandEvent.gif"></p>
+<h3 id="容错语义"><a href="#容错语义" class="headerlink" title="容错语义"></a>容错语义</h3><p>提供end-to-end exactly-once语义是structured streaming设计背后的关键目标之一。 为了实现这一点，Spark设计了structured streaming的sources，sinks和执行引擎，可靠地跟踪处理进程的准确进度，以便它可以通过重新启动和&#x2F;或重新处理来解决任何类型的故障。 假设每个Streaming源具有跟踪流中读取位置的偏移（类似于Kafka偏移或Kinesis序列号）。 引擎使用检查点和WAL（write ahead logs）记录每个触发器中正在处理的数据的偏移范围。 Streaming sinks为了解决重复计算被设计为幂等。 一起使用可重放sources和幂等sinks，Structured Streaming可以在任何故障下确保end-to-end exactly-once的语义。</p>
+<h3 id="Watermarking"><a href="#Watermarking" class="headerlink" title="Watermarking"></a>Watermarking</h3><p>现在考虑如果其中一个事件延迟到达应用程序会发生什么。 例如，说在12:04（即事件时间）生成的一个单词可以在12:11被应用程序接收。 应用程序应该使用时间12:04而不是12:11更新12:00 - 12:10的窗口的较旧计数。 这在我们基于窗口的分组中自然发生 - Structured Streaming可以长时间维持部分聚合的中间状态，以便迟到的数据可以正确地更新旧窗口的聚合，如下所示。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SparkStreaming/20190608100551.png"></p>
+<p>为了持续几天运行这个查询，系统必须限制其累积的内存中间状态的数量。这意味着系统需要知道什么时候可以从内存状态中删除旧的聚合，因为应用程序不会再为该集合接收到较晚的数据。为了实现这一点，在Spark 2.1中引入了watermarking，让引擎自动跟踪数据中的当前event-time，并尝试相应地清理旧状态。您可以通过指定事件时间列来定义查询的watermarking，并根据事件时间指定数据的延迟时间的阈值。对于从时间T开始的特定窗口，引擎将保持状态，并允许延迟数据更新状态，直到引擎看到最大事件时间-迟到的最大阈值。换句话说，阈值内的迟到数据将被聚合，但是比阈值晚的数据将被丢弃。让我们以一个例子来理解这一点。我们可以使用Watermark（）轻松定义上一个例子中的watermarking ，</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> windowedCounts <span class="token operator">=</span> words
+    <span class="token punctuation">.</span>withWatermark<span class="token punctuation">(</span><span class="token string">"timestamp"</span><span class="token punctuation">,</span> <span class="token string">"10 minutes"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span>groupBy<span class="token punctuation">(</span>
+        window<span class="token punctuation">(</span>$<span class="token string">"timestamp"</span><span class="token punctuation">,</span> <span class="token string">"10 minutes"</span><span class="token punctuation">,</span> <span class="token string">"5 minutes"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        $<span class="token string">"word"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>在这个例子中，我们正在定义“timestamp”列的查询的watermark ，并将“10分钟”定义为允许数据延迟的阈值。 如果此查询在更新输出模式下运行（稍后在“输出模式”部分中讨论），则引擎将继续更新Resule表中窗口的计数，直到窗口比watermark 旧，滞后于当前事件时间列“ timestamp“10分钟。 </p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SparkStreaming/20190608101146.png"></p>
+<p>与之前的更新模式类似，引擎维护每个窗口的中间计数。 但是，部分计数不会更新到结果表，也不写入sink。 引擎等待“10分钟”接收迟到数据，然后丢弃窗口（watermark）的中间状态，并将最终计数附加到结果表sink。 例如，窗口12:00 - 12:10的最终计数仅在watermark更新到12:11之后才附加到结果表中。<br>watermarking 清理聚合状态的条件重要的是要注意，为了清理聚合查询中的状态，必须满足以下条件（从Spark 2.1.1开始，以后再进行更改）。 </p>
+<ul>
+<li>输出模式必须是追加或更新。 完整模式要求保留所有聚合数据，因此不能使用watermarking 去掉中间状态。 有关每种输出模式的语义的详细说明，请参见“输出模式”部分。 </li>
+<li>聚合必须具有事件时间列或事件时间列上的窗口。 </li>
+<li>必须在与聚合中使用的时间戳列相同的列上使用withWatermark 。 例如，df.withWatermark（“time”，“1 min”）.groupBy（“time2”）.count（）在附加输出模式中无效，因为watermark 在不同的列上定义为聚合列。 </li>
+<li>必须在聚合之前调用withWatermark才能使用watermark 细节。 例如，在附加输出模式下，<code>df.groupBy（“time”）.count（）.withWatermark（“time”，“1 min”）</code>无效。</li>
+</ul>
+<h3 id="Join操作"><a href="#Join操作" class="headerlink" title="Join操作"></a>Join操作</h3><p>Streaming DataFrames可以与静态 DataFrames连接，以创建新的Streaming DataFrames。 例如下面的例子。</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> staticDf <span class="token operator">=</span> spark<span class="token punctuation">.</span>read<span class="token punctuation">.</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword">val</span> streamingDf <span class="token operator">=</span> spark<span class="token punctuation">.</span>readStream<span class="token punctuation">.</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> 
+
+streamingDf<span class="token punctuation">.</span>join<span class="token punctuation">(</span>staticDf<span class="token punctuation">,</span> <span class="token string">"type"</span><span class="token punctuation">)</span>          <span class="token comment" spellcheck="true">// inner equi-join with a static DF</span>
+streamingDf<span class="token punctuation">.</span>join<span class="token punctuation">(</span>staticDf<span class="token punctuation">,</span> <span class="token string">"type"</span><span class="token punctuation">,</span> <span class="token string">"right_join"</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">// right outer join with a static DF</span>
+</code></pre>
+<p>在Spark 2.3中，Spark添加了对流 - 流 Join的支持，也就是说，您可以加入两个 streaming Datasets&#x2F;DataFrames。 在两个数据流之间生成连接结果的挑战是，在任何时间点，dataset的view对于连接的两侧都是不完整的，这使得在输入之间找到匹配更加困难。 从一个输入流接收的任何行的数据都可以与来自另一个输入流的未来输入的任何一条数据匹配，尚未接收的行匹配。 因此，对于两个输入流，我们将过去的输入缓冲为流状态，以便我们可以将每个未来输入与过去的输入相匹配，从而生成Join结果。 此外，类似于流聚合，Spark自动处理迟到的无序数据，并可以使用水印限制状态。 </p>
+<pre class=" language-scala"><code class="language-scala">mport org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span>sql<span class="token punctuation">.</span>functions<span class="token punctuation">.</span>expr
+
+<span class="token keyword">val</span> impressions <span class="token operator">=</span> spark<span class="token punctuation">.</span>readStream<span class="token punctuation">.</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword">val</span> clicks <span class="token operator">=</span> spark<span class="token punctuation">.</span>readStream<span class="token punctuation">.</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+<span class="token comment" spellcheck="true">// Apply watermarks on event-time columns</span>
+<span class="token keyword">val</span> impressionsWithWatermark <span class="token operator">=</span> impressions<span class="token punctuation">.</span>withWatermark<span class="token punctuation">(</span><span class="token string">"impressionTime"</span><span class="token punctuation">,</span> <span class="token string">"2 hours"</span><span class="token punctuation">)</span>
+<span class="token keyword">val</span> clicksWithWatermark <span class="token operator">=</span> clicks<span class="token punctuation">.</span>withWatermark<span class="token punctuation">(</span><span class="token string">"clickTime"</span><span class="token punctuation">,</span> <span class="token string">"3 hours"</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// Join with event-time constraints</span>
+impressionsWithWatermark<span class="token punctuation">.</span>join<span class="token punctuation">(</span>
+  clicksWithWatermark<span class="token punctuation">,</span>
+  expr<span class="token punctuation">(</span><span class="token string">"""
+    clickAdId = impressionAdId AND
+    clickTime >= impressionTime AND
+    clickTime &lt;= impressionTime + interval 1 hour
+    """</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+</code></pre>
+<h2 id="不支持的操作"><a href="#不支持的操作" class="headerlink" title="不支持的操作"></a>不支持的操作</h2><p>有几个DataFrame &#x2F; Dataset操作不支持streaming DataFrames &#x2F; Datasets。 其中一些如下。 </p>
+<ul>
+<li><p>streaming Datasets不支持多个streaming聚合（即streaming DF上的聚合链）。 </p>
+</li>
+<li><p>流数据集不支持limit和取前N行。 </p>
+</li>
+<li><p>Streaming Datasets不支持Distinct 操作。 </p>
+</li>
+<li><p>只有在在完全输出模式的聚合之后，streaming Datasets才支持排序操作。 </p>
+</li>
+<li><p>有条件地支持Streaming和静态Datasets之间的外连接。 <br>不支持与 streaming Dataset的Full outer join <br>不支持streaming Dataset 在右侧的Left outer join <br>不支持streaming Dataset在左侧的Right outer join</p>
+</li>
+<li><p>两个streaming Datasets之间的任何种类型的join都不受支持</p>
+</li>
+</ul>
+<p>此外，还有一些Dataset方法将不适用于streaming Datasets。 它们是立即运行查询并返回结果的操作，这在streaming Datasets上没有意义。 相反，这些功能可以通过显式启动streaming查询来完成（参见下一节）。<br>- count() - 无法从流数据集返回单个计数。 而是使用ds.group By.count（）返回一个包含running count的streaming Dataset 。<br>- foreach() - 而是使用ds.writeStream.foreach（…）（见下一节）。<br>- show() - Instead use the console sink (see next section).</p>
+<h2 id="流式查询"><a href="#流式查询" class="headerlink" title="流式查询"></a>流式查询</h2><h3 id="输出模式"><a href="#输出模式" class="headerlink" title="输出模式"></a>输出模式</h3><ul>
+<li>Append mode (default) - 这是默认模式，其中只有从上次触发后添加到结果表的新行将被输出到sink。 只有那些添加到“结果表”中并且从不会更改的行的查询才支持这一点。 因此，该模式保证每行只能输出一次（假定容错sink）。 例如，只有select，where，map，flatMap，filter，join等的查询将支持Append模式。 </li>
+<li>Complete mode -每个触发后，整个结果表将被输出到sink。 聚合查询支持这一点。 </li>
+<li>Update mode - （自Spark 2.1.1以来可用）只有结果表中自上次触发后更新的行才会被输出到sink。 更多信息将在以后的版本中添加。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Supported Output Modes</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>没有聚合的查询</td>
+<td>Append, Update</td>
+<td>不支持完整模式，因为将所有数据保存在结果表中是不可行的。</td>
+</tr>
+<tr>
+<td>有聚合的查询：使用watermark对event-time进行聚合</td>
+<td>Append, Update, Complete</td>
+<td>附加模式使用watermark 来降低旧聚合状态。 但是，窗口化聚合的输出会延迟“withWatermark（）”中指定的晚期阈值，因为模式语义可以在结果表中定义后才能将结果表添加到结果表中（即在watermark 被交叉之后）。 有关详细信息，请参阅后期数据部分。更新模式使用水印去掉旧的聚合状态。完全模式不会丢弃旧的聚合状态，因为根据定义，此模式保留结果表中的所有数据。</td>
+</tr>
+<tr>
+<td>有聚合的查询：其他聚合</td>
+<td>Complete, Update</td>
+<td>由于没有定义watermark （仅在其他类别中定义），旧的聚合状态不会被丢弃。不支持附加模式，因为聚合可以更新，从而违反了此模式的语义。</td>
+</tr>
+</tbody></table>
+<h3 id="Output-Sinks"><a href="#Output-Sinks" class="headerlink" title="Output Sinks"></a>Output Sinks</h3><p>File sink-将输出存储到目录</p>
+<pre class=" language-scala"><code class="language-scala">writeStream
+    <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"parquet"</span><span class="token punctuation">)</span>        <span class="token comment" spellcheck="true">// 也可以是 "orc", "json", "csv", 等等.</span>
+    <span class="token punctuation">.</span>option<span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">,</span> <span class="token string">"path/to/destination/dir"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Foreach sink - 对输出中的记录运行任意计算。 </p>
+<pre class=" language-scala"><code class="language-scala">writeStream
+    <span class="token punctuation">.</span>foreach<span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Console sink (for debugging) </p>
+<p>每次触发时将输出打印到控制台&#x2F; stdout。 都支持“Append ”和“Complete ”输出模式。 这应该用于低数据量的调试目的，因为在每次触发后，整个输出被收集并存储在驱动程序的内存中。</p>
+<pre class=" language-scala"><code class="language-scala">writeStream
+    <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"console"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Memory sink (for debugging) </p>
+<p>输出作为内存表存储在内存中。 都支持“Append ”和“Complete ”输出模式。 由于整个输出被收集并存储在驱动程序的内存中，所以应用于低数据量的调试目的。 因此，请谨慎使用。</p>
+<pre class=" language-scala"><code class="language-scala">writeStream
+    <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"memory"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span>queryName<span class="token punctuation">(</span><span class="token string">"tableName"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>sink</th>
+<th>Supported Output Modes</th>
+<th>Options</th>
+<th>Fault-tolerant</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>File Sink</td>
+<td>Append</td>
+<td>path：输出目录的路径，必须指定。 maxFilesPerTrigger：每个触发器中要考虑的最大新文件数（默认值：无最大值） latestFirst：是否首先处理最新的新文件，当有大量的文件积压（default：false）时很有用 有关特定于文件格式的选项，请参阅DataFrameWriter（Scala &#x2F; Java &#x2F; Python）中的相关方法。 例如。 对于“parquet”格式选项请参阅DataFrameWriter.parquet（）</td>
+<td>yes</td>
+<td>支持对分区表的写入。 按时间划分可能有用。</td>
+</tr>
+<tr>
+<td>Foreach Sink</td>
+<td>Append, Update, Compelete</td>
+<td>None</td>
+<td>取决于ForeachWriter的实现</td>
+<td>更多细节在下一节</td>
+</tr>
+<tr>
+<td>Console Sink</td>
+<td>Append, Update, Complete</td>
+<td>numRows：每次触发打印的行数（默认值：20）truncate：输出太长是否截断（默认值：true）</td>
+<td>no</td>
+<td></td>
+</tr>
+<tr>
+<td>Memory Sink</td>
+<td>Append, Complete</td>
+<td>None</td>
+<td>否。但在Complete模式下，重新启动的查询将重新创建整个表。</td>
+<td>查询名就是表名</td>
+</tr>
+</tbody></table>
+<p>您必须调用start（）来实际启动查询的执行。 这将返回一个StreamingQuery对象，它是连续运行执行的句柄。 您可以使用此对象来管理查询</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> noAggDF <span class="token operator">=</span> deviceDataDf<span class="token punctuation">.</span>select<span class="token punctuation">(</span><span class="token string">"device"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>where<span class="token punctuation">(</span><span class="token string">"signal > 10"</span><span class="token punctuation">)</span>   
+
+
+<span class="token comment" spellcheck="true">// Print new data to console</span>
+noAggDF
+  <span class="token punctuation">.</span>writeStream
+  <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"console"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+<span class="token comment" spellcheck="true">// Write new data to Parquet files</span>
+noAggDF
+  <span class="token punctuation">.</span>writeStream
+  <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"parquet"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>option<span class="token punctuation">(</span><span class="token string">"checkpointLocation"</span><span class="token punctuation">,</span> <span class="token string">"path/to/checkpoint/dir"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>option<span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">,</span> <span class="token string">"path/to/destination/dir"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// ========== DF with aggregation ==========</span>
+<span class="token keyword">val</span> aggDF <span class="token operator">=</span> df<span class="token punctuation">.</span>groupBy<span class="token punctuation">(</span><span class="token string">"device"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+<span class="token comment" spellcheck="true">// Print updated aggregations to console</span>
+aggDF
+  <span class="token punctuation">.</span>writeStream
+  <span class="token punctuation">.</span>outputMode<span class="token punctuation">(</span><span class="token string">"complete"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"console"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+<span class="token comment" spellcheck="true">// Have all the aggregates in an in-memory table </span>
+aggDF
+  <span class="token punctuation">.</span>writeStream
+  <span class="token punctuation">.</span>queryName<span class="token punctuation">(</span><span class="token string">"aggregates"</span><span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">// this query name will be the table name</span>
+  <span class="token punctuation">.</span>outputMode<span class="token punctuation">(</span><span class="token string">"complete"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"memory"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+spark<span class="token punctuation">.</span>sql<span class="token punctuation">(</span><span class="token string">"select * from aggregates"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">// interactively query in-memory table</span>
+</code></pre>
+<h3 id="Foreach和ForeachBatch"><a href="#Foreach和ForeachBatch" class="headerlink" title="Foreach和ForeachBatch"></a>Foreach和ForeachBatch</h3><p>foreach和foreachBatch操作允许您在流式查询的输出上应用任意操作和编写逻辑。 它们的用例略有不同 - 虽然foreach允许在每一行上自定义写入逻辑，foreachBatch允许在每个微批量的输出上进行任意操作和自定义逻辑。</p>
+<p>foreachBatch（）允许您指定在流式查询的每个微批次的输出数据上执行的函数。 从Spark 2.4开始，Scala，Java和Python都支持它。 它需要两个参数：DataFrame或Dataset，它具有微批次的输出数据和微批次的唯一ID。</p>
+<pre class=" language-scala"><code class="language-scala">streamingDF<span class="token punctuation">.</span>writeStream<span class="token punctuation">.</span>foreachBatch <span class="token punctuation">{</span> <span class="token punctuation">(</span>batchDF<span class="token operator">:</span> DataFrame<span class="token punctuation">,</span> batchId<span class="token operator">:</span> <span class="token builtin">Long</span><span class="token punctuation">)</span> <span class="token keyword">=></span>
+  <span class="token comment" spellcheck="true">// Transform and write batchDF </span>
+<span class="token punctuation">}</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h4 id="foreachBatch"><a href="#foreachBatch" class="headerlink" title="foreachBatch"></a>foreachBatch</h4><p>重用现有的批处理数据源 - 对于许多存储系统，可能还没有可用的流式接收器，但可能已经存在用于批量查询的数据写入器。使用foreachBatch，您可以在每个微批次的输出上使用批处理数据编写器。</p>
+<p>写入多个位置 - 如果要将流式查询的输出写入多个位置，则可以简单地多次写入输出DataFrame &#x2F; Dataset。但是，每次写入尝试都会导致重新计算输出数据（包括可能重新读取输入数据）。要避免重新计算，您应该缓存输出DataFrame &#x2F; Dataset，将其写入多个位置，然后将其解除。这是一个大纲。</p>
+<pre class=" language-scala"><code class="language-scala">streamingDF<span class="token punctuation">.</span>writeStream<span class="token punctuation">.</span>foreachBatch <span class="token punctuation">{</span> <span class="token punctuation">(</span>batchDF<span class="token operator">:</span> DataFrame<span class="token punctuation">,</span> batchId<span class="token operator">:</span> <span class="token builtin">Long</span><span class="token punctuation">)</span> <span class="token keyword">=></span> batchDF<span class="token punctuation">.</span>persist<span class="token punctuation">(</span><span class="token punctuation">)</span> batchDF<span class="token punctuation">.</span>write<span class="token punctuation">.</span>format<span class="token punctuation">(</span>…<span class="token punctuation">)</span><span class="token punctuation">.</span>save<span class="token punctuation">(</span>…<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// location 1 batchDF.write.format(…).save(…) // location 2 batchDF.unpersist() }</span>
+</code></pre>
+<p>应用其他DataFrame操作 - 流式DataFrame中不支持许多DataFrame和Dataset操作，因为Spark不支持在这些情况下生成增量计划。使用foreachBatch，您可以在每个微批输出上应用其中一些操作。但是，您必须自己解释执行该操作的端到端语义。注意：默认情况下，foreachBatch仅提供至少一次写保证。但是，您可以使用提供给该函数的batchId作为重复数据删除输出并获得一次性保证的方法。 foreachBatch不适用于连续处理模式，因为它从根本上依赖于流式查询的微批量执行。如果以连续模式写入数据，请改用foreach。</p>
+<p>注意：默认情况下，foreachBatch仅提供至少一次写保证。 但是，您可以使用提供给该函数的batchId作为重复数据删除输出并获得一次性保证的方法。 foreachBatch不适用于连续处理模式，因为它从根本上依赖于流式查询的微批量执行。 如果以连续模式写入数据，请改用foreach。</p>
+<h4 id="Foreach"><a href="#Foreach" class="headerlink" title="Foreach"></a>Foreach</h4><p>如果foreachBatch不是一个选项（例如，相应的批处理数据写入器不存在，或连续处理模式），那么您可以使用foreach表达自定义编写器逻辑。 具体来说，您可以通过将数据划分为三种方法来表达数据写入逻辑：打开，处理和关闭。 从Spark 2.4开始，foreach可用于Scala，Java和Python。</p>
+<pre class=" language-scala"><code class="language-scala">treamingDatasetOfString<span class="token punctuation">.</span>writeStream<span class="token punctuation">.</span>foreach<span class="token punctuation">(</span>
+  <span class="token keyword">new</span> ForeachWriter<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">def</span> open<span class="token punctuation">(</span>partitionId<span class="token operator">:</span> <span class="token builtin">Long</span><span class="token punctuation">,</span> version<span class="token operator">:</span> <span class="token builtin">Long</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Boolean</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// Open connection</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">def</span> process<span class="token punctuation">(</span>record<span class="token operator">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// Write string to connection</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">def</span> close<span class="token punctuation">(</span>errorOrNull<span class="token operator">:</span> Throwable<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// Close the connection</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>执行语义启动流式查询时，Spark以下列方式调用函数或对象的方法：</p>
+<p>此对象的单个副本负责查询中单个任务生成的所有数据。换句话说，一个实例负责处理以分布式方式生成的数据的一个分区。</p>
+<p>此对象必须是可序列化的，因为每个任务都将获得所提供对象的新的序列化反序列化副本。 因此，强烈建议在调用open（）方法之后完成用于写入数据的任何初始化（例如，打开连接或启动事务），这表示任务已准备好生成数据。</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token operator">-</span> 方法的生命周期如下：
+<span class="token operator">-</span>   For each partition <span class="token keyword">with</span> partition_id<span class="token operator">:</span>
+    <span class="token operator">-</span> For each batch<span class="token operator">/</span>epoch of streaming data <span class="token keyword">with</span> epoch_id<span class="token operator">:</span>
+        <span class="token operator">-</span> open<span class="token punctuation">(</span>partitionId<span class="token punctuation">,</span> epochId<span class="token punctuation">)</span> 被调用
+        <span class="token operator">-</span> 如果open（<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>）返回<span class="token boolean">true</span>，则对于partition和 batch<span class="token operator">/</span>epoch中的每一行，将调用方法process<span class="token punctuation">(</span>row<span class="token punctuation">)</span>
+        <span class="token operator">-</span> 调用方法close（错误），在处理行时看到错误（如果有的话话）。
+</code></pre>
+<p>当失败导致某些输入数据的重新处理时，open（）方法中的partitionId和epochId可用于对生成的数据进行重复数据删除。 这取决于查询的执行模式。 如果以微批处理模式执行流式查询，则保证由唯一元组（partition_id，epoch_id）表示的每个分区具有相同的数据。 因此，（partition_id，epoch_id）可用于对数据进行重复数据删除和&#x2F;或事务提交，并实现一次性保证。 但是，如果正在以连续模式执行流式查询，则此保证不成立，因此不应用于重复数据删除。</p>
+<h3 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h3><p>流式查询的触发器设置定义了流式数据处理的时间，查询是作为具有固定批处理间隔的微批量查询还是作为连续处理查询来执行。 以下是支持的各种触发器。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Trigger Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">未指定（默认）</td>
+<td align="left">如果未明确指定触发设置，则默认情况下，查询将以微批处理模式执行，一旦前一个微批处理完成处理，将立即生成微批处理。</td>
+</tr>
+<tr>
+<td align="left"><strong>Fixed interval micro-batches</strong></td>
+<td align="left">查询将以微批处理模式执行，其中微批处理将以用户指定的间隔启动。<br/>如果先前的微批次在该间隔内完成，则引擎将等待该间隔结束，然后开始下一个微批次。<br/>如果前一个微批次需要的时间长于完成的间隔（即如果错过了间隔边界），则下一个微批次将在前一个完成后立即开始（即，它不会等待下一个间隔边界） ）。<br/>如果没有可用的新数据，则不会启动微批次。</td>
+</tr>
+<tr>
+<td align="left">One-time micro-batch</td>
+<td align="left">查询将执行<em>仅一个</em>微批处理所有可用数据，然后自行停止。 这在您希望定期启动集群，处理自上一个时间段以来可用的所有内容，然后关闭集群的方案中非常有用。 在某些情况下，这可能会显着节省成本。</td>
+</tr>
+<tr>
+<td align="left"><strong>Continuous with fixed checkpoint interval</strong> <em>(实验)</em></td>
+<td align="left">查询将以新的低延迟，连续处理模式执行。在下面的连续处理部分中阅读更多相关信息。 <a target="_blank" rel="noopener" href="http://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#continuous-processing-experimental">Continuous Processing section</a></td>
+</tr>
+</tbody></table>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span>sql<span class="token punctuation">.</span>streaming<span class="token punctuation">.</span>Trigger
+
+<span class="token comment" spellcheck="true">// Default trigger (runs micro-batch as soon as it can)</span>
+df<span class="token punctuation">.</span>writeStream
+  <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"console"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// ProcessingTime trigger with two-seconds micro-batch interval</span>
+df<span class="token punctuation">.</span>writeStream
+  <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"console"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>trigger<span class="token punctuation">(</span>Trigger<span class="token punctuation">.</span>ProcessingTime<span class="token punctuation">(</span><span class="token string">"2 seconds"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// One-time trigger</span>
+df<span class="token punctuation">.</span>writeStream
+  <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"console"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>trigger<span class="token punctuation">(</span>Trigger<span class="token punctuation">.</span>Once<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// Continuous trigger with one-second checkpointing interval</span>
+df<span class="token punctuation">.</span>writeStream
+  <span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"console"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>trigger<span class="token punctuation">(</span>Trigger<span class="token punctuation">.</span>Continuous<span class="token punctuation">(</span><span class="token string">"1 second"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="管理流式查询"><a href="#管理流式查询" class="headerlink" title="管理流式查询"></a>管理流式查询</h2><p>启动查询时创建的StreamingQuery对象可用于监视和管理查询。</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> query <span class="token operator">=</span> df<span class="token punctuation">.</span>writeStream<span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"console"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">// get the query object</span>
+
+query<span class="token punctuation">.</span>id          <span class="token comment" spellcheck="true">// get the unique identifier of the running query that persists across restarts from checkpoint data</span>
+
+query<span class="token punctuation">.</span>runId       <span class="token comment" spellcheck="true">// get the unique id of this run of the query, which will be generated at every start/restart</span>
+
+query<span class="token punctuation">.</span>name        <span class="token comment" spellcheck="true">// get the name of the auto-generated or user-specified name</span>
+
+query<span class="token punctuation">.</span>explain<span class="token punctuation">(</span><span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">// print detailed explanations of the query</span>
+
+query<span class="token punctuation">.</span>stop<span class="token punctuation">(</span><span class="token punctuation">)</span>      <span class="token comment" spellcheck="true">// stop the query</span>
+
+query<span class="token punctuation">.</span>awaitTermination<span class="token punctuation">(</span><span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">// block until query is terminated, with stop() or with error</span>
+
+query<span class="token punctuation">.</span>exception       <span class="token comment" spellcheck="true">// the exception if the query has been terminated with error</span>
+
+query<span class="token punctuation">.</span>recentProgress  <span class="token comment" spellcheck="true">// an array of the most recent progress updates for this query</span>
+
+query<span class="token punctuation">.</span>lastProgress    <span class="token comment" spellcheck="true">// the most recent progress update of this streaming query</span>
+</code></pre>
+<p>您可以在单个SparkSession中启动任意数量的查询。 它们将同时运行，共享群集资源,您可以使用<code>sparkSession.streams()</code>来获取可用于管理当前活动的查询的StreamingQueryManager</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> spark<span class="token operator">:</span> SparkSession <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+spark<span class="token punctuation">.</span>streams<span class="token punctuation">.</span>active    <span class="token comment" spellcheck="true">// get the list of currently active streaming queries</span>
+
+spark<span class="token punctuation">.</span>streams<span class="token punctuation">.</span>get<span class="token punctuation">(</span>id<span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">// get a query object by its unique id</span>
+
+spark<span class="token punctuation">.</span>streams<span class="token punctuation">.</span>awaitAnyTermination<span class="token punctuation">(</span><span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">// block until any one of them terminates</span>
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SparkStreaming/20190608115959.png"></p>
+<p>更多请参考Spark官方网站</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>Spark官方网站</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">清风笑丶</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.hphblog.cn/2019/06/07/spark-zhi-structuredstreaming/">http://www.hphblog.cn/2019/06/07/spark-zhi-structuredstreaming/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">清风笑丶</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Spark/">
+                                    <span class="chip bg-color">Spark</span>
+                                </a>
+                            
+                                <a href="/tags/Structured-Streaming/">
+                                    <span class="chip bg-color">Structured Streaming</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'tuHi6xrT9Lo49BgBR40slMTU-gzGzoHsz',
+        appKey: 'TABU3ijIaIdvsbw6B7BGSAFG',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/06/08/spark-zhi-graphx/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Spark之GraphX">
+                        
+                        <span class="card-title">Spark之GraphX</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            GraphX 是 Spark 图表和图形并行计算的新组件。GraphX 延伸 Spark RDD 通过引入新的图形的抽象：计算与连接到每个顶点和边缘性的向量。以支持图形计算，GraphX 公开了一组基本的操作符（例如  subgraph, 
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-08
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/GraphX/">
+                        <span class="chip bg-color">GraphX</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/06/06/spark-zhi-sparkstreaming-de-dstream-cao-zuo/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Spark之SparkStreaming的DStream操作">
+                        
+                        <span class="card-title">Spark之SparkStreaming的DStream操作</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            转换DStream上的原语分为Transformations（转换）和Output Operations（输出）两种，此外转换操作中还有一些比较特殊的原语，如：updateStateByKey()、transform()以及各种Window
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-06
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SparkStreaming/">
+                        <span class="chip bg-color">SparkStreaming</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="627702366"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">清风笑丶</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "6";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+            <span id="icp"><img src="/medias/icp.png" style="vertical-align: text-bottom;" />
+                <a href="http://beian.miit.gov.cn/" target="_blank">豫ICP备18042969号-1</a>
+            </span>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/bigdataxiaohan" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:467008580@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=467008580" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 467008580" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="https://www.zhihu.com/people/qing-feng-xiao-zhu-15" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/qing-feng-xiao-zhu-15" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?9b38e14d1abc688512d16851f1c0a313";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

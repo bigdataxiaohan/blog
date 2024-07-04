@@ -1,0 +1,2128 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Hive数据据类型 DDL DML, 分享大数据、JAVA、JavaWeb相关知识和工作中的经验心得">
+    <meta name="description" content="求知若饥，虚心若愚">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Hive数据据类型 DDL DML | 菜鸟清风</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">菜鸟清风</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">菜鸟清风</div>
+        <div class="logo-desc">
+            
+            求知若饥，虚心若愚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/bigdataxiaohan" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork And Start
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/bigdataxiaohan" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork And Start" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Hive数据据类型 DDL DML</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Hive/">
+                                <span class="chip bg-color">Hive</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                大数据
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-01-16
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4.1k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    18 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><table>
+<thead>
+<tr>
+<th>Hive数据类型</th>
+<th>Java数据类型</th>
+<th>长度</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TINYINT</td>
+<td>byte</td>
+<td>1byte有符号整数</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SMALINT</td>
+<td>short</td>
+<td>2byte有符号整数</td>
+<td>20</td>
+</tr>
+<tr>
+<td>INT</td>
+<td>int</td>
+<td>4byte有符号整数</td>
+<td>20</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>long</td>
+<td>8byte有符号整数</td>
+<td>20</td>
+</tr>
+<tr>
+<td>BOOLEAN</td>
+<td>boolean</td>
+<td>布尔类型，true或者false</td>
+<td>TRUE  FALSE</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>float</td>
+<td>单精度浮点数</td>
+<td>3.14159</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>double</td>
+<td>双精度浮点数</td>
+<td>3.14159</td>
+</tr>
+<tr>
+<td>STRING</td>
+<td>string</td>
+<td>字符系列。可以指定字符集。可以使用单引号或者双引号。</td>
+<td>‘now is the time’ “for all good men”</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td></td>
+<td>时间类型</td>
+<td></td>
+</tr>
+<tr>
+<td>BINARY</td>
+<td></td>
+<td>字节数组</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>对于Hive而言String类型相当于数据库的varchar类型，该类型是一个可变的字符串，不过它不能声明其中最多能存储多少个字符，理论上它可以存储2GB的字符数。</p>
+<h3 id="集合数据类型"><a href="#集合数据类型" class="headerlink" title="集合数据类型"></a>集合数据类型</h3><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>描述</th>
+<th>语法示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>STRUCT</td>
+<td>和c语言中的struct类似，都可以通过“点”符号访问元素内容。例如，如果某个列的数据类型是STRUCT{first STRING, last STRING},那么第1个元素可以通过字段.first来引用。</td>
+<td>struct()</td>
+</tr>
+<tr>
+<td>MAP</td>
+<td>MAP是一组键-值对元组集合，使用数组表示法可以访问数据。例如，如果某个列的数据类型是MAP，其中键-&gt;值对是’first’-&gt;’John’和’last’-&gt;’Doe’，那么可以通过字段名[‘last’]获取最后一个元素</td>
+<td>map()</td>
+</tr>
+<tr>
+<td>ARRAY</td>
+<td>数组是一组具有相同类型和名称的变量的集合。这些变量称为数组的元素，每个数组元素都有一个编号，编号从零开始。例如，数组值为[‘John’,   ‘Doe’]，那么第2个元素可以通过数组名[1]进行引用。</td>
+<td>Array()</td>
+</tr>
+</tbody></table>
+<p>Hive有三种复杂数据类型ARRAY、MAP 和 STRUCT。ARRAY和MAP与Java中的Array和Map类似，而STRUCT与C语言中的Struct类似，它封装了一个命名字段集合，复杂数据类型允许任意层次的嵌套。</p>
+<h3 id="类型转化"><a href="#类型转化" class="headerlink" title="类型转化"></a>类型转化</h3><p>Hive的原子数据类型是可以进行隐式转换的，类似于Java的类型转换，例如某表达式使用INT类型，TINYINT会自动转换为INT类型，但是Hive不会进行反向转化，例如，某表达式使用TINYINT类型，INT不会自动转换为TINYINT类型，它会返回错误，除非使用CAST操作。</p>
+<p>1．隐式类型转换规则如下</p>
+<p>（1）任何整数类型都可以隐式地转换为一个范围更广的类型，如TINYINT可以转换成INT，INT可以转换成BIGINT。</p>
+<p>（2）所有整数类型、FLOAT和STRING类型都可以隐式地转换成DOUBLE。</p>
+<p>（3）TINYINT、SMALLINT、INT都可以转换为FLOAT。</p>
+<p>（4）BOOLEAN类型不可以转换为任何其它的类型。</p>
+<p>2．可以使用CAST操作显示进行数据类型转换</p>
+<p>例如CAST(‘1’ AS INT)将把字符串’1’ 转换成整数1；如果强制类型转换失败，如执行CAST(‘X’ AS INT)，表达式返回空值 NULL。</p>
+<h2 id="DDL数据定义"><a href="#DDL数据定义" class="headerlink" title="DDL数据定义"></a>DDL数据定义</h2><h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><pre class=" language-sql"><code class="language-sql">hive<span class="token operator">></span> <span class="token keyword">create</span> <span class="token keyword">database</span> <span class="token keyword">if</span> <span class="token operator">not</span> <span class="token keyword">exists</span> db_hive<span class="token punctuation">;</span>      <span class="token comment" spellcheck="true">--最标准写法</span>
+
+hive<span class="token operator">></span> <span class="token keyword">create</span> <span class="token keyword">database</span> db_hive_HDFS location <span class="token string">'/db_hive_hdfs.db'</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">--指定数据库在HDFS上存放的位置</span>
+</code></pre>
+<p><img src="https://s2.ax1x.com/2019/01/16/kS6mx1.png" alt="kS6mx1.png"></p>
+<h3 id="查询数据库"><a href="#查询数据库" class="headerlink" title="查询数据库"></a>查询数据库</h3><pre class=" language-sql"><code class="language-sql">hive<span class="token operator">></span> <span class="token keyword">show</span> <span class="token keyword">databases</span><span class="token punctuation">;</span>
+OK
+db_hive
+db_hive_hdfs
+<span class="token keyword">default</span>
+</code></pre>
+<p>查看数据库详情</p>
+<pre class=" language-sql"><code class="language-sql">hive<span class="token operator">></span> <span class="token keyword">desc</span> <span class="token keyword">database</span> db_hive<span class="token punctuation">;</span>
+OK
+db_hive         hdfs:<span class="token comment" spellcheck="true">//datanode1:9000/user/hive/warehouse/db_hive.db    hadoop  USER</span>
+Time taken: <span class="token number">0.043</span> seconds<span class="token punctuation">,</span> Fetched: <span class="token number">1</span> <span class="token keyword">row</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+hive<span class="token operator">></span> <span class="token keyword">desc</span> db_hive_hdfs<span class="token punctuation">;</span>
+
+hive<span class="token operator">></span> <span class="token keyword">desc</span> <span class="token keyword">database</span> db_hive_hdfs<span class="token punctuation">;</span>
+OK
+db_hive_hdfs            hdfs:<span class="token comment" spellcheck="true">//datanode1:9000/db_hive_hdfs.db   hadoop  USER</span>
+Time taken: <span class="token number">0.041</span> seconds<span class="token punctuation">,</span> Fetched: <span class="token number">1</span> <span class="token keyword">row</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+</code></pre>
+<p>切换当前数据库</p>
+<pre class=" language-shell"><code class="language-shell">hive> use db_hive;
+</code></pre>
+<h3 id="修改数据库"><a href="#修改数据库" class="headerlink" title="修改数据库"></a>修改数据库</h3><p>用户可以使用ALTER DATABASE命令为某个数据库的DBPROPERTIES设置键-值对属性值，来描述这个数据库的属性信息。数据库的其他元数据信息都是不可更改的，包括数据库名和数据库所在的目录位置。<strong>修改当前正在使用的数据库，要先退出使用</strong></p>
+<pre class=" language-sql"><code class="language-sql">hive<span class="token operator">></span> <span class="token keyword">use</span> <span class="token keyword">default</span><span class="token punctuation">;</span>
+OK
+Time taken: <span class="token number">0.038</span> seconds
+
+hive<span class="token operator">></span>  <span class="token keyword">alter</span> <span class="token keyword">database</span> db_hive <span class="token keyword">set</span> dbproperties<span class="token punctuation">(</span><span class="token string">'createtime'</span><span class="token operator">=</span><span class="token string">'20190116'</span><span class="token punctuation">)</span> <span class="token punctuation">;</span>
+OK
+Time taken: <span class="token number">0.105</span> seconds
+
+hive<span class="token operator">></span> <span class="token keyword">desc</span> <span class="token keyword">database</span> <span class="token keyword">extended</span> db_hive<span class="token punctuation">;</span>
+OK
+db_hive         hdfs:<span class="token comment" spellcheck="true">//datanode1:9000/user/hive/warehouse/db_hive.db    hadoop  USER    {createtime=20190116}</span>
+Time taken: <span class="token number">0.064</span> seconds<span class="token punctuation">,</span> Fetched: <span class="token number">1</span> <span class="token keyword">row</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+</code></pre>
+<h3 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h3><pre class=" language-sql"><code class="language-sql">hive<span class="token operator">></span> <span class="token keyword">drop</span> <span class="token keyword">database</span> db_hive_hdfs<span class="token punctuation">;</span>                       <span class="token comment" spellcheck="true">--删除空数据库</span>
+hive<span class="token operator">></span> <span class="token keyword">drop</span> <span class="token keyword">database</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> db_hive_hdfs<span class="token punctuation">;</span>                <span class="token comment" spellcheck="true">--这么些删除不存在的不会报错</span>
+hive<span class="token operator">></span> <span class="token keyword">drop</span> <span class="token keyword">database</span> db_hive <span class="token keyword">cascade</span><span class="token punctuation">;</span>                    <span class="token comment" spellcheck="true">--如果数据库非空可以强制删除</span>
+</code></pre>
+<h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><pre class=" language-sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token punctuation">[</span>EXTERNAL<span class="token punctuation">]</span> <span class="token keyword">TABLE</span> <span class="token punctuation">[</span><span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span><span class="token punctuation">]</span> table_name 
+<span class="token punctuation">[</span><span class="token punctuation">(</span>col_name data_type <span class="token punctuation">[</span><span class="token keyword">COMMENT</span> col_comment<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">]</span> 
+<span class="token punctuation">[</span><span class="token keyword">COMMENT</span> table_comment<span class="token punctuation">]</span> 
+<span class="token punctuation">[</span>PARTITIONED <span class="token keyword">BY</span> <span class="token punctuation">(</span>col_name data_type <span class="token punctuation">[</span><span class="token keyword">COMMENT</span> col_comment<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">]</span> 
+<span class="token punctuation">[</span><span class="token keyword">CLUSTERED</span> <span class="token keyword">BY</span> <span class="token punctuation">(</span>col_name<span class="token punctuation">,</span> col_name<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> 
+<span class="token punctuation">[</span>SORTED <span class="token keyword">BY</span> <span class="token punctuation">(</span>col_name <span class="token punctuation">[</span><span class="token keyword">ASC</span><span class="token operator">|</span><span class="token keyword">DESC</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token keyword">INTO</span> num_buckets BUCKETS<span class="token punctuation">]</span> 
+<span class="token punctuation">[</span><span class="token keyword">ROW</span> FORMAT row_format<span class="token punctuation">]</span> 
+<span class="token punctuation">[</span>STORED <span class="token keyword">AS</span> file_format<span class="token punctuation">]</span> 
+<span class="token punctuation">[</span>LOCATION hdfs_path<span class="token punctuation">]</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><font color=#0099ff size=2 face="黑体">CREATE  TABLE</font></td>
+<td><font color=#0099ff size=2 face="黑体">创建一个指定名字的表。如果表存在，抛出异常，用 IF NOT EXISTS忽略异常。</font></td>
+</tr>
+<tr>
+<td><font color=#0099ff size=2 face="黑体">EXTERNA</font></td>
+<td><font color=#0099ff size=2 face="黑体">用户创建一个外部表，在建表的同时指定一个指向实际数据的路径（LOCATION），Hive创建内部表时，会将数据移动到数据仓库指向的路径；若创建外部表，仅记录数据所在的路径，不对数据的位置做任何改变。在删除表的时候，内部表的元数据和数据会被一起删除，而外部表只删除元数据，不删除数据。</font></td>
+</tr>
+<tr>
+<td><font color=#0099ff size=2 face="黑体">PARTITIONED BY</font></td>
+<td><font color=#0099ff size=2 face="黑体">创建分区表</font></td>
+</tr>
+<tr>
+<td><font color=#0099ff size=2 face="黑体">COMMENT</font></td>
+<td><font color=#0099ff size=2 face="黑体">为表和列添加注释。</font></td>
+</tr>
+<tr>
+<td><font color=#0099ff size=2 face="黑体">CLUSTERED BY</font></td>
+<td><font color=#0099ff size=2 face="黑体">创建分桶表</font></td>
+</tr>
+<tr>
+<td><font color=#0099ff size=2 face="黑体">SORTED BY</font></td>
+<td><font color=#0099ff size=2 face="黑体">不常用</font></td>
+</tr>
+<tr>
+<td><font color=#0099ff size=2 face="黑体">ROW FORMAT</font></td>
+<td><font color=#0099ff size=2 face="黑体"> 用户在建表的时候可以自定义SerDe或者使用自带的SerDe。如果没有指定ROW FORMAT 或者ROW FORMAT<br/>DELIMITED，将会使用自带的SerDe。在建表的时候，用户还需要为表指定列，用户在指定表的列的同时也会指定自定义的SerDe，Hive通过SerDe确定表的具体的列的数据。 </font></td>
+</tr>
+<tr>
+<td><font color=#0099ff size=2 face="黑体">ROW FORMAT</font></td>
+<td><font color=#0099ff size=2 face="黑体">ROW FORMAT</font></td>
+</tr>
+<tr>
+<td><font color=#0099ff size=2 face="黑体">STORED AS</font></td>
+<td><font color=#0099ff size=2 face="黑体">指定存储文件类型常用的存储文件类型：SEQUENCEFILE（二进制序列文件）、TEXTFILE（文本）、RCFILE（列式存储格式文件）</font></td>
+</tr>
+<tr>
+<td><font color=#0099ff size=2 face="黑体">LOCATION</font></td>
+<td><font color=#0099ff size=2 face="黑体">指定表在HDFS上的存储位置。</font></td>
+</tr>
+<tr>
+<td><font color=#0099ff size=2 face="黑体">LIKE </font></td>
+<td><font color=#0099ff size=2 face="黑体">LIKE允许用户复制现有的表结构，但是不复制数据。</font></td>
+</tr>
+</tbody></table>
+<h3 id="管理表"><a href="#管理表" class="headerlink" title="管理表"></a>管理表</h3><p>默认创建的表都是管理表（内部表）。这种表，Hive会（或多或少地）控制着数据的生命周期。Hive默认情况下会将这些表的数据存储在由配置项hive.metastore.warehouse.dir(例如，&#x2F;user&#x2F;hive&#x2F;warehouse)所定义的目录的子目录下。当我们删除一个管理表时，Hive也会删除这个表中数据。管理表不适合和其他工具共享数据。</p>
+<p>创建普通表</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> <span class="token keyword">if</span> <span class="token operator">not</span> <span class="token keyword">exists</span> student2<span class="token punctuation">(</span>
+id <span class="token keyword">int</span><span class="token punctuation">,</span> name string
+<span class="token punctuation">)</span>
+<span class="token keyword">row</span> format delimited <span class="token keyword">fields</span> <span class="token keyword">terminated by</span> <span class="token string">'\t'</span>
+stored <span class="token keyword">as</span> textfile
+location <span class="token string">'/user/hive/warehouse/student2'</span><span class="token punctuation">;</span>
+</code></pre>
+<p>根据查询结果创建表（查询的结果会添加到新创建的表中）会进行mapreduce作业</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> <span class="token keyword">if</span> <span class="token operator">not</span> <span class="token keyword">exists</span> student3 <span class="token keyword">as</span> <span class="token keyword">select</span> id<span class="token punctuation">,</span> name <span class="token keyword">from</span> student<span class="token punctuation">;</span>
+</code></pre>
+<p>根据已经存在的表结构创建表</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> <span class="token keyword">if</span> <span class="token operator">not</span> <span class="token keyword">exists</span> student4 <span class="token operator">like</span> student<span class="token punctuation">;</span>
+</code></pre>
+<p>查询表的详细类型</p>
+<pre><code>desc formatted student2;
+</code></pre>
+<h3 id="外部表"><a href="#外部表" class="headerlink" title="外部表"></a>外部表</h3><p>外部表Hive并非认为其完全拥有这份数据。删除该表并不会删除掉这份数据，表的元数据信息会被删除掉。</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>每天将收集到的网站日志定期流入HDFS文本文件。在外部表（原始日志表）的基础上做大量的统计分析，用到的中间表、结果表使用内部表存储，数据通过SELECT+INSERT进入内部表。</p>
+<h3 id="案例实操"><a href="#案例实操" class="headerlink" title="案例实操"></a>案例实操</h3><p>数据准备</p>
+<pre class=" language-shell"><code class="language-shell">[hadoop@datanode1 datas]$ vim dept.txt
+
+10      ACCOUNTING      1700
+20      RESEARCH        1800
+30      SALES   1900
+40      OPERATIONS      1700
+--------------------------------------------------------------------------------------------------
+[hadoop@datanode1 datas]$ vim emp.txt
+7369    SMITH   CLERK   7902    1980-12-17      800.00          20
+7499    ALLEN   SALESMAN        7698    1981-2-20       1600.00 300.00  30
+7521    WARD    SALESMAN        7698    1981-2-22       1250.00 500.00  30
+7566    JONES   MANAGER 7839    1981-4-2        2975.00         20
+7654    MARTIN  SALESMAN        7698    1981-9-28       1250.00 1400.00 30
+7698    BLAKE   MANAGER 7839    1981-5-1        2850.00         30
+7782    CLARK   MANAGER 7839    1981-6-9        2450.00         10
+7788    SCOTT   ANALYST 7566    1987-4-19       3000.00         20
+7839    KING    PRESIDENT               1981-11-17      5000.00         10
+7844    TURNER  SALESMAN        7698    1981-9-8        1500.00 0.00    30
+7876    ADAMS   CLERK   7788    1987-5-23       1100.00         20
+7900    JAMES   CLERK   7698    1981-12-3       950.00          30
+7902    FORD    ANALYST 7566    1981-12-3       3000.00         20
+7934    MILLER  CLERK   7782    1982-1-23       1300.00         10
+</code></pre>
+<p>创建表 </p>
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--部门表</span>
+<span class="token keyword">create</span> external <span class="token keyword">table</span> <span class="token keyword">if</span> <span class="token operator">not</span> <span class="token keyword">exists</span> <span class="token keyword">default</span><span class="token punctuation">.</span>dept<span class="token punctuation">(</span>
+deptno <span class="token keyword">int</span><span class="token punctuation">,</span>
+dname string<span class="token punctuation">,</span>
+loc <span class="token keyword">int</span>
+<span class="token punctuation">)</span>
+<span class="token keyword">row</span> format delimited <span class="token keyword">fields</span> <span class="token keyword">terminated by</span> <span class="token string">'\t'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--员工表</span>
+<span class="token keyword">create</span> external <span class="token keyword">table</span> <span class="token keyword">if</span> <span class="token operator">not</span> <span class="token keyword">exists</span> <span class="token keyword">default</span><span class="token punctuation">.</span>emp<span class="token punctuation">(</span>
+empno <span class="token keyword">int</span><span class="token punctuation">,</span>
+ename string<span class="token punctuation">,</span>
+job string<span class="token punctuation">,</span>
+mgr <span class="token keyword">int</span><span class="token punctuation">,</span>
+hiredate string<span class="token punctuation">,</span> 
+sal <span class="token keyword">double</span><span class="token punctuation">,</span> 
+comm <span class="token keyword">double</span><span class="token punctuation">,</span>
+deptno <span class="token keyword">int</span><span class="token punctuation">)</span>
+<span class="token keyword">row</span> format delimited <span class="token keyword">fields</span> <span class="token keyword">terminated by</span> <span class="token string">'\t'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--查询表</span>
+hive<span class="token operator">></span> <span class="token keyword">show</span> <span class="token keyword">tables</span><span class="token punctuation">;</span>
+OK
+dept
+student
+student2
+student3
+student4
+Time taken: <span class="token number">0.04</span> seconds<span class="token punctuation">,</span> Fetched: <span class="token number">5</span> <span class="token keyword">row</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">--加载数据</span>
+hive<span class="token operator">></span> <span class="token keyword">load</span> <span class="token keyword">data</span> <span class="token keyword">local</span> inpath <span class="token string">'/opt/module/datas/dept.txt'</span> <span class="token keyword">into</span> <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>dept<span class="token punctuation">;</span>
+Loading <span class="token keyword">data</span> <span class="token keyword">to</span> <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>dept
+<span class="token keyword">Table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>dept stats: <span class="token punctuation">[</span>numFiles<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> totalSize<span class="token operator">=</span><span class="token number">69</span><span class="token punctuation">]</span>
+OK
+Time taken: <span class="token number">0.569</span> seconds
+
+hive<span class="token operator">></span> <span class="token keyword">load</span> <span class="token keyword">data</span> <span class="token keyword">local</span> inpath <span class="token string">'/opt/module/datas/emp.txt'</span> <span class="token keyword">into</span> <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>emp<span class="token punctuation">;</span>
+Loading <span class="token keyword">data</span> <span class="token keyword">to</span> <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>emp
+<span class="token keyword">Table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>emp stats: <span class="token punctuation">[</span>numFiles<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> totalSize<span class="token operator">=</span><span class="token number">657</span><span class="token punctuation">]</span>
+OK
+Time taken: <span class="token number">0.604</span> seconds
+
+<span class="token comment" spellcheck="true">--查询结果</span>
+hive<span class="token operator">></span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> emp<span class="token punctuation">;</span>
+hive<span class="token operator">></span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> dept<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--查看表格信息</span>
+<span class="token keyword">desc</span> formatted dept<span class="token punctuation">;</span>
+</code></pre>
+<h3 id="互相转换"><a href="#互相转换" class="headerlink" title="互相转换"></a>互相转换</h3><p>注意：<strong>只能用单引号，严格区分大小写，如果不是完全符合，那么只会添加kv 而不生效</strong></p>
+<pre class=" language-sql"><code class="language-sql"> <span class="token comment" spellcheck="true">--查询表类型</span>
+ <span class="token keyword">desc</span> formatted student2<span class="token punctuation">;</span>
+ <span class="token keyword">Table</span> <span class="token keyword">Type</span>:             MANAGED_TABLE
+<span class="token comment" spellcheck="true">--修改内部表student2为外部表</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> student2 <span class="token keyword">set</span> tblproperties<span class="token punctuation">(</span><span class="token string">'EXTERNAL'</span><span class="token operator">=</span><span class="token string">'TRUE'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">--查询表的类型</span>
+<span class="token keyword">desc</span> formatted student2<span class="token punctuation">;</span>
+<span class="token keyword">Table</span> <span class="token keyword">Type</span>:             EXTERNAL_TABLE
+<span class="token comment" spellcheck="true">--修改外部表student2为内部表</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> student2 <span class="token keyword">set</span> tblproperties<span class="token punctuation">(</span><span class="token string">'EXTERNAL'</span><span class="token operator">=</span><span class="token string">'FALSE'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">--查询表的类型</span>
+<span class="token keyword">desc</span> formatted student2<span class="token punctuation">;</span>
+<span class="token keyword">Table</span> <span class="token keyword">Type</span>:             MANAGED_TABLE
+</code></pre>
+<p>注意：<strong>注意：(‘EXTERNAL’&#x3D;’TRUE’)和(‘EXTERNAL’&#x3D;’FALSE’)为固定写法，区分大小写！</strong></p>
+<h2 id="分区表"><a href="#分区表" class="headerlink" title="分区表"></a>分区表</h2><p>分区表实际上就是对应一个HDFS文件系统上的独立的文件夹，该文件夹下是该分区所有的数据文件。<strong>Hive中的分区就是分目录</strong>，把一个大的数据集根据业务需要分割成小的数据集。在查询时通过WHERE子句中的表达式选择查询所需要的指定的分区，这样的查询效率会提高很多。</p>
+<h3 id="创建分区表"><a href="#创建分区表" class="headerlink" title="创建分区表"></a>创建分区表</h3><pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> dept_partition<span class="token punctuation">(</span>
+deptno <span class="token keyword">int</span><span class="token punctuation">,</span> dname string<span class="token punctuation">,</span> loc string
+<span class="token punctuation">)</span>
+partitioned <span class="token keyword">by</span> <span class="token punctuation">(</span>month string<span class="token punctuation">)</span>
+<span class="token keyword">row</span> format delimited <span class="token keyword">fields</span> <span class="token keyword">terminated by</span> <span class="token string">'\t'</span><span class="token punctuation">;</span>
+</code></pre>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">load</span> <span class="token keyword">data</span> <span class="token keyword">local</span> inpath <span class="token string">'/opt/module/datas/dept.txt'</span> <span class="token keyword">into</span> <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>dept_partition <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201901'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">load</span> <span class="token keyword">data</span> <span class="token keyword">local</span> inpath <span class="token string">'/opt/module/datas/dept.txt'</span> <span class="token keyword">into</span> <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>dept_partition <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201902'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">load</span> <span class="token keyword">data</span> <span class="token keyword">local</span> inpath <span class="token string">'/opt/module/datas/dept.txt'</span> <span class="token keyword">into</span> <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>dept_partition <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201903'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><img src="https://s2.ax1x.com/2019/01/16/kShcAP.png" alt="kShcAP.png"></p>
+<h3 id="查询分区表"><a href="#查询分区表" class="headerlink" title="查询分区表"></a>查询分区表</h3><pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--单分区查询</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> dept_partition <span class="token keyword">where</span> month<span class="token operator">=</span><span class="token string">'201901'</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">-- 多分区联合查询  union（排序）    or   in 三种方式</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> dept_partition <span class="token keyword">where</span> month<span class="token operator">=</span><span class="token string">'201901'</span>
+              <span class="token keyword">union</span>
+              <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> dept_partition <span class="token keyword">where</span> month<span class="token operator">=</span><span class="token string">'201902'</span>
+              <span class="token keyword">union</span>
+              <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> dept_partition <span class="token keyword">where</span> month<span class="token operator">=</span><span class="token string">'201903'</span><span class="token punctuation">;</span>
+ 
+ <span class="token comment" spellcheck="true">-------------------------------------------------------------------------------------------------</span>
+Hadoop job information <span class="token keyword">for</span> Stage<span class="token number">-2</span>: number <span class="token keyword">of</span> mappers: <span class="token number">2</span><span class="token punctuation">;</span> number <span class="token keyword">of</span> reducers: <span class="token number">1</span>
+<span class="token number">2019</span><span class="token operator">-</span><span class="token number">01</span><span class="token operator">-</span><span class="token number">16</span> <span class="token number">21</span>:<span class="token number">02</span>:<span class="token number">28</span><span class="token punctuation">,</span><span class="token number">578</span> Stage<span class="token number">-2</span> map <span class="token operator">=</span> <span class="token number">0</span><span class="token operator">%</span><span class="token punctuation">,</span>  reduce <span class="token operator">=</span> <span class="token number">0</span><span class="token operator">%</span>
+<span class="token number">2019</span><span class="token operator">-</span><span class="token number">01</span><span class="token operator">-</span><span class="token number">16</span> <span class="token number">21</span>:<span class="token number">02</span>:<span class="token number">48</span><span class="token punctuation">,</span><span class="token number">169</span> Stage<span class="token number">-2</span> map <span class="token operator">=</span> <span class="token number">50</span><span class="token operator">%</span><span class="token punctuation">,</span>  reduce <span class="token operator">=</span> <span class="token number">0</span><span class="token operator">%</span><span class="token punctuation">,</span> Cumulative CPU <span class="token number">2.29</span> sec
+<span class="token number">2019</span><span class="token operator">-</span><span class="token number">01</span><span class="token operator">-</span><span class="token number">16</span> <span class="token number">21</span>:<span class="token number">02</span>:<span class="token number">49</span><span class="token punctuation">,</span><span class="token number">219</span> Stage<span class="token number">-2</span> map <span class="token operator">=</span> <span class="token number">100</span><span class="token operator">%</span><span class="token punctuation">,</span>  reduce <span class="token operator">=</span> <span class="token number">0</span><span class="token operator">%</span><span class="token punctuation">,</span> Cumulative CPU <span class="token number">5.17</span> sec
+<span class="token number">2019</span><span class="token operator">-</span><span class="token number">01</span><span class="token operator">-</span><span class="token number">16</span> <span class="token number">21</span>:<span class="token number">02</span>:<span class="token number">58</span><span class="token punctuation">,</span><span class="token number">782</span> Stage<span class="token number">-2</span> map <span class="token operator">=</span> <span class="token number">100</span><span class="token operator">%</span><span class="token punctuation">,</span>  reduce <span class="token operator">=</span> <span class="token number">100</span><span class="token operator">%</span><span class="token punctuation">,</span> Cumulative CPU <span class="token number">7.58</span> sec
+MapReduce Total cumulative CPU time: <span class="token number">7</span> seconds <span class="token number">580</span> msec
+Ended Job <span class="token operator">=</span> job_1547632574371_0003
+MapReduce Jobs Launched:
+Stage<span class="token operator">-</span>Stage<span class="token number">-1</span>: Map: <span class="token number">2</span>  Reduce: <span class="token number">1</span>   Cumulative CPU: <span class="token number">7.82</span> sec   HDFS <span class="token keyword">Read</span>: <span class="token number">15318</span> HDFS <span class="token keyword">Write</span>: <span class="token number">410</span> SUCCESS
+Stage<span class="token operator">-</span>Stage<span class="token number">-2</span>: Map: <span class="token number">2</span>  Reduce: <span class="token number">1</span>   Cumulative CPU: <span class="token number">7.58</span> sec   HDFS <span class="token keyword">Read</span>: <span class="token number">15080</span> HDFS <span class="token keyword">Write</span>: <span class="token number">291</span> SUCCESS
+Total MapReduce CPU Time Spent: <span class="token number">15</span> seconds <span class="token number">400</span> msec
+OK
+<span class="token number">10</span>      ACCOUNTING      <span class="token number">1700</span>    <span class="token number">201901</span>
+<span class="token number">10</span>      ACCOUNTING      <span class="token number">1700</span>    <span class="token number">201902</span>
+<span class="token number">10</span>      ACCOUNTING      <span class="token number">1700</span>    <span class="token number">201903</span>
+<span class="token number">20</span>      RESEARCH        <span class="token number">1800</span>    <span class="token number">201901</span>
+<span class="token number">20</span>      RESEARCH        <span class="token number">1800</span>    <span class="token number">201902</span>
+<span class="token number">20</span>      RESEARCH        <span class="token number">1800</span>    <span class="token number">201903</span>
+<span class="token number">30</span>      SALES   <span class="token number">1900</span>    <span class="token number">201901</span>
+<span class="token number">30</span>      SALES   <span class="token number">1900</span>    <span class="token number">201902</span>
+<span class="token number">30</span>      SALES   <span class="token number">1900</span>    <span class="token number">201903</span>
+<span class="token number">40</span>      OPERATIONS      <span class="token number">1700</span>    <span class="token number">201901</span>
+<span class="token number">40</span>      OPERATIONS      <span class="token number">1700</span>    <span class="token number">201902</span>
+<span class="token number">40</span>      OPERATIONS      <span class="token number">1700</span>    <span class="token number">201903</span>
+Time taken: <span class="token number">100.192</span> seconds<span class="token punctuation">,</span> Fetched: <span class="token number">12</span> <span class="token keyword">row</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+</code></pre>
+<h3 id="增加分区"><a href="#增加分区" class="headerlink" title="增加分区"></a>增加分区</h3><pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--添加单个分区</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> dept_partition <span class="token keyword">add</span> <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201904'</span><span class="token punctuation">)</span> <span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">--增加分区  用空格分开</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> dept_partition <span class="token keyword">drop</span> <span class="token keyword">partition</span> <span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201802'</span><span class="token punctuation">)</span>  <span class="token keyword">partition</span> <span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201803'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="删除分区"><a href="#删除分区" class="headerlink" title="删除分区"></a>删除分区</h3><pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--删除单个分区</span>
+ <span class="token keyword">alter</span> <span class="token keyword">table</span> dept_partition <span class="token keyword">drop</span> <span class="token keyword">partition</span> <span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201801'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+<span class="token comment" spellcheck="true">--同时删除多个分区  用逗号分开</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> dept_partition <span class="token keyword">drop</span> <span class="token keyword">partition</span> <span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201802'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">partition</span> <span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201803'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="查看分区"><a href="#查看分区" class="headerlink" title="查看分区"></a>查看分区</h3><pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- show partitions dept_partition;</span>
+hive<span class="token operator">></span> <span class="token keyword">show</span> partitions dept_partition<span class="token punctuation">;</span>
+OK
+month<span class="token operator">=</span><span class="token number">201801</span>
+month<span class="token operator">=</span><span class="token number">201901</span>
+month<span class="token operator">=</span><span class="token number">201902</span>
+month<span class="token operator">=</span><span class="token number">201903</span>
+month<span class="token operator">=</span><span class="token number">201904</span>
+Time taken: <span class="token number">0.123</span> seconds<span class="token punctuation">,</span> Fetched: <span class="token number">5</span> <span class="token keyword">row</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">--查看分区表结构</span>
+hive<span class="token operator">></span> <span class="token keyword">desc</span> formatted dept_partition<span class="token punctuation">;</span>
+OK
+<span class="token comment" spellcheck="true"># col_name              data_type               comment</span>
+
+deptno                  <span class="token keyword">int</span>
+dname                   string
+loc                     string
+
+<span class="token comment" spellcheck="true"># Partition Information</span>
+<span class="token comment" spellcheck="true"># col_name              data_type               comment</span>
+
+month                   string
+</code></pre>
+<h3 id="分区表注意事项"><a href="#分区表注意事项" class="headerlink" title="分区表注意事项"></a>分区表注意事项</h3><h4 id="二级分区表"><a href="#二级分区表" class="headerlink" title="二级分区表"></a>二级分区表</h4><pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--创建二级分区表</span>
+<span class="token keyword">create</span> <span class="token keyword">table</span> dept_partition2<span class="token punctuation">(</span>deptno <span class="token keyword">int</span><span class="token punctuation">,</span> dname string<span class="token punctuation">,</span> loc string <span class="token punctuation">)</span>
+partitioned <span class="token keyword">by</span> <span class="token punctuation">(</span>month string<span class="token punctuation">,</span> day string<span class="token punctuation">)</span>
+<span class="token keyword">row</span> format delimited <span class="token keyword">fields</span> <span class="token keyword">terminated by</span> <span class="token string">'\t'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--加载数据到二级分区表</span>
+<span class="token keyword">load</span> <span class="token keyword">data</span> <span class="token keyword">local</span> inpath <span class="token string">'/opt/module/datas/dept.txt'</span> <span class="token keyword">into</span> <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>dept_partition2 <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201812'</span><span class="token punctuation">,</span> day<span class="token operator">=</span><span class="token string">'31'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--查询分区数据</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> dept_partition2 <span class="token keyword">where</span> month<span class="token operator">=</span><span class="token string">'201812'</span> <span class="token operator">and</span> day<span class="token operator">=</span><span class="token string">'31'</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="数据关联"><a href="#数据关联" class="headerlink" title="数据关联"></a>数据关联</h4><p>1.上传数据后修复</p>
+<pre class=" language-sql"><code class="language-sql">dfs <span class="token operator">-</span>mkdir <span class="token operator">-</span>p  <span class="token operator">/</span><span class="token keyword">user</span><span class="token operator">/</span>hive<span class="token operator">/</span>warehouse<span class="token operator">/</span>dept_partition2<span class="token operator">/</span>month<span class="token operator">=</span><span class="token number">201812</span><span class="token operator">/</span>day<span class="token operator">=</span><span class="token number">26</span><span class="token punctuation">;</span>
+dfs <span class="token operator">-</span>put <span class="token operator">/</span>opt<span class="token operator">/</span>module<span class="token operator">/</span>datas<span class="token operator">/</span>dept<span class="token punctuation">.</span>txt  <span class="token operator">/</span><span class="token keyword">user</span><span class="token operator">/</span>hive<span class="token operator">/</span>warehouse<span class="token operator">/</span>dept_partition2<span class="token operator">/</span>month<span class="token operator">=</span><span class="token number">201812</span><span class="token operator">/</span>day<span class="token operator">=</span><span class="token number">26</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--修复命令</span>
+hive<span class="token operator">></span> msck repair <span class="token keyword">table</span> dept_partition2<span class="token punctuation">;</span>
+OK
+Partitions <span class="token operator">not</span> <span class="token operator">in</span> metastore:    dept_partition2:month<span class="token operator">=</span><span class="token number">201812</span><span class="token operator">/</span>day<span class="token operator">=</span><span class="token number">26</span>
+Repair: Added <span class="token keyword">partition</span> <span class="token keyword">to</span> metastore dept_partition2:month<span class="token operator">=</span><span class="token number">201812</span><span class="token operator">/</span>day<span class="token operator">=</span><span class="token number">26</span>
+Time taken: <span class="token number">0.294</span> seconds<span class="token punctuation">,</span> Fetched: <span class="token number">2</span> <span class="token keyword">row</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">--查询  如果没有执行修复命令  刚开始是查询不到的</span>
+hive<span class="token operator">></span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> dept_partition2 <span class="token keyword">where</span> month<span class="token operator">=</span><span class="token string">'201812'</span> <span class="token operator">and</span> day<span class="token operator">=</span><span class="token string">'26'</span><span class="token punctuation">;</span>
+</code></pre>
+<p>2.上传数据后修复</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--上传数据</span>
+dfs <span class="token operator">-</span>mkdir <span class="token operator">-</span>p  <span class="token operator">/</span><span class="token keyword">user</span><span class="token operator">/</span>hive<span class="token operator">/</span>warehouse<span class="token operator">/</span>dept_partition2<span class="token operator">/</span>month<span class="token operator">=</span><span class="token number">201809</span><span class="token operator">/</span>day<span class="token operator">=</span><span class="token number">11</span><span class="token punctuation">;</span>
+dfs <span class="token operator">-</span>put <span class="token operator">/</span>opt<span class="token operator">/</span>module<span class="token operator">/</span>datas<span class="token operator">/</span>dept<span class="token punctuation">.</span>txt  <span class="token operator">/</span><span class="token keyword">user</span><span class="token operator">/</span>hive<span class="token operator">/</span>warehouse<span class="token operator">/</span>dept_partition2<span class="token operator">/</span>month<span class="token operator">=</span><span class="token number">201809</span><span class="token operator">/</span>day<span class="token operator">=</span><span class="token number">11</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--执行添加分区</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> dept_partition2 <span class="token keyword">add</span> <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201809'</span><span class="token punctuation">,</span>day<span class="token operator">=</span><span class="token string">'11'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--查询数据</span>
+ <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> dept_partition2 <span class="token keyword">where</span> month<span class="token operator">=</span><span class="token string">'201809'</span> <span class="token operator">and</span> day<span class="token operator">=</span><span class="token string">'11'</span><span class="token punctuation">;</span>
+</code></pre>
+<p>3.上传数据后load数据到分区</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--创建目录</span>
+dfs <span class="token operator">-</span>mkdir <span class="token operator">-</span>p  <span class="token operator">/</span><span class="token keyword">user</span><span class="token operator">/</span>hive<span class="token operator">/</span>warehouse<span class="token operator">/</span>dept_partition2<span class="token operator">/</span>month<span class="token operator">=</span><span class="token number">201810</span><span class="token operator">/</span>day<span class="token operator">=</span><span class="token number">25</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--上传数据</span>
+<span class="token keyword">load</span> <span class="token keyword">data</span> <span class="token keyword">local</span> inpath <span class="token string">'/opt/module/datas/dept.txt'</span> <span class="token keyword">into</span> <span class="token keyword">table</span>  dept_partition2 <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201810'</span><span class="token punctuation">,</span>day<span class="token operator">=</span><span class="token string">'25'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--查询数据</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> dept_partition2 <span class="token keyword">where</span> month<span class="token operator">=</span><span class="token string">'201810'</span> <span class="token operator">and</span> day<span class="token operator">=</span><span class="token string">'25'</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="修改表"><a href="#修改表" class="headerlink" title="修改表"></a>修改表</h4><pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--语法</span>
+<span class="token keyword">ALTER</span> <span class="token keyword">TABLE</span> table_name <span class="token keyword">RENAME</span> <span class="token keyword">TO</span> new_table_name
+
+<span class="token comment" spellcheck="true">--实例</span>
+hive<span class="token operator">></span> <span class="token keyword">alter</span> <span class="token keyword">table</span> dept_partition2 <span class="token keyword">rename</span> <span class="token keyword">to</span> dept_partition_rename<span class="token punctuation">;</span>
+</code></pre>
+<h4 id="增加-x2F-修改-x2F-替换列信息"><a href="#增加-x2F-修改-x2F-替换列信息" class="headerlink" title="增加&#x2F;修改&#x2F;替换列信息"></a>增加&#x2F;修改&#x2F;替换列信息</h4><pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--更新列</span>
+<span class="token keyword">ALTER</span> <span class="token keyword">TABLE</span> table_name CHANGE <span class="token punctuation">[</span><span class="token keyword">COLUMN</span><span class="token punctuation">]</span> col_old_name col_new_name column_type <span class="token punctuation">[</span><span class="token keyword">COMMENT</span> col_comment<span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token keyword">FIRST</span><span class="token operator">|</span><span class="token keyword">AFTER</span> column_name<span class="token punctuation">]</span>
+
+<span class="token comment" spellcheck="true">--增加和替换列</span>
+<span class="token keyword">ALTER</span> <span class="token keyword">TABLE</span> table_name <span class="token keyword">ADD</span><span class="token operator">|</span>REPLACE <span class="token keyword">COLUMNS</span> <span class="token punctuation">(</span>col_name data_type <span class="token punctuation">[</span><span class="token keyword">COMMENT</span> col_comment<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> 
+</code></pre>
+<p><strong>注：ADD是代表新增一字段，字段位置在所有列后面(partition列前)，REPLACE则是表示替换表中所有字段。</strong></p>
+<p>实际案例</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--查询表结构</span>
+<span class="token keyword">desc</span> dept_partition<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--添加列</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> dept_partition <span class="token keyword">add</span> <span class="token keyword">columns</span><span class="token punctuation">(</span>deptdesc string<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--查询表结构</span>
+<span class="token keyword">desc</span> dept_partition<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--更新列</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> dept_partition change <span class="token keyword">column</span> deptdesc <span class="token keyword">desc</span> <span class="token keyword">int</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--查询表结构</span>
+<span class="token keyword">desc</span> dept_partition<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--替换列</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> dept_partition replace <span class="token keyword">columns</span><span class="token punctuation">(</span>deptno string<span class="token punctuation">,</span> dname<span class="token punctuation">,</span>string<span class="token punctuation">,</span> loc string<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--替换列</span>
+ <span class="token keyword">desc</span> dept_partition<span class="token punctuation">;</span>
+</code></pre>
+<h4 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h4><pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--语法</span>
+<span class="token keyword">drop</span> <span class="token keyword">table</span> 表名<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--实例</span>
+<span class="token keyword">drop</span> <span class="token keyword">table</span> dept_partition<span class="token punctuation">;</span>
+</code></pre>
+<h3 id="DML数据操作"><a href="#DML数据操作" class="headerlink" title="DML数据操作"></a>DML数据操作</h3><h4 id="向表中装载数据（Load）"><a href="#向表中装载数据（Load）" class="headerlink" title="向表中装载数据（Load）"></a>向表中装载数据（Load）</h4><pre class=" language-sql"><code class="language-sql"><span class="token keyword">load</span> <span class="token keyword">data</span> <span class="token punctuation">[</span><span class="token keyword">local</span><span class="token punctuation">]</span> inpath <span class="token string">'/opt/module/datas/student.txt'</span> <span class="token punctuation">[</span>overwrite<span class="token punctuation">]</span> <span class="token keyword">into</span> <span class="token keyword">table</span> student <span class="token punctuation">[</span><span class="token keyword">partition</span> <span class="token punctuation">(</span>partcol1<span class="token operator">=</span>val1<span class="token punctuation">,</span>…<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>load data</td>
+<td>表示加载数据</td>
+</tr>
+<tr>
+<td>local</td>
+<td>从本地加载数据到hive表（复制）；否则从HDFS加载数据到hive表（移动）</td>
+</tr>
+<tr>
+<td>inpath</td>
+<td>表示加载数据的路径</td>
+</tr>
+<tr>
+<td>overwrite into</td>
+<td>表示覆盖表中已有数据，否则表示追加</td>
+</tr>
+<tr>
+<td>into table</td>
+<td>表示加载到哪张表</td>
+</tr>
+<tr>
+<td>student</td>
+<td>表示具体的表</td>
+</tr>
+<tr>
+<td>partition</td>
+<td>表示上传到指定分区</td>
+</tr>
+</tbody></table>
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--创建表</span>
+<span class="token keyword">create</span> <span class="token keyword">table</span> student<span class="token punctuation">(</span>id string<span class="token punctuation">,</span> name string<span class="token punctuation">)</span> <span class="token keyword">row</span> format delimited <span class="token keyword">fields</span> <span class="token keyword">terminated by</span> <span class="token string">'\t'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--加载本地文件到hive</span>
+ <span class="token keyword">load</span> <span class="token keyword">data</span> <span class="token keyword">local</span> inpath <span class="token string">'/opt/module/datas/student.txt'</span> <span class="token keyword">into</span> <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>student<span class="token punctuation">;</span>
+
+<span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span> 加载HDFS文件到hive <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span>
+<span class="token comment" spellcheck="true">--上传文件到HDFS</span>
+hive<span class="token operator">></span> dfs <span class="token operator">-</span>put <span class="token operator">/</span>opt<span class="token operator">/</span>module<span class="token operator">/</span>datas<span class="token operator">/</span>student<span class="token punctuation">.</span>txt <span class="token operator">/</span><span class="token keyword">user</span><span class="token operator">/</span>hadoop<span class="token operator">/</span>hive<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--加载HDFS上数据</span>
+<span class="token keyword">load</span> <span class="token keyword">data</span> inpath <span class="token string">'/user/hadoop/hive/student.txt'</span> <span class="token keyword">into</span> <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>student<span class="token punctuation">;</span>
+
+<span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span> 加载数据覆盖表中已有的数据 <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span>
+
+<span class="token comment" spellcheck="true">--加载数据覆盖表中已有的</span>
+<span class="token keyword">load</span> <span class="token keyword">data</span> inpath <span class="token string">'/user/hadoop/hive/student.txt'</span> overwrite <span class="token keyword">into</span> <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>student<span class="token punctuation">;</span>
+</code></pre>
+<h4 id="通过查询语句向表中插入数据（Insert）"><a href="#通过查询语句向表中插入数据（Insert）" class="headerlink" title="通过查询语句向表中插入数据（Insert）"></a>通过查询语句向表中插入数据（Insert）</h4><pre class=" language-sql"><code class="language-sql"> <span class="token comment" spellcheck="true">--创建一张分区表</span>
+ <span class="token keyword">create</span> <span class="token keyword">table</span> student<span class="token punctuation">(</span>id <span class="token keyword">int</span><span class="token punctuation">,</span> name string<span class="token punctuation">)</span> partitioned <span class="token keyword">by</span> <span class="token punctuation">(</span>month string<span class="token punctuation">)</span> <span class="token keyword">row</span> format delimited <span class="token keyword">fields</span> <span class="token keyword">terminated by</span> <span class="token string">'\t'</span><span class="token punctuation">;</span>
+ 
+ <span class="token comment" spellcheck="true">--基本插入数据</span>
+ <span class="token keyword">insert</span> <span class="token keyword">into</span> <span class="token keyword">table</span>  student <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201901'</span><span class="token punctuation">)</span> <span class="token keyword">values</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">'Hive'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+ <span class="token comment" spellcheck="true">--基本模式插入（根据单张表查询结果）</span>
+<span class="token keyword">insert</span> overwrite <span class="token keyword">table</span> student <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201812'</span><span class="token punctuation">)</span> <span class="token keyword">select</span> id<span class="token punctuation">,</span> name <span class="token keyword">from</span> student <span class="token keyword">where</span> month<span class="token operator">=</span><span class="token string">'201901'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--多插入模式（根据多张表查询结果）</span>
+<span class="token keyword">from</span> student
+              <span class="token keyword">insert</span> overwrite <span class="token keyword">table</span> student <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201902'</span><span class="token punctuation">)</span>
+              <span class="token keyword">select</span> id<span class="token punctuation">,</span> name <span class="token keyword">where</span> month<span class="token operator">=</span><span class="token string">'201901'</span>
+              <span class="token keyword">insert</span> overwrite <span class="token keyword">table</span> student <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201903'</span><span class="token punctuation">)</span>
+              <span class="token keyword">select</span> id<span class="token punctuation">,</span> name <span class="token keyword">where</span> month<span class="token operator">=</span><span class="token string">'201901'</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="查询语句中创建表并加载数据（As-Select）"><a href="#查询语句中创建表并加载数据（As-Select）" class="headerlink" title="查询语句中创建表并加载数据（As Select）"></a>查询语句中创建表并加载数据（As Select）</h4><pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--创建表，并指定在hdfs上的位置</span>
+<span class="token keyword">create</span> <span class="token keyword">table</span> <span class="token keyword">if</span> <span class="token operator">not</span> <span class="token keyword">exists</span> student5<span class="token punctuation">(</span>
+              id <span class="token keyword">int</span><span class="token punctuation">,</span> name string
+              <span class="token punctuation">)</span>
+              <span class="token keyword">row</span> format delimited <span class="token keyword">fields</span> <span class="token keyword">terminated by</span> <span class="token string">'\t'</span>
+              location <span class="token string">'/user/hive/warehouse/student5'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--上传数据到hdfs上</span>
+dfs <span class="token operator">-</span>put <span class="token operator">/</span>opt<span class="token operator">/</span>module<span class="token operator">/</span>datas<span class="token operator">/</span>student<span class="token punctuation">.</span>txt <span class="token operator">/</span><span class="token keyword">user</span><span class="token operator">/</span>hive<span class="token operator">/</span>warehouse<span class="token operator">/</span>student5<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--查询</span>
+ <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student5<span class="token punctuation">;</span>
+ hive<span class="token operator">></span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student5<span class="token punctuation">;</span>
+OK
+<span class="token number">1</span>       hadoop
+<span class="token number">2</span>       spark
+<span class="token number">3</span>       flink
+<span class="token number">4</span>       oozie
+<span class="token number">5</span>       java
+<span class="token number">6</span>       python
+<span class="token number">7</span>       MachineLearning
+<span class="token number">8</span>       Scala
+<span class="token number">9</span>       Hive
+Time taken: <span class="token number">0.082</span> seconds<span class="token punctuation">,</span> Fetched: <span class="token number">9</span> <span class="token keyword">row</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+</code></pre>
+<pre class=" language-sql"><code class="language-sql"> <span class="token comment" spellcheck="true">--导出数据</span>
+<span class="token punctuation">[</span>hadoop<span class="token variable">@datanode1</span> hive<span class="token punctuation">]</span>$  bin<span class="token operator">/</span>hive <span class="token operator">-</span><span class="token number">e</span> <span class="token string">"EXPORT TABLE student    TO '/export/hive/student';"</span>
+
+<span class="token comment" spellcheck="true">--查看表</span>
+hive<span class="token operator">></span> <span class="token keyword">show</span> <span class="token keyword">tables</span><span class="token punctuation">;</span>
+OK
+dept
+dept_partition
+dept_partition_rename
+emp
+student
+student3
+student4
+student5
+Time taken: <span class="token number">0.019</span> seconds<span class="token punctuation">,</span> Fetched: <span class="token number">8</span> <span class="token keyword">row</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">--导入数据</span>
+<span class="token keyword">import</span> <span class="token keyword">table</span> student_import <span class="token keyword">partition</span><span class="token punctuation">(</span>month<span class="token operator">=</span><span class="token string">'201901'</span><span class="token punctuation">)</span> <span class="token keyword">from</span> <span class="token string">'/export/hive/student'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--查看表</span>
+hive<span class="token operator">></span> <span class="token keyword">show</span> <span class="token keyword">tables</span><span class="token punctuation">;</span>
+OK
+dept
+dept_partition
+dept_partition_rename
+emp
+student
+student3
+student4
+student5
+student_import
+Time taken: <span class="token number">0.019</span> seconds<span class="token punctuation">,</span> Fetched: <span class="token number">9</span> <span class="token keyword">row</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">--查询数据</span>
+hive<span class="token operator">></span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student2<span class="token punctuation">;</span>
+</code></pre>
+<h4 id="Insert导出"><a href="#Insert导出" class="headerlink" title="Insert导出"></a>Insert导出</h4><pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--将查询的结果导出到本地</span>
+<span class="token keyword">insert</span> overwrite <span class="token keyword">local</span> directory <span class="token string">'/opt/module/datas/export/student'</span>  <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--将查询的结果格式化导出到本地</span>
+<span class="token keyword">insert</span> overwrite <span class="token keyword">local</span> directory <span class="token string">'/opt/module/datas/export/student1'</span>
+<span class="token keyword">ROW</span> FORMAT DELIMITED <span class="token keyword">FIELDS</span> <span class="token keyword">TERMINATED BY</span> <span class="token string">'\t'</span>    <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--将查询的结果导出到HDFS上(没有local)</span>
+<span class="token keyword">insert</span> overwrite directory <span class="token string">'/export/hive/student2'</span> <span class="token keyword">ROW</span> FORMAT DELIMITED <span class="token keyword">FIELDS</span> <span class="token keyword">TERMINATED BY</span> <span class="token string">'\t'</span> 
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student<span class="token punctuation">;</span>
+</code></pre>
+<h4 id="命令导出"><a href="#命令导出" class="headerlink" title="命令导出"></a>命令导出</h4><pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- Hadoop命令导出到本地</span>
+
+dfs <span class="token operator">-</span>get <span class="token operator">/</span><span class="token keyword">user</span><span class="token operator">/</span>hive<span class="token operator">/</span>warehouse<span class="token operator">/</span>student<span class="token operator">/</span>month<span class="token operator">=</span><span class="token number">201901</span><span class="token operator">/</span>000000_0  <span class="token operator">/</span>opt<span class="token operator">/</span>module<span class="token operator">/</span>datas<span class="token operator">/</span>export<span class="token operator">/</span>student3<span class="token punctuation">.</span>txt<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">-- Hive Shell 命令导出</span>
+<span class="token comment" spellcheck="true">--基本语法：（hive -f/-e 执行语句或者脚本 > file）</span>
+<span class="token punctuation">[</span>hadoop<span class="token variable">@datanode1</span> hive<span class="token punctuation">]</span>$ bin<span class="token operator">/</span>hive <span class="token operator">-</span><span class="token number">e</span> <span class="token string">'select * from default.student;'</span> <span class="token operator">></span> <span class="token operator">/</span>opt<span class="token operator">/</span>module<span class="token operator">/</span>datas<span class="token operator">/</span>export<span class="token operator">/</span>student4<span class="token punctuation">.</span>txt<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--Export导出到HDFS上</span>
+hive<span class="token operator">></span> export <span class="token keyword">table</span> <span class="token keyword">default</span><span class="token punctuation">.</span>student <span class="token keyword">to</span> <span class="token string">'/export/hive/student'</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="Sqoop导出"><a href="#Sqoop导出" class="headerlink" title="Sqoop导出"></a>Sqoop导出</h4><p><a target="_blank" rel="noopener" href="http://hphblog.cn/2019/01/08/Sqoop/">Sqoop参考</a></p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">清风笑丶</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.hphblog.cn/2019/01/16/hive-shu-ju-ju-lei-xing/">http://www.hphblog.cn/2019/01/16/hive-shu-ju-ju-lei-xing/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">清风笑丶</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Hive/">
+                                    <span class="chip bg-color">Hive</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'tuHi6xrT9Lo49BgBR40slMTU-gzGzoHsz',
+        appKey: 'TABU3ijIaIdvsbw6B7BGSAFG',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/01/17/hive-cha-xun/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Hive查询">
+                        
+                        <span class="card-title">Hive查询</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            查询语法[WITH CommonTableExpression (, CommonTableExpression)*]    (Note: Only available
+ starting with Hive 0.13.0)
+SELECT 
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-01-17
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Hive/">
+                        <span class="chip bg-color">Hive</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/01/15/kafka-api-shi-zhan/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="KafkaAPI实战">
+                        
+                        <span class="card-title">KafkaAPI实战</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Kafka有两套API: 过时的API  和新API
+准备工作 &lt;dependencies>
+        &lt;dependency>
+            &lt;groupId>org.apache.kafka&lt;/g
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-01-15
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Kafka/">
+                        <span class="chip bg-color">Kafka</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="627702366"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">清风笑丶</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "6";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+            <span id="icp"><img src="/medias/icp.png" style="vertical-align: text-bottom;" />
+                <a href="http://beian.miit.gov.cn/" target="_blank">豫ICP备18042969号-1</a>
+            </span>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/bigdataxiaohan" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:467008580@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=467008580" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 467008580" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="https://www.zhihu.com/people/qing-feng-xiao-zhu-15" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/qing-feng-xiao-zhu-15" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?9b38e14d1abc688512d16851f1c0a313";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

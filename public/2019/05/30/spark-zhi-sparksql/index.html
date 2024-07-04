@@ -1,0 +1,1659 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Spark之SparkSQL理论篇, 分享大数据、JAVA、JavaWeb相关知识和工作中的经验心得">
+    <meta name="description" content="求知若饥，虚心若愚">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Spark之SparkSQL理论篇 | 菜鸟清风</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">菜鸟清风</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">菜鸟清风</div>
+        <div class="logo-desc">
+            
+            求知若饥，虚心若愚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/bigdataxiaohan" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork And Start
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/bigdataxiaohan" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork And Start" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Spark之SparkSQL理论篇</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/SparKSQL/">
+                                <span class="chip bg-color">SparKSQL</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                大数据
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-05-30
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    9 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                 Spark SQL 理论学习：<Excerpt in index | 首页摘要><span id="more"></span> 
+<p>&lt;The rest of contents | 余下全文&gt;</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530191139.png"></p>
+<p>Spark SQL是Spark用来处理结构化数据的一个模块，它提供了一个编程抽象叫做DataFrame并且作为分布式SQL查询引擎的作用。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p>1）易整合</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530191724.png"></p>
+<ol start="2">
+<li>统一的数据访问方式</li>
+</ol>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530191703.png"></p>
+<p>3）兼容Hive</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530191746.png"></p>
+<p>4）标准的数据连接</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530191824.png"></p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530191859.png"></p>
+<p> SparkSQL可以看做是一个转换层，向下对接各种不同的结构化数据源，向上提供不同的数据访问方式。</p>
+<p> 在SparkSQL中Spark为我们提供了两个新的抽象，分别是DataFrame和DataSet</p>
+<p><code>RDD (Spark1.0)</code> —&gt;<code> Dataframe(Spark1.3)</code> —&gt;<code> Dataset(Spark1.6)</code></p>
+<p>同样的数据都给到这三个数据结构有相同的结果。不同是的他们的执行效率和执行方式。在后期的Spark版本中，DataSet会逐步取代RDD和DataFrame成为唯一的API接口。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530192332.png"></p>
+<h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><p>RDD是一个懒执行的不可变的可以支持Lambda表达式的并行数据集合。简单，API设计友好。但它是一个JVM驻内存对象，受GC的限制和数据增加时Java序列化成本的升高。</p>
+<pre class=" language-scala"><code class="language-scala"> <span class="token keyword">val</span> rdd <span class="token operator">=</span> sc<span class="token punctuation">.</span>textFile<span class="token punctuation">(</span><span class="token string">"file:///opt/module/spark/README.md"</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530193912.png"></p>
+<pre class=" language-scala"><code class="language-scala">rdd<span class="token punctuation">.</span>collect
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530194214.png"></p>
+<h2 id="Dataframe"><a href="#Dataframe" class="headerlink" title="Dataframe"></a>Dataframe</h2><p>在Spark中DataFrame与RDD类似，也是一个分布式数据容器。但是DataFrame更像传统数据库的二维表格，除了数据以外，还记录数据的结构信息（schema），与Hive类似，DataFrame也支持嵌套数据类型<code>（struct、array和map）</code>。DataFrame API提供的是一套高层的关系操作，比函数式的RDD API要更加友好，门槛更低。与R和Pandas的DataFrame类似。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530194628.png"></p>
+<p>RDD[Person]虽然以Person为类型参数，但Spark框架本身不了解Person类的内部结构。右侧的DataFrame却提供了详细的结构信息，使得Spark SQL可以清楚地知道该数据集中包含哪些列，每列的名称和类型各是什么。DataFrame多了数据的结构信息，即schema。RDD是分布式的Java对象的集合。DataFrame是分布式的Row对象的集合。DataFrame除了提供了比RDD更丰富的算子以外，更重要的特点是提升执行效率、减少数据读取以及执行计划的优化，比如filter下推、裁剪等。</p>
+<p>性能上比RDD要高，主要有两方面原因： </p>
+<p>DataFrame是为数据提供了Schema的视图。可以把它当做数据库中的一张表来对待是同时DataFrame也是懒执行的。</p>
+<p>定制化内存管理数据以二进制的方式存在于<code>非堆内存</code>，节省了大量空间之外，还摆脱了GC的限制。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530194934.png"></p>
+<p>优化的执行计划查询计划通过Spark catalyst optimiser进行优化. </p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530195026.png"></p>
+<p>举个例子</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530195702.png"></p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530195713.png"></p>
+<p>上图展示的人口数据分析的示例，构造了两个DataFrame，join之后做了filter操作。直接地执行这个执行计划，执行效率很差。join是代价较大的操作，如果能将filter下推到 join下方，先对DataFrame进行过滤，再join过滤后的较小的结果集，可以缩短执行时间。Spark SQL的查询优化器是这样做的：逻辑查询计划优化就是一个利用基于关系代数的等价变换，将高成本的操作替换为低成本操作的过程。 </p>
+<p>得到的优化执行计划在转换成物理执行计划的过程中，还可以根据具体的数据源的特性将过滤条件下推至数据源内。最右侧的物理执行计划中Filter之所以消失不见，就是因为溶入了用于执行最终的读取操作的表扫描节点内。 </p>
+<p>对于普通开发者而言：即便是经验并不丰富的程序员写出的次优的查询，也可以被尽量转换为高效的形式予以执行。但是由于在编译期缺少类型安全检查，导致运行时容易出错。</p>
+<h2 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h2><p>1）是Dataframe API的一个扩展，是Spark最新的数据抽象</p>
+<p>2）用户友好的API风格，既具有类型安全检查也具有Dataframe的查询优化特性。</p>
+<p>3）Dataset支持编解码器，当需要访问非堆上的数据时可以避免反序列化整个对象，提高了效率。</p>
+<p>4）样例类被用来在Dataset中定义数据的结构信息，样例类中每个属性的名称直接映射到DataSet中的字段名称。</p>
+<p>5） Dataframe是Dataset的特列，DataFrame&#x3D;Dataset[Row] ，所以可以通过as方法将Dataframe转换为Dataset。Row是一个类型，跟Car、Person这些的类型一样，所有的表结构信息我都用Row来表示。</p>
+<p>6）DataSet是强类型的。比如可以有Dataset[Car]，Dataset[Person].</p>
+<p>7）DataFrame只是知道字段，但是不知道字段的类型，所以在执行这些操作的时候是没办法在编译的时候检查是否类型失败的，比如你可以对一个String进行减法操作，在执行的时候才报错，而DataSet不仅仅知道字段，而且知道字段类型，所以有更严格的错误检查。就跟JSON对象和类对象之间的类比。</p>
+<p>数据准备</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span><span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"Hadoop"</span><span class="token punctuation">}</span>
+<span class="token punctuation">{</span><span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"Spark"</span><span class="token punctuation">,</span> <span class="token property">"Year"</span><span class="token operator">:</span><span class="token number">2015</span><span class="token punctuation">}</span>
+<span class="token punctuation">{</span><span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"Flink"</span><span class="token punctuation">,</span> <span class="token property">"Year"</span><span class="token operator">:</span><span class="token number">2018</span><span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">case</span> <span class="token keyword">class</span>  Bigdata<span class="token punctuation">(</span>name<span class="token operator">:</span><span class="token builtin">String</span><span class="token punctuation">,</span>Year<span class="token operator">:</span><span class="token builtin">Int</span><span class="token punctuation">)</span> 
+<span class="token keyword">val</span> ds <span class="token operator">=</span> spark<span class="token punctuation">.</span>sqlContext<span class="token punctuation">.</span>read<span class="token punctuation">.</span>json<span class="token punctuation">(</span><span class="token string">"file:///opt/module/spark/json/bigdata.json"</span><span class="token punctuation">)</span>
+ds<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530203550.png"></p>
+<p>RDD让我们能够决定怎么做，而DataFrame和DataSet让我们决定做什么,控制的粒度不一样。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530203640.png"></p>
+<h2 id="三者共性"><a href="#三者共性" class="headerlink" title="三者共性"></a>三者共性</h2><p>1）都是spark平台下的分布式弹性数据集。</p>
+<p>2）三者都有惰性机制，在进行创建、转换，如map方法时，不会立即执行，只有在遇到Action如foreach时，三者才会开始遍历运算，极端情况下，如果代码里面有创建、转换，但是后面没有在Action中使用对应的结果，在执行时会被直接跳过</p>
+<p>3）都有惰性机制，在进行创建、转换，如map方法时，不会立即执行，只有在遇到Action如foreach时，三者才会开始遍历运算，极端情况下，如果代码里面有创建、转换，但是后面没有在Action中使用对应的结果，在执行时会被直接跳过。</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> rdd<span class="token operator">=</span>spark<span class="token punctuation">.</span>sparkContext<span class="token punctuation">.</span>parallelize<span class="token punctuation">(</span>Seq<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// map不运行</span>
+<span class="token comment" spellcheck="true">// map不运行</span>
+rdd<span class="token punctuation">.</span>map<span class="token punctuation">{</span>line<span class="token keyword">=></span>
+  println<span class="token punctuation">(</span><span class="token string">"运行"</span><span class="token punctuation">)</span>
+  line<span class="token punctuation">.</span>_1
+<span class="token punctuation">}</span><span class="token punctuation">.</span>collect
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530204902.png">+</p>
+<p>4)都会根据spark的内存情况自动缓存运算，这样即使数据量很大，也不用担心会内存溢出</p>
+<p>5)都有partition的概念</p>
+<p>6)都有partition的概念</p>
+<p>7)对DataFrame和Dataset进行操作许多操作都需要这个包进行支持 <code>import spark.implicits._</code></p>
+<p>8)DataFrame和Dataset均可使用模式匹配获取各个字段的值和类型</p>
+<h2 id="三者区别"><a href="#三者区别" class="headerlink" title="三者区别"></a>三者区别</h2><ol>
+<li><p>RDD一般和spark mlib同时使用，但是不支持sparksql操作</p>
+</li>
+<li><p>DataFrame:与RDD和Dataset不同，DataFrame每一行的类型固定为Row，只有通过解析才能获取各个字段的值，每一列的值没法直接访问</p>
+</li>
+</ol>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> testDF <span class="token operator">=</span> spark<span class="token punctuation">.</span>read<span class="token punctuation">.</span>json<span class="token punctuation">(</span><span class="token string">"file:///opt/module/spark/json/bigdata.json"</span><span class="token punctuation">)</span>
+testDF<span class="token punctuation">.</span>foreach<span class="token punctuation">{</span>
+  line <span class="token keyword">=></span>
+    <span class="token keyword">val</span> col1<span class="token operator">=</span>line<span class="token punctuation">.</span>getAs<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span>
+    <span class="token keyword">val</span> col2<span class="token operator">=</span>line<span class="token punctuation">.</span>getAs<span class="token punctuation">[</span><span class="token builtin">Long</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">"Year"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ol start="3">
+<li><p>DataFrame与Dataset一般不与spark ml同时使用</p>
+</li>
+<li><p>DataFrame与Dataset均支持sparksql的操作，比如select，groupby之类，还能注册临时表&#x2F;视窗，进行sql语句操作：</p>
+</li>
+</ol>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> testDF <span class="token operator">=</span> spark<span class="token punctuation">.</span>read<span class="token punctuation">.</span>json<span class="token punctuation">(</span><span class="token string">"file:///opt/module/spark/json/bigdata.json"</span><span class="token punctuation">)</span>
+testDF<span class="token punctuation">.</span>createOrReplaceTempView<span class="token punctuation">(</span><span class="token string">"tmp"</span><span class="token punctuation">)</span>
+spark<span class="token punctuation">.</span>sql<span class="token punctuation">(</span><span class="token string">"select * from tmp"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530211720.png"></p>
+<ol start="5">
+<li>DataFrame与Dataset支持一些特别方便的保存方式，比如保存成csv，可以带上表头，这样每一列的字段名一目了然</li>
+</ol>
+<pre class=" language-scala"><code class="language-scala"><span class="token string">""</span><span class="token punctuation">,</span><span class="token string">"Sepal.Length"</span><span class="token punctuation">,</span><span class="token string">"Sepal.Width"</span><span class="token punctuation">,</span><span class="token string">"Petal.Length"</span><span class="token punctuation">,</span><span class="token string">"Petal.Width"</span><span class="token punctuation">,</span><span class="token string">"Species"</span>
+<span class="token string">"1"</span><span class="token punctuation">,</span><span class="token number">5.1</span><span class="token punctuation">,</span><span class="token number">3.5</span><span class="token punctuation">,</span><span class="token number">1.4</span><span class="token punctuation">,</span><span class="token number">0.2</span><span class="token punctuation">,</span><span class="token string">"setosa"</span>
+<span class="token string">"2"</span><span class="token punctuation">,</span><span class="token number">4.9</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">1.4</span><span class="token punctuation">,</span><span class="token number">0.2</span><span class="token punctuation">,</span><span class="token string">"setosa"</span>
+<span class="token string">"3"</span><span class="token punctuation">,</span><span class="token number">4.7</span><span class="token punctuation">,</span><span class="token number">3.2</span><span class="token punctuation">,</span><span class="token number">1.3</span><span class="token punctuation">,</span><span class="token number">0.2</span><span class="token punctuation">,</span><span class="token string">"setosa"</span>
+<span class="token string">"4"</span><span class="token punctuation">,</span><span class="token number">4.6</span><span class="token punctuation">,</span><span class="token number">3.1</span><span class="token punctuation">,</span><span class="token number">1.5</span><span class="token punctuation">,</span><span class="token number">0.2</span><span class="token punctuation">,</span><span class="token string">"setosa"</span>
+<span class="token string">"5"</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">3.6</span><span class="token punctuation">,</span><span class="token number">1.4</span><span class="token punctuation">,</span><span class="token number">0.2</span><span class="token punctuation">,</span><span class="token string">"setosa"</span>
+<span class="token string">"6"</span><span class="token punctuation">,</span><span class="token number">5.4</span><span class="token punctuation">,</span><span class="token number">3.9</span><span class="token punctuation">,</span><span class="token number">1.7</span><span class="token punctuation">,</span><span class="token number">0.4</span><span class="token punctuation">,</span><span class="token string">"setosa"</span>
+<span class="token string">"7"</span><span class="token punctuation">,</span><span class="token number">4.6</span><span class="token punctuation">,</span><span class="token number">3.4</span><span class="token punctuation">,</span><span class="token number">1.4</span><span class="token punctuation">,</span><span class="token number">0.3</span><span class="token punctuation">,</span><span class="token string">"setosa"</span>
+<span class="token string">"8"</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">3.4</span><span class="token punctuation">,</span><span class="token number">1.5</span><span class="token punctuation">,</span><span class="token number">0.2</span><span class="token punctuation">,</span><span class="token string">"setosa"</span>
+<span class="token string">"9"</span><span class="token punctuation">,</span><span class="token number">4.4</span><span class="token punctuation">,</span><span class="token number">2.9</span><span class="token punctuation">,</span><span class="token number">1.4</span><span class="token punctuation">,</span><span class="token number">0.2</span><span class="token punctuation">,</span><span class="token string">"setosa"</span>
+<span class="token string">"10"</span><span class="token punctuation">,</span><span class="token number">4.9</span><span class="token punctuation">,</span><span class="token number">3.1</span><span class="token punctuation">,</span><span class="token number">1.5</span><span class="token punctuation">,</span><span class="token number">0.1</span><span class="token punctuation">,</span><span class="token string">"setosa"</span>
+</code></pre>
+<pre class=" language-scala"><code class="language-scala"><span class="token comment" spellcheck="true">//读取</span>
+<span class="token keyword">val</span> options <span class="token operator">=</span> Map<span class="token punctuation">(</span><span class="token string">"header"</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token string">"true"</span><span class="token punctuation">,</span> <span class="token string">"delimiter"</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token string">"\t"</span><span class="token punctuation">,</span> <span class="token string">"path"</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token string">"file:///opt/module/spark/csv/iris.csv"</span><span class="token punctuation">)</span>
+<span class="token keyword">val</span> datarDF<span class="token operator">=</span> spark<span class="token punctuation">.</span>read<span class="token punctuation">.</span>options<span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"csv"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token punctuation">)</span>
+datarDF<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//保存</span>
+<span class="token keyword">val</span> saveoptions <span class="token operator">=</span> Map<span class="token punctuation">(</span><span class="token string">"header"</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token string">"true"</span><span class="token punctuation">,</span> <span class="token string">"delimiter"</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token string">"\t"</span><span class="token punctuation">,</span> <span class="token string">"path"</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token string">"hdfs://datanode1:9000/test/saveToCSV"</span><span class="token punctuation">)</span>
+datarDF<span class="token punctuation">.</span>write<span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token string">"csv"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>mode<span class="token punctuation">(</span>org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span>sql<span class="token punctuation">.</span>SaveMode<span class="token punctuation">.</span>Overwrite<span class="token punctuation">)</span><span class="token punctuation">.</span>options<span class="token punctuation">(</span>saveoptions<span class="token punctuation">)</span><span class="token punctuation">.</span>save<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530214629.png"></p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190530214810.png"></p>
+<h3 id="三者转换"><a href="#三者转换" class="headerlink" title="三者转换"></a>三者转换</h3><h3 id="RDD-x3D-gt-DataFrame"><a href="#RDD-x3D-gt-DataFrame" class="headerlink" title="RDD &#x3D;&gt; DataFrame"></a>RDD &#x3D;&gt; DataFrame</h3><h4 id="手动确定"><a href="#手动确定" class="headerlink" title="手动确定"></a>手动确定</h4><pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> peopleRDD <span class="token operator">=</span> sc<span class="token punctuation">.</span>textFile<span class="token punctuation">(</span><span class="token string">"/input/sparksql/people.txt"</span><span class="token punctuation">)</span>
+<span class="token keyword">val</span> name2AgeRDD <span class="token operator">=</span> peopleRDD<span class="token punctuation">.</span>map<span class="token punctuation">{</span>x <span class="token keyword">=></span> <span class="token keyword">val</span> para <span class="token operator">=</span> x<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">(</span>para<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span>trim<span class="token punctuation">,</span> para<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>trim<span class="token punctuation">.</span>toInt<span class="token punctuation">)</span> <span class="token punctuation">}</span>
+name2AgeRDD<span class="token punctuation">.</span>collect
+<span class="token keyword">import</span> spark<span class="token punctuation">.</span>implicits<span class="token punctuation">.</span>_
+<span class="token keyword">val</span> df <span class="token operator">=</span> name2AgeRDD<span class="token punctuation">.</span>toDF<span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span><span class="token string">"age"</span><span class="token punctuation">)</span>
+df<span class="token punctuation">.</span>show
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190531202646.png"></p>
+<h4 id="反射确定"><a href="#反射确定" class="headerlink" title="反射确定"></a>反射确定</h4><p>利用case class</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> peopleRDD <span class="token operator">=</span> sc<span class="token punctuation">.</span>textFile<span class="token punctuation">(</span><span class="token string">"/input/sparksql/people.txt"</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> classPeople<span class="token punctuation">(</span>name<span class="token operator">:</span><span class="token builtin">String</span><span class="token punctuation">,</span>age<span class="token operator">:</span><span class="token builtin">Int</span><span class="token punctuation">)</span>
+<span class="token keyword">val</span> df <span class="token operator">=</span> peopleRDD<span class="token punctuation">.</span>map<span class="token punctuation">{</span>x <span class="token keyword">=></span> <span class="token keyword">val</span> para <span class="token operator">=</span> x<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">;</span>People<span class="token punctuation">(</span>para<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span>trim<span class="token punctuation">,</span> para<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>trim<span class="token punctuation">.</span>toInt<span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">.</span>toDS
+df<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190601095101.png"></p>
+<h4 id="编程方式"><a href="#编程方式" class="headerlink" title="编程方式"></a>编程方式</h4><p>1)准备Scheam</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span>sql<span class="token punctuation">.</span>types<span class="token punctuation">.</span>_
+<span class="token keyword">val</span> schema <span class="token operator">=</span> StructType<span class="token punctuation">(</span> StructField<span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span>StringType<span class="token punctuation">)</span><span class="token operator">:</span><span class="token operator">:</span>StructField<span class="token punctuation">(</span><span class="token string">"age"</span><span class="token punctuation">,</span>org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span>sql<span class="token punctuation">.</span>types<span class="token punctuation">.</span>IntegerType<span class="token punctuation">)</span><span class="token operator">:</span><span class="token operator">:</span>Nil<span class="token punctuation">)</span>
+</code></pre>
+<p>2)准备Data   【需要Row类型】</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> peopleRDD <span class="token operator">=</span> sc<span class="token punctuation">.</span>textFile<span class="token punctuation">(</span><span class="token string">"/input/sparksql/people.txt"</span><span class="token punctuation">)</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span>sql<span class="token punctuation">.</span>_
+<span class="token keyword">val</span> data <span class="token operator">=</span> peopleRDD<span class="token punctuation">.</span>map<span class="token punctuation">{</span> x <span class="token keyword">=></span> <span class="token keyword">val</span> para <span class="token operator">=</span> x<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">;</span>Row<span class="token punctuation">(</span>para<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>para<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>trim<span class="token punctuation">.</span>toInt<span class="token punctuation">)</span><span class="token punctuation">}</span>
+</code></pre>
+<p>3)生成DataFrame</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> dataFrame <span class="token operator">=</span> spark<span class="token punctuation">.</span>createDataFrame<span class="token punctuation">(</span>data<span class="token punctuation">,</span> schema<span class="token punctuation">)</span>
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190601101135.png"></p>
+<h3 id="DataFrame-x3D-gt-RDD"><a href="#DataFrame-x3D-gt-RDD" class="headerlink" title="DataFrame &#x3D;&gt; RDD"></a>DataFrame &#x3D;&gt; RDD</h3><p>直接DataFrame.rdd即可</p>
+<pre class=" language-scala"><code class="language-scala">dataFrame<span class="token punctuation">.</span>rdd
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190601101408.png"></p>
+<h3 id="RDD-lt-x3D-x3D-gt-DataSet"><a href="#RDD-lt-x3D-x3D-gt-DataSet" class="headerlink" title="RDD  &lt;&#x3D;&#x3D;&gt;DataSet"></a>RDD  &lt;&#x3D;&#x3D;&gt;DataSet</h3><h4 id="RDD-》-DataSet"><a href="#RDD-》-DataSet" class="headerlink" title="RDD -》  DataSet"></a>RDD -》  DataSet</h4><pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> peopleRDD <span class="token operator">=</span> sc<span class="token punctuation">.</span>textFile<span class="token punctuation">(</span><span class="token string">"/input/sparksql/people.txt"</span><span class="token punctuation">)</span>
+<span class="token keyword">case</span> <span class="token keyword">class</span> People<span class="token punctuation">(</span>name<span class="token operator">:</span><span class="token builtin">String</span><span class="token punctuation">,</span> age<span class="token operator">:</span><span class="token builtin">Int</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//case class 确定schema</span>
+<span class="token keyword">val</span> ds <span class="token operator">=</span> peopleRDD<span class="token punctuation">.</span>map<span class="token punctuation">{</span>x <span class="token keyword">=></span> <span class="token keyword">val</span> para <span class="token operator">=</span> x<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">;</span>People<span class="token punctuation">(</span>para<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> para<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>trim<span class="token punctuation">.</span>toInt<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">.</span>toDS
+ds<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="C:\Users\Schindler\AppData\Roaming\Typora\typora-user-images\1559355499746.png" alt="1559355499746"></p>
+<h4 id="DataSet-》-RDD"><a href="#DataSet-》-RDD" class="headerlink" title="DataSet -》 RDD"></a>DataSet -》 RDD</h4><pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> dsRDD <span class="token operator">=</span> ds<span class="token punctuation">.</span>rdd
+dsRDD<span class="token punctuation">.</span>collect
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190601102125.png"></p>
+<h3 id="DataFrame-lt-x3D-x3D-gt-DataSet"><a href="#DataFrame-lt-x3D-x3D-gt-DataSet" class="headerlink" title="DataFrame  &lt;&#x3D;&#x3D;&gt; DataSet"></a>DataFrame  &lt;&#x3D;&#x3D;&gt; DataSet</h3><h4 id="DataSet-x3D-gt-DataFrame"><a href="#DataSet-x3D-gt-DataFrame" class="headerlink" title="DataSet  &#x3D;&gt; DataFrame"></a>DataSet  &#x3D;&gt; DataFrame</h4><pre class=" language-scala"><code class="language-scala"><span class="token keyword">val</span> ds2df <span class="token operator">=</span> ds<span class="token punctuation">.</span>totoDF
+ds2df<span class="token punctuation">.</span>show
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190601102502.png"></p>
+<h4 id="DataFrame-x3D-gt-DataSet"><a href="#DataFrame-x3D-gt-DataSet" class="headerlink" title="DataFrame  &#x3D;&gt;DataSet"></a>DataFrame  &#x3D;&gt;DataSet</h4><pre class=" language-scala"><code class="language-scala"><span class="token keyword">case</span> <span class="token keyword">class</span> People<span class="token punctuation">(</span>name<span class="token operator">:</span><span class="token builtin">String</span><span class="token punctuation">,</span> age<span class="token operator">:</span><span class="token builtin">Int</span><span class="token punctuation">)</span>
+<span class="token keyword">val</span> df2ds <span class="token operator">=</span> ds2df<span class="token punctuation">.</span>as<span class="token punctuation">[</span>People<span class="token punctuation">]</span>
+df2ds<span class="token punctuation">.</span>show
+</code></pre>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/SQL/20190601102723.png"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>关于SparkSQL原理深入的学习可以参考《图解Spark》</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">清风笑丶</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.hphblog.cn/2019/05/30/spark-zhi-sparksql/">http://www.hphblog.cn/2019/05/30/spark-zhi-sparksql/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">清风笑丶</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/SparKSQL/">
+                                    <span class="chip bg-color">SparKSQL</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'tuHi6xrT9Lo49BgBR40slMTU-gzGzoHsz',
+        appKey: 'TABU3ijIaIdvsbw6B7BGSAFG',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/05/30/spark-zhi-sparksql-shi-zhan/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Spark之SparkSQL实战">
+                        
+                        <span class="card-title">Spark之SparkSQL实战</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                             DataFrames 基本操作和 DSL SQL风格 UDF函数 以及数据源： 
+&lt;The rest of contents | 余下全文&gt;
+SparkSQL查询Json数据准备
+{"name":"Michael"}
+{"na
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-05-30
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SparKSQL/">
+                        <span class="chip bg-color">SparKSQL</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/05/29/spark-zhi-rdd-shi-zhan-pian-3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Spark之RDD实战篇3">
+                        
+                        <span class="card-title">Spark之RDD实战篇3</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            键值对RDDSpark 为包含键值对类型的 RDD 提供了一些专有的操作 在PairRDDFunctions专门进行了定义。这些 RDD 被称为 pair RDD。有很多种方式创建pair RDD，在输入输出章节会讲解。一般如果从一个普通的
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-05-29
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spark/">
+                        <span class="chip bg-color">Spark</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="627702366"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">清风笑丶</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "6";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+            <span id="icp"><img src="/medias/icp.png" style="vertical-align: text-bottom;" />
+                <a href="http://beian.miit.gov.cn/" target="_blank">豫ICP备18042969号-1</a>
+            </span>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/bigdataxiaohan" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:467008580@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=467008580" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 467008580" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="https://www.zhihu.com/people/qing-feng-xiao-zhu-15" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/qing-feng-xiao-zhu-15" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?9b38e14d1abc688512d16851f1c0a313";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
