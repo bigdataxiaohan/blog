@@ -131,7 +131,54 @@ groups:   #新rule文件需要加这行开头，追加旧的rule文件则不需�
 ```
 ### 使用Nginx反向代理
 
-![image-20240704160003899](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/grafana/image-20240704160003899.png)
+需要修改对应的 `grafana/conf/default.ini`在`root_url`后边添加路径`/grafana`（该路径可自定义，和`nginx`配置中保持一致即可）
+
+```ini
+# 后缀与nginx代理后缀保持一致
+root_url = %(protocol)s://%(domain)s:%(http_port)s/grafana
+# 允许跨域
+allowed_origins = *
+# 允许iframe嵌入
+allow_embedding = true
+
+```
+
+配置nginx
+
+```ini
+	location /grafana {
+        root   html;
+        index  index.html index.htm;
+        add_header Access-Control-Allow-Origin '*';
+        add_header Access-Control-Allow-Methods '*';
+        add_header Access-Control-Allow-Credentials true;
+        proxy_set_header 'Authorization' 'Bearer glsa_e0nhCdjBTCn8cW6OiSLcZTuhhOFUZQzC_4e5f6177';
+        proxy_pass http://192.144.232.47:3000;
+        proxy_set_header   Host $host;
+        if ($request_method = OPTIONS) {
+           return 200;
+        }
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header REMOTE-HOST $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+```
+
+其中 proxy_set_header 由下面的操作获得
+
+![image-20240704222120393](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/Flink/image-20240704222120393.png)
+
+![image-20240704222406544](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/Flink/image-20240704222406544.png)
+
+![image-20240704222446265](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/Flink/image-20240704222446265.png)
+
+![image-20240704222507877](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/Flink/image-20240704222507877.png)
+
+
+
+
+
+
 
 在grafana中引入id为 16098，即可有下面的样式最近7天P99的指标需要等1个小时左右会出来。
 
@@ -142,7 +189,6 @@ groups:   #新rule文件需要加这行开头，追加旧的rule文件则不需�
  frameborder=0  
  allowfullscreen>
  </iframe>
-
 ## nginx 日志配置json 格式化
 
 在实现日志分析之前，主要还需要把对应的日志数据JSON化，下面是Nginx 日志对应的配置
@@ -195,7 +241,7 @@ services:
         deploy:
             resources:
                 limits:
-                    memory: 1400M
+                    memory: 1024M
         networks:
             - hph_net
 
@@ -212,7 +258,7 @@ services:
         deploy:
             resources:
                 limits:
-                    memory: 1000M
+                    memory: 256M
         networks:
             - hph_net
 
@@ -233,7 +279,7 @@ services:
         deploy:
             resources:
                 limits:
-                    memory: 400M
+                    memory: 256M
         networks:
             - hph_net
 
@@ -245,7 +291,7 @@ services:
         deploy:
             resources:
                 limits:
-                    memory: 400M
+                    memory: 256M
         networks:
             - hph_net
 
