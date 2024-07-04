@@ -464,7 +464,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.4k
+                    1.6k
                 </div>
                 
 
@@ -593,7 +593,37 @@
   <span class="token punctuation">-</span> <span class="token key atrule">record</span><span class="token punctuation">:</span> mem<span class="token punctuation">:</span>usage<span class="token punctuation">:</span>rate1m
     <span class="token key atrule">expr</span><span class="token punctuation">:</span> (1 <span class="token punctuation">-</span> node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100
 </code></pre>
-<h3 id="使用Nginx反向代理"><a href="#使用Nginx反向代理" class="headerlink" title="使用Nginx反向代理"></a>使用Nginx反向代理</h3><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/grafana/image-20240704160003899.png" alt="image-20240704160003899"></p>
+<h3 id="使用Nginx反向代理"><a href="#使用Nginx反向代理" class="headerlink" title="使用Nginx反向代理"></a>使用Nginx反向代理</h3><p>需要修改对应的 <code>grafana/conf/default.ini</code>在<code>root_url</code>后边添加路径<code>/grafana</code>（该路径可自定义，和<code>nginx</code>配置中保持一致即可）</p>
+<pre class=" language-ini"><code class="language-ini"># 后缀与nginx代理后缀保持一致
+<span class="token constant">root_url</span> <span class="token attr-value"><span class="token punctuation">=</span> %(protocol)s://%(domain)s:%(http_port)s/grafana</span>
+# 允许跨域
+<span class="token constant">allowed_origins</span> <span class="token attr-value"><span class="token punctuation">=</span> *</span>
+# 允许iframe嵌入
+<span class="token constant">allow_embedding</span> <span class="token attr-value"><span class="token punctuation">=</span> true</span>
+</code></pre>
+<p>配置nginx</p>
+<pre class=" language-ini"><code class="language-ini">    location /grafana {
+        root   html;
+        index  index.html index.htm;
+        add_header Access-Control-Allow-Origin '*';
+        add_header Access-Control-Allow-Methods '*';
+        add_header Access-Control-Allow-Credentials true;
+        proxy_set_header 'Authorization' 'Bearer glsa_e0nhCdjBTCn8cW6OiSLcZTuhhOFUZQzC_4e5f6177';
+        proxy_pass http://192.144.232.47:3000;
+        proxy_set_header   Host $host;
+        if ($request_method <span class="token attr-value"><span class="token punctuation">=</span> OPTIONS) {</span>
+           return 200;
+        }
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header REMOTE-HOST $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+</code></pre>
+<p>其中 proxy_set_header 由下面的操作获得</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/Flink/image-20240704222120393.png" alt="image-20240704222120393"></p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/Flink/image-20240704222406544.png" alt="image-20240704222406544"></p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/Flink/image-20240704222446265.png" alt="image-20240704222446265"></p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/Flink/image-20240704222507877.png" alt="image-20240704222507877"></p>
 <p>在grafana中引入id为 16098，即可有下面的样式最近7天P99的指标需要等1个小时左右会出来。</p>
  <iframe  
  height=850 
@@ -602,8 +632,9 @@
  frameborder=0  
  allowfullscreen>
  </iframe>
+## nginx 日志配置json 格式化
 
-<h2 id="nginx-日志配置json-格式化"><a href="#nginx-日志配置json-格式化" class="headerlink" title="nginx 日志配置json 格式化"></a>nginx 日志配置json 格式化</h2><p>在实现日志分析之前，主要还需要把对应的日志数据JSON化，下面是Nginx 日志对应的配置</p>
+<p>在实现日志分析之前，主要还需要把对应的日志数据JSON化，下面是Nginx 日志对应的配置</p>
 <pre class=" language-config"><code class="language-config">log_format json_analytics escape=json
 '{"@timestamp":"$time_iso8601",'
     '"host":"$hostname",'
@@ -646,7 +677,7 @@
         <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
             <span class="token key atrule">resources</span><span class="token punctuation">:</span>
                 <span class="token key atrule">limits</span><span class="token punctuation">:</span>
-                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 1400M
+                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 1024M
         <span class="token key atrule">networks</span><span class="token punctuation">:</span>
             <span class="token punctuation">-</span> hph_net
 
@@ -663,7 +694,7 @@
         <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
             <span class="token key atrule">resources</span><span class="token punctuation">:</span>
                 <span class="token key atrule">limits</span><span class="token punctuation">:</span>
-                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 1000M
+                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 256M
         <span class="token key atrule">networks</span><span class="token punctuation">:</span>
             <span class="token punctuation">-</span> hph_net
 
@@ -684,7 +715,7 @@
         <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
             <span class="token key atrule">resources</span><span class="token punctuation">:</span>
                 <span class="token key atrule">limits</span><span class="token punctuation">:</span>
-                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 400M
+                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 256M
         <span class="token key atrule">networks</span><span class="token punctuation">:</span>
             <span class="token punctuation">-</span> hph_net
 
@@ -696,7 +727,7 @@
         <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
             <span class="token key atrule">resources</span><span class="token punctuation">:</span>
                 <span class="token key atrule">limits</span><span class="token punctuation">:</span>
-                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 400M
+                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 256M
         <span class="token key atrule">networks</span><span class="token punctuation">:</span>
             <span class="token punctuation">-</span> hph_net
 
