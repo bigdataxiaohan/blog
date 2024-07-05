@@ -464,14 +464,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.6k
+                    1.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    9 分
                 </div>
                 
 
@@ -672,12 +672,13 @@
             <span class="token punctuation">-</span> discovery.type=single<span class="token punctuation">-</span>node
             <span class="token punctuation">-</span> indices.query.bool.max_clause_count=8192  <span class="token comment" spellcheck="true"># Adjust as needed</span>
             <span class="token punctuation">-</span> search.max_buckets=100000  <span class="token comment" spellcheck="true"># Adjust based on your requirements</span>
+            <span class="token punctuation">-</span> ES_JAVA_OPTS=<span class="token punctuation">-</span>Xms512m <span class="token punctuation">-</span>Xmx512m
         <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
             <span class="token punctuation">-</span> /etc/localtime<span class="token punctuation">:</span>/etc/localtime
         <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
             <span class="token key atrule">resources</span><span class="token punctuation">:</span>
                 <span class="token key atrule">limits</span><span class="token punctuation">:</span>
-                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 1024M
+                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 512M
         <span class="token key atrule">networks</span><span class="token punctuation">:</span>
             <span class="token punctuation">-</span> hph_net
 
@@ -715,7 +716,7 @@
         <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
             <span class="token key atrule">resources</span><span class="token punctuation">:</span>
                 <span class="token key atrule">limits</span><span class="token punctuation">:</span>
-                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 256M
+                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 128M
         <span class="token key atrule">networks</span><span class="token punctuation">:</span>
             <span class="token punctuation">-</span> hph_net
 
@@ -727,7 +728,7 @@
         <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
             <span class="token key atrule">resources</span><span class="token punctuation">:</span>
                 <span class="token key atrule">limits</span><span class="token punctuation">:</span>
-                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 256M
+                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 128M
         <span class="token key atrule">networks</span><span class="token punctuation">:</span>
             <span class="token punctuation">-</span> hph_net
 
@@ -840,8 +841,116 @@ output <span class="token punctuation">{</span>
       index =<span class="token punctuation">></span> "logstash<span class="token punctuation">-</span>nginx<span class="token punctuation">-</span>%<span class="token punctuation">{</span>+YYYY.MM.dd<span class="token punctuation">}</span>"
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
 </code></pre>
+<h3 id="ELF环境"><a href="#ELF环境" class="headerlink" title="ELF环境"></a>ELF环境</h3><p>需要使用到Redis、Elasticsearch 、Logstash 、Filebeat、下面是启动的对应docker-compose</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3'</span>
+
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+    <span class="token key atrule">elasticsearch</span><span class="token punctuation">:</span>
+        <span class="token key atrule">container_name</span><span class="token punctuation">:</span> elasticsearch
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"docker.elastic.co/elasticsearch/elasticsearch:7.11.0"</span>
+        <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> discovery.type=single<span class="token punctuation">-</span>node
+            <span class="token punctuation">-</span> indices.query.bool.max_clause_count=8192  <span class="token comment" spellcheck="true"># Adjust as needed</span>
+            <span class="token punctuation">-</span> search.max_buckets=100000  <span class="token comment" spellcheck="true"># Adjust based on your requirements</span>
+            <span class="token punctuation">-</span> ES_JAVA_OPTS=<span class="token punctuation">-</span>Xms512m <span class="token punctuation">-</span>Xmx512m
+        <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> /etc/localtime<span class="token punctuation">:</span>/etc/localtime
+        <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
+            <span class="token key atrule">resources</span><span class="token punctuation">:</span>
+                <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 512M
+        <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> hph_net
+
+    <span class="token key atrule">logstash</span><span class="token punctuation">:</span>
+        <span class="token key atrule">container_name</span><span class="token punctuation">:</span> logstash
+        <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> elasticsearch
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"docker.elastic.co/logstash/logstash:7.11.0"</span>
+        <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+           <span class="token punctuation">-</span> ./GeoLite2<span class="token punctuation">-</span>City.mmdb<span class="token punctuation">:</span>/usr/share/logstash/GeoLite2<span class="token punctuation">-</span>City.mmdb
+           <span class="token punctuation">-</span> ./logstash.conf<span class="token punctuation">:</span>/usr/share/logstash/pipeline/logstash.conf
+        <span class="token key atrule">links</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> elasticsearch
+        <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
+            <span class="token key atrule">resources</span><span class="token punctuation">:</span>
+                <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 256M
+        <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> hph_net
+
+    <span class="token key atrule">filebeat</span><span class="token punctuation">:</span>
+        <span class="token key atrule">container_name</span><span class="token punctuation">:</span> filebeat
+        <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> elasticsearch
+            <span class="token punctuation">-</span> logstash
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"docker.elastic.co/beats/filebeat:7.11.0"</span>
+        <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> ./filebeat.yml<span class="token punctuation">:</span>/usr/share/filebeat/filebeat.yml<span class="token punctuation">:</span>ro
+            <span class="token punctuation">-</span> /var/log/json_access.log<span class="token punctuation">:</span>/var/log/json_access.log<span class="token punctuation">:</span>ro
+        <span class="token key atrule">user</span><span class="token punctuation">:</span> root
+        <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> strict.perms=false
+        <span class="token key atrule">links</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> logstash
+        <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
+            <span class="token key atrule">resources</span><span class="token punctuation">:</span>
+                <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 128M
+        <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> hph_net
+
+    <span class="token key atrule">redis</span><span class="token punctuation">:</span>
+        <span class="token key atrule">container_name</span><span class="token punctuation">:</span> redis
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"redis:5"</span>
+        <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> BIND=0.0.0.0
+        <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
+            <span class="token key atrule">resources</span><span class="token punctuation">:</span>
+                <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+                    <span class="token key atrule">memory</span><span class="token punctuation">:</span> 128M
+        <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> hph_net
+
+<span class="token key atrule">networks</span><span class="token punctuation">:</span>
+  <span class="token key atrule">hph_net</span><span class="token punctuation">:</span>
+    <span class="token key atrule">external</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+</code></pre>
+<p>添加es的数据源</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/grafana/image-20240705102830794.png" alt="image-20240705102830794"></p>
+<p>在dashboard 中倒入 11190的图表</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/grafana/image-20240705103146124.png" alt="image-20240705103146124"></p>
+<p>需要安装grafana-worldmap-panel和grafana-piechart-panel</p>
+<pre class=" language-shell"><code class="language-shell">grafana-cli plugins install grafana-worldmap-panel
+grafana-cli plugins install grafana-piechart-panel
+</code></pre>
+<p>界面访问地图加载过慢</p>
+<p>![image-20240705104418117](&#x2F;Users&#x2F;hanpenghui&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20240705104418117.png)</p>
+<p>实际请求的地址为</p>
+<pre class=" language-shell"><code class="language-shell">https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png
+https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
+</code></pre>
+<p>无代理情况下加载缓慢 最新版本需要修改</p>
+<p>修改源码中的 url 为</p>
+<p>![image-20240705121144959](&#x2F;Users&#x2F;hanpenghui&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20240705121144959.png)</p>
+<pre class=" language-shell"><code class="language-shell">http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png
+http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png
+</code></pre>
+<p>打完包后将dist目录拷贝到grafana中的plugins目录中的<code>grafana-worldmap-panel</code></p>
+<p>在defaults.ini 添加</p>
+<pre class=" language-ini"><code class="language-ini"><span class="token constant"> allow_loading_unsigned_plugins</span> <span class="token attr-value"><span class="token punctuation">=</span> grafana-worldmap-panel</span>
+</code></pre>
+<p>最终效果如图所示</p>
+ <iframe  
+ height=850 
+ width="100%"  
+ src="http://hphblog.cn/grafana/d/dlS0eEJZk/e7bd91-e7ab99-e8aebf-e997ae-e68385-e586b5?orgId=1&refresh=5s&kiosk"  
+ frameborder=0  
+ allowfullscreen>
+ </iframe>
+
 
             </div>
             <hr/>

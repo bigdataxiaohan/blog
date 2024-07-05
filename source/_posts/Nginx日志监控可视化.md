@@ -236,12 +236,13 @@ services:
             - discovery.type=single-node
             - indices.query.bool.max_clause_count=8192  # Adjust as needed
             - search.max_buckets=100000  # Adjust based on your requirements
+            - ES_JAVA_OPTS=-Xms512m -Xmx512m
         volumes:
             - /etc/localtime:/etc/localtime
         deploy:
             resources:
                 limits:
-                    memory: 1024M
+                    memory: 512M
         networks:
             - hph_net
 
@@ -279,7 +280,7 @@ services:
         deploy:
             resources:
                 limits:
-                    memory: 256M
+                    memory: 128M
         networks:
             - hph_net
 
@@ -291,7 +292,7 @@ services:
         deploy:
             resources:
                 limits:
-                    memory: 256M
+                    memory: 128M
         networks:
             - hph_net
 
@@ -414,8 +415,143 @@ output {
       index => "logstash-nginx-%{+YYYY.MM.dd}"
     }
   }
-    }
+ }
 ```
 
 
+
+### ELF环境
+
+需要使用到Redis、Elasticsearch 、Logstash 、Filebeat、下面是启动的对应docker-compose
+
+```yaml
+version: '3'
+
+services:
+    elasticsearch:
+        container_name: elasticsearch
+        image: "docker.elastic.co/elasticsearch/elasticsearch:7.11.0"
+        environment:
+            - discovery.type=single-node
+            - indices.query.bool.max_clause_count=8192  # Adjust as needed
+            - search.max_buckets=100000  # Adjust based on your requirements
+            - ES_JAVA_OPTS=-Xms512m -Xmx512m
+        volumes:
+            - /etc/localtime:/etc/localtime
+        deploy:
+            resources:
+                limits:
+                    memory: 512M
+        networks:
+            - hph_net
+
+    logstash:
+        container_name: logstash
+        depends_on:
+            - elasticsearch
+        image: "docker.elastic.co/logstash/logstash:7.11.0"
+        volumes:
+           - ./GeoLite2-City.mmdb:/usr/share/logstash/GeoLite2-City.mmdb
+           - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+        links:
+            - elasticsearch
+        deploy:
+            resources:
+                limits:
+                    memory: 256M
+        networks:
+            - hph_net
+
+    filebeat:
+        container_name: filebeat
+        depends_on:
+            - elasticsearch
+            - logstash
+        image: "docker.elastic.co/beats/filebeat:7.11.0"
+        volumes:
+            - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+            - /var/log/json_access.log:/var/log/json_access.log:ro
+        user: root
+        environment:
+            - strict.perms=false
+        links:
+            - logstash
+        deploy:
+            resources:
+                limits:
+                    memory: 128M
+        networks:
+            - hph_net
+
+    redis:
+        container_name: redis
+        image: "redis:5"
+        environment:
+            - BIND=0.0.0.0
+        deploy:
+            resources:
+                limits:
+                    memory: 128M
+        networks:
+            - hph_net
+
+networks:
+  hph_net:
+    external: true
+```
+
+添加es的数据源
+
+![image-20240705102830794](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/grafana/image-20240705102830794.png)
+
+在dashboard 中倒入 11190的图表
+
+![image-20240705103146124](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/grafana/image-20240705103146124.png)
+
+需要安装grafana-worldmap-panel和grafana-piechart-panel
+
+```shell
+grafana-cli plugins install grafana-worldmap-panel
+grafana-cli plugins install grafana-piechart-panel
+```
+
+界面访问地图加载过慢
+
+![image-20240705104418117](/Users/hanpenghui/Library/Application Support/typora-user-images/image-20240705104418117.png)
+
+实际请求的地址为
+
+```shell
+https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png
+https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
+```
+
+无代理情况下加载缓慢 最新版本需要修改
+
+修改源码中的 url 为
+
+![image-20240705121144959](/Users/hanpenghui/Library/Application Support/typora-user-images/image-20240705121144959.png)
+
+```shell
+http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png
+http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png
+```
+
+打完包后将dist目录拷贝到grafana中的plugins目录中的`grafana-worldmap-panel`
+
+在defaults.ini 添加
+
+```ini
+ allow_loading_unsigned_plugins = grafana-worldmap-panel
+```
+
+最终效果如图所示
+
+ <iframe  
+ height=850 
+ width="100%"  
+ src="http://hphblog.cn/grafana/d/dlS0eEJZk/e7bd91-e7ab99-e8aebf-e997ae-e68385-e586b5?orgId=1&refresh=5s&kiosk"  
+ frameborder=0  
+ allowfullscreen>
+ </iframe>
 
