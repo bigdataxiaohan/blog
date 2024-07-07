@@ -16,9 +16,6 @@ menu:
   About:
     url: /about
     icon: fas fa-user-circle
-  Contact:
-    url: /contact
-    icon: fas fa-comments
   Friends:
     url: /friends
     icon: fas fa-address-book
@@ -317,7 +314,7 @@ livere:
 # To use it, activate the configuration item and set appId and appKey.
 # Valine 评论模块的配置，默认为不激活，如要使用，就请激活该配置项，并设置 appId 和 appKey.
 valine:
-  enable: true
+  enable: false
   appId: tuHi6xrT9Lo49BgBR40slMTU-gzGzoHsz
   appKey: TABU3ijIaIdvsbw6B7BGSAFG
   notify: false
@@ -558,7 +555,7 @@ subtitle:
 
 # 手机二级菜单.
 navMenu:
-  mleft: false # 二级侧栏子菜单是否对齐左边
+  mleft: true # 二级侧栏子菜单是否对齐左边
   bgColor: " " # 二级侧栏子菜单背景颜色,留空即为全局背景色
 
 # 网页预加载.
