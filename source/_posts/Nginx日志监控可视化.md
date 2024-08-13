@@ -517,7 +517,7 @@ grafana-cli plugins install grafana-piechart-panel
 
 界面访问地图加载过慢
 
-![image-20240705104418117](/Users/hanpenghui/Library/Application Support/typora-user-images/image-20240705104418117.png)
+![image-20240705104418117](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/grafana/image-20240705104418117.png)
 
 实际请求的地址为
 
