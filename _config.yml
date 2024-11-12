@@ -113,6 +113,6 @@ githubEmojis:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
     type: git
-    repository: git@192.144.232.47:/home/git/repos/blog.git
+    repository: git@82.156.150.111:/home/git/repos/blog.git
     branch: master
 
