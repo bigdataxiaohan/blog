@@ -456,8 +456,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p> Kubernetes（常简称为K8s）是用于自动部署、扩展和管理“容器化（containerized）应用程序”的开源系统。该系统由Google设计并捐赠给Cloud Native Computing Foundation（今属Linux基金会）来使用。<br>它旨在提供“跨主机集群的自动部署、扩展以及运行应用程序容器的平台”。 它支持一系列容器工具，包括Docker等。</p>
-<h3 id="部署技术演变"><a href="#部署技术演变" class="headerlink" title="部署技术演变"></a>部署技术演变</h3><p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/202411111524720.png"></p>
-<h4 id="物理机"><a href="#物理机" class="headerlink" title="物理机"></a>物理机</h4><p>应用往往部署在物理机器上，部署方式存在弊端：空闲资源难以得到复用，部署异构系统时需要重新采购物理资源，大量中小容量的机器使得运维成本提升。</p>
+<h3 id="部署技术演变"><a href="#部署技术演变" class="headerlink" title="部署技术演变"></a>部署技术演变</h3><h4 id="物理机"><a href="#物理机" class="headerlink" title="物理机"></a>物理机</h4><p>应用往往部署在物理机器上，部署方式存在弊端：空闲资源难以得到复用，部署异构系统时需要重新采购物理资源，大量中小容量的机器使得运维成本提升。</p>
 <h4 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h4><p>虚拟机使得用户在一台物理机上能够独立运行多个相互隔离的系统，通过对资源的抽象化使得主机资源能够被有效复用，也会带来一些问题：大量独立系统的运行会占用许多额外开销，消耗宿主机器资源，资源竞争时可能会严重影响系统响应；此外，每运行新的虚拟机都需要重新配置一遍环境，和在物理机上的情况基本无异，重复的环境配置操作则会消耗开发和运维人员的工作时间。此时需求便关注到如何减少虚拟化时的资源损耗，同时还能保证隔离性，以及使应用的上线周期更短，这便引导了容器技术的发展。</p>
 <h4 id="容器化时代"><a href="#容器化时代" class="headerlink" title="容器化时代"></a>容器化时代</h4><p>从2000年开始，各家类Unix操作系统厂商开始陆续推出容器相关的项目，2008年Google的Cgroups贡献给Linux kernel 2.6.24后创造了LXC（ Linux Containers），实现了多个独立的Linux环境（容器）可运行在同一个内核。对于一个完整独立运行环境来说，需要包含三个关键：环境隔离、资源控制和文件系统。在LXC中则分别通过Namespace、Cgroups、rootfs来实现相应的能力。</p>
 <p>环境隔离——Namespace：LXC将内核全局资源封装，每个Namespace都有一份独立的资源，使得不同的进程在各自Namespace内对同一种资源的使用互不干扰，不会影响其他Namespace下的资源，实现了进程隔离。</p>
@@ -723,39 +722,41 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/11/11/k8s-jian-jie/">
+                <a href="/2024/11/14/k8s-ji-ben-gai-nian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="K8S简介">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="K8S基本概念">
                         
-                        <span class="card-title">K8S简介</span>
+                        <span class="card-title">K8S基本概念</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            简介 Kubernetes（常简称为K8s）是用于自动部署、扩展和管理“容器化（containerized）应用程序”的开源系统。该系统由Google设计并捐赠给Cloud Native Computing Foundation（今属Lin
+                            pod简介Pod 是可以在 Kubernetes 中创建和管理的、最小的可部署的计算单元，它是一个或多个紧密关联的容器的组合，这些容器共享同一个网络命名空间和存储卷。Pod提供了一个抽象层，它封装了容器在节点上的运行环境，例如存储、网络和运
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-11-14
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            清风笑丶
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Pod/" class="post-category">
+                                    Pod
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
