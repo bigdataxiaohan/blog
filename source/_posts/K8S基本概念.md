@@ -236,7 +236,14 @@ EOF
 ```
 执行apply -f 命令生成pod
 ![image-20241115112319570](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241115112319570.png)
-
 访问192.168.194.24 即可访问hexo blog 服务
-![image-20241115113312723](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241115113312723.png)
+<img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241115113312723.png" alt="image-20241115113312723" style="zoom:50%;" />
+
+
+
+
+
+
+
+
 
