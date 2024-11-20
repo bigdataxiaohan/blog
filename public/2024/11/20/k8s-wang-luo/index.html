@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="K8S安装部署, 分享大数据、JAVA、JavaWeb相关知识和工作中的经验心得">
+    <meta name="keywords" content="K8S网络, 分享大数据、JAVA、JavaWeb相关知识和工作中的经验心得">
     <meta name="description" content="求知若饥，虚心若愚">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>K8S安装部署 | 菜鸟清风</title>
+    <title>K8S网络 | 菜鸟清风</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -286,12 +286,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">K8S安装部署</h1>
+                    <h1 class="description center-align post-title">K8S网络</h1>
                 </div>
             </div>
         </div>
@@ -424,7 +424,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-11-19
+                    2024-11-20
                 </div>
                 
 
@@ -433,14 +433,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    120
+                    1.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    5 分
                 </div>
                 
 
@@ -455,173 +455,64 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="前置环境"><a href="#前置环境" class="headerlink" title="前置环境"></a>前置环境</h3><table>
-<thead>
-<tr>
-<th>操作系统</th>
-<th>IP</th>
-<th>主机名</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Rocky Linux release 9.4 (Blue Onyx)</td>
-<td>192.168.2.100</td>
-<td>master</td>
-</tr>
-<tr>
-<td>Rocky Linux release 9.4 (Blue Onyx)</td>
-<td>192.168.2.101</td>
-<td>node01</td>
-</tr>
-<tr>
-<td>Rocky Linux release 9.4 (Blue Onyx)</td>
-<td>192.168.2.102</td>
-<td>node02</td>
-</tr>
-</tbody></table>
-<h3 id="切换源"><a href="#切换源" class="headerlink" title="切换源"></a>切换源</h3><p>使用脚本一键切换源</p>
-<pre class=" language-shell"><code class="language-shell">bash <(curl -sSL https://linuxmirrors.cn/main.sh) \
-  --source mirrors.aliyun.com \
-  --branch rockylinux
-</code></pre>
-<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241119150631904.png" alt="image-20241119150631904"></p>
-<pre class=" language-shell"><code class="language-shell">dnf makecache
-</code></pre>
-<h3 id="防火墙修改-firewalld-为-iptables"><a href="#防火墙修改-firewalld-为-iptables" class="headerlink" title="防火墙修改 firewalld 为 iptables"></a>防火墙修改 firewalld 为 iptables</h3><pre class=" language-shell"><code class="language-shell">systemctl stop firewalld
-systemctl disable firewalld
-
-yum -y install iptables-services
-systemctl start iptables
-iptables -F
-systemctl enable iptables
-service iptables save
-</code></pre>
-<h3 id="禁用-Selinux"><a href="#禁用-Selinux" class="headerlink" title="禁用 Selinux"></a>禁用 Selinux</h3><pre class=" language-shell"><code class="language-shell">setenforce 0
-sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
-grubby --update-kernel ALL --args selinux=0
-# 查看是否禁用，grubby --info DEFAULT
-# 回滚内核层禁用操作，grubby --update-kernel ALL --remove-args selinux
-# 设置时区
-timedatectl set-timezone Asia/Shanghai
-</code></pre>
-<h3 id="关闭-swap-分区"><a href="#关闭-swap-分区" class="headerlink" title="关闭 swap 分区"></a>关闭 swap 分区</h3><pre class=" language-shell"><code class="language-shell">swapoff -a
-sed -i 's:/dev/mapper/rl-swap:#/dev/mapper/rl-swap:g' /etc/fstab
-</code></pre>
-<h3 id="安装-ipvs"><a href="#安装-ipvs" class="headerlink" title="安装 ipvs"></a>安装 ipvs</h3><pre class=" language-shell"><code class="language-shell">yum install -y ipvsadm
-</code></pre>
-<h3 id="开启路由转发"><a href="#开启路由转发" class="headerlink" title="开启路由转发"></a>开启路由转发</h3><pre class=" language-shell"><code class="language-shell">echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
-sysctl -p
-</code></pre>
-<h3 id="加载-bridge"><a href="#加载-bridge" class="headerlink" title="加载 bridge"></a>加载 bridge</h3><pre class=" language-shell"><code class="language-shell">yum install -y epel-release
-yum install -y bridge-utils
-
-modprobe br_netfilter
-echo 'br_netfilter' >> /etc/modules-load.d/bridge.conf
-echo 'net.bridge.bridge-nf-call-iptables=1' >> /etc/sysctl.conf
-echo 'net.bridge.bridge-nf-call-ip6tables=1' >> /etc/sysctl.conf
-sysctl -p
-</code></pre>
-<h3 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h3><p>一键安装docker</p>
-<pre class=" language-shell"><code class="language-shell">bash <(curl -sSL https://linuxmirrors.cn/docker.sh)
-</code></pre>
-<h3 id="安装cri-docker"><a href="#安装cri-docker" class="headerlink" title="安装cri-docker"></a>安装cri-docker</h3><pre class=" language-shell"><code class="language-shell">wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.9/cri-dockerd-0.3.9.amd64.tgz
-tar -xf cri-dockerd-0.3.9.amd64.tgz
-cp cri-dockerd/cri-dockerd /usr/bin/
-chmod +x /usr/bin/cri-dockerd
-</code></pre>
-<h3 id="配置-cri-docker-服务"><a href="#配置-cri-docker-服务" class="headerlink" title="配置 cri-docker 服务"></a>配置 cri-docker 服务</h3><pre class=" language-shell"><code class="language-shell">cat <<"EOF" > /usr/lib/systemd/system/cri-docker.service
-[Unit]
-Description=CRI Interface for Docker Application Container Engine
-Documentation=https://docs.mirantis.com
-After=network-online.target firewalld.service docker.service
-Wants=network-online.target
-Requires=cri-docker.socket
-[Service]
-Type=notify
-ExecStart=/usr/bin/cri-dockerd --network-plugin=cni --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.8
-ExecReload=/bin/kill -s HUP $MAINPID
-TimeoutSec=0
-RestartSec=2
-Restart=always
-StartLimitBurst=3
-StartLimitInterval=60s
-LimitNOFILE=infinity
-LimitNPROC=infinity
-LimitCORE=infinity
-TasksMax=infinity
-Delegate=yes
-KillMode=process
-[Install]
-WantedBy=multi-user.target
-EOF
-</code></pre>
-<h3 id="添加-cri-docker-套接字"><a href="#添加-cri-docker-套接字" class="headerlink" title="添加 cri-docker 套接字"></a>添加 cri-docker 套接字</h3><pre class=" language-shell"><code class="language-shell">cat <<EOF > /usr/lib/systemd/system/cri-docker.socket
-[Unit]
-Description=CRI Docker Socket for the API
-PartOf=cri-docker.service
-[Socket]
-ListenStream=%t/cri-dockerd.sock
-SocketMode=0660
-SocketUser=root
-SocketGroup=docker
-[Install]
-WantedBy=sockets.target
-EOF
-</code></pre>
-<h3 id="启动-cri-docker-服务"><a href="#启动-cri-docker-服务" class="headerlink" title="启动  cri-docker 服务"></a>启动  cri-docker 服务</h3><pre class=" language-shell"><code class="language-shell">systemctl daemon-reload
-systemctl enable cri-docker
-systemctl start cri-docker
-systemctl is-active cri-docker
-</code></pre>
-<h3 id="添加-kubeadm-yum-源"><a href="#添加-kubeadm-yum-源" class="headerlink" title="添加 kubeadm yum 源"></a>添加 kubeadm yum 源</h3><pre class=" language-shell"><code class="language-shell">cat <<EOF > /etc/yum.repos.d/kubernetes.repo
-[kubernetes]
-name=kubernetes
-baseurl=http://mirrors4.tuna.tsinghua.edu.cn/kubernetes/yum/repos/kubernetes-el7-$basearch
-name=Kubernetes
-baseurl=http://mirrors4.tuna.tsinghua.edu.cn/kubernetes/core:/stable:/v1.29/rpm/
-enabled=1
-gpgcheck=1
-gpgkey=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key
-
-[cri-o]
-name=CRI-O
-baseurl=http://mirrors4.tuna.tsinghua.edu.cn/kubernetes/addons:/cri-o:/stable:/v1.29/rpm/
-enabled=1
-gpgcheck=1
-gpgkey=https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/rpm/repodata/repomd.xml.key
-EOF
-</code></pre>
-<h3 id="安装-kubeadm-1-29-版本"><a href="#安装-kubeadm-1-29-版本" class="headerlink" title="安装 kubeadm 1.29 版本"></a>安装 kubeadm 1.29 版本</h3><pre class=" language-shell"><code class="language-shell">yum install -y kubelet-1.29.2 kubectl-1.29.2 kubeadm-1.29.2
-</code></pre>
-<h3 id="初始化节点"><a href="#初始化节点" class="headerlink" title="初始化节点"></a>初始化节点</h3><pre class=" language-shell"><code class="language-shell">kubeadm init --apiserver-advertise-address=192.168.2.100  --image-repository=registry.aliyuncs.com/google_containers  --kubernetes-version 1.29.2 --service-cidr=10.10.0.0/12 --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all --cri-socket unix:///run/cri-dockerd.sock -v=5
-</code></pre>
-<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241120115349923.png" alt="image-20241120115349923"></p>
-<h3 id="复制配置"><a href="#复制配置" class="headerlink" title="复制配置"></a>复制配置</h3><pre class=" language-shell"><code class="language-shell">
-  mkdir -p $HOME/.kube
-  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-  sudo chown $(id -u):$(id -g) $HOME/.kube/config
-</code></pre>
-<h3 id="安装calico网络插件"><a href="#安装calico网络插件" class="headerlink" title="安装calico网络插件"></a>安装calico网络插件</h3><pre class=" language-shell"><code class="language-shell">curl https://raw.githubusercontent.com/projectcalico/calico/v3.26.3/manifests/calico-typha.yaml -o calico.yaml
-</code></pre>
-<p>其中要修改相关的配置</p>
-<pre class=" language-yaml"><code class="language-yaml">       <span class="token comment" spellcheck="true"># 指定为 pod 地址</span>
-       <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> CALICO_IPV4POOL_CIDR
-         <span class="token key atrule">value</span><span class="token punctuation">:</span> <span class="token string">"10.244.0.0/16"</span>
-       <span class="token comment" spellcheck="true"># 修改为 BGP 模式  </span>
-       <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> CALICO_IPV4POOL_IPIP
-         <span class="token key atrule">value</span><span class="token punctuation">:</span> <span class="token string">"Off"</span>
-</code></pre>
-<pre class=" language-shell"><code class="language-shell">kubectl apply -f calico.yaml 
-</code></pre>
-<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241120140320862.png" alt="image-20241120140320862"></p>
-<p>master 已经就绪</p>
-<h3 id="加入新的节点"><a href="#加入新的节点" class="headerlink" title="加入新的节点"></a>加入新的节点</h3><pre class=" language-shell"><code class="language-shell">kubeadm join 192.168.2.100:6443 \
-  --token t19imw.wz75pj1jq4ag8aco \
-  --discovery-token-ca-cert-hash sha256:03714fb3daa726dc7be863753063f0b8a254dac1ba3ed11cdb32dbeea021b458 \
-  --cri-socket unix:///var/run/cri-dockerd.sock
-</code></pre>
-<p>注意新的节点也需要安装calico网络插件</p>
-<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241120145626338.png" alt="image-20241120145626338"></p>
+                <h3 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h3><p>Kubernetes 的网络模型假定了所有 Pod 都在一个可以直接连通的扁平的网络空间中，这在GCE(Google Compute Engine)里面是现成的网络模型，Kubernetes 假定这个网络已经存在。而在私有云里搭建 Kubernetes 集群，就不能假定这个网络已经存在了。我们需要自己实现这个网络假设，将不同节点上的 Docker 容器之间的互相访问先打通，然后运行 Kubernetes.</p>
+<h3 id="网络模型原则"><a href="#网络模型原则" class="headerlink" title="网络模型原则"></a>网络模型原则</h3><ul>
+<li>任意节点上的Pod可以在不借助NAT的情况下与任意节点上的任意Pod进行通信；</li>
+<li>节点上的代理（诸如系统守护进程、kubelet等）可以在不借助NAT的情况下与该节点上的任意Pod进行通信；</li>
+<li>处于一个节点的主机网络中的Pod可以在不借助NAT的情况下与任意节点上的任意Pod进行通信（当且仅当支持Pod运行在主机网络的平台上，比如Linux等）；</li>
+<li>不论在Pod内部还是外部，该Pod的IP地址和端口信息都是一致的。</li>
+</ul>
+<p>在上述要求得到保证后，Kubernetes网络主要聚焦于两个任务—<strong>IP地址管理和路由</strong>，并致力于解决如下问题：</p>
+<ul>
+<li>同一个Pod内多个容器之间如何通信</li>
+<li>同一个Node节点中多个Pod之间如何通信</li>
+<li>不同Node节点上的多个Pod之间如何通信</li>
+<li>Pod和Service之间如何通信</li>
+<li>Pod和集群外的实体如何通信</li>
+<li>Service和集群外的实体如何通信</li>
+</ul>
+<h3 id="CNI"><a href="#CNI" class="headerlink" title="CNI"></a>CNI</h3><p>Kubernetes刚开始仅关注和负责容器编排领域的相关事宜，网络管理并不是它最核心的工作。起初，Kubernetes通过开发Kubenet来实现网络管理功能以提供满足要求的集群网络。Kubenet是一个非常简单、基础的网络插件实现。但它本身并不支持任何跨节点之间的网络通信和网络策略等高级功能，且仅适用于Linux系统，所以Kubernetes试图找到一个更优秀的方案来替代Kubenet。为了解决这个问题，CoreOs公司和Docker各自推出了<strong>CNI</strong>（Container Network Interface）和<strong>CNM</strong> (Container Network Model）规范，CNI以其完善的规范和优雅的设计击败了CNM，并成为了Kubernetes首选的网络插件接口规范。</p>
+<p>CNI的基本思想是在容器运行时环境中创建容器时，先创建好网络命名空间（netns），然后调用CNI插件为这个网络命名空间配置网络，之后再启动容器内的进程。CNI通过Json Schema定义了容器运行环境和网络插件之间的接口声明，描述当前容器网络的配置和规范，尝试通过一种普适的方式来实现容器网络的标准化 。它仅专注于在创建容器时分配网络资源（IP、网卡、网段等）和在容器被回收时如何删除网络资源两个方面的能力。<code>CNI</code>作为Kubernetes和底层网络之间的一个抽象存在，屏蔽了底层网络实现的细节、实现了Kubernetes和具体网络实现方案的解耦，同时也克服了Kubenet不能实现跨主机容器间的相互通信等不足和短板。</p>
+<p>借助 CNI 标准，Kubernetes 可以实现容器网络问题的解决。通过插件化的方式来集成各种网络插件，实现集群内部网络相互通信，只要实现CNI标准中定义的核心接口操作ADD，将容器添加到网络;DEL从网络中删除一个容器;CHECK，检查容器的网络是否符合预期等)。CNI插件通常聚焦在容器到容器的网络通信。</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/K8s-CNI-Structure.png" alt="img"></p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/3e21950f-e076-42b4-8f3b-8605e79aee3b.jpg" alt="3e21950f-e076-42b4-8f3b-8605e79aee3b.jpg"></p>
+<p>CNI的接口并不是指 HTTP，gRPC 这种接口，CNI接口是指对可执行程序的调用(exec)可执行程序,Kubernetes 节点默认的 CNI 插件路径为&#x2F;opt&#x2F;cni&#x2F;bin</p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241120180423085.png" alt="image-20241120180423085"></p>
+<p>CNI通过JSON格式的配置文件来描述网络配置，当需要设置容器网络时，由容器运行时负责执行CNI插件，并通过CNI插件的标准输入（stdin）来传递配置文件信息，通过标准输出（stdout）接收插件的执行结果。从网络插件功能可以分为五类：</p>
+<p><strong>Main: interface-creating</strong></p>
+<ul>
+<li>bridge: 创建一个桥接网络，并将宿主机和容器加入到这个桥接网络中</li>
+<li>ipvlan: 在容器中加入一个<a target="_blank" rel="noopener" href="https://www.kernel.org/doc/Documentation/networking/ipvlan.txt">ipvlan</a>接口</li>
+<li>loopback: 设置环回接口的状态为up状态</li>
+<li>macvlan: 创建一个新的mac地址，并将所有到该地址的流量转发到容器</li>
+<li>ptp: 创建一个新的veth对</li>
+<li>vlan: 分配一个vlan设备</li>
+<li>host-device: 将宿主机现有的网络接口移到容器内。</li>
+</ul>
+<p><strong>IPAM: IP address allocation</strong></p>
+<ul>
+<li>dhcp: 在宿主机上运行一个daemon进程并代表容器发起DHCP请求。</li>
+<li>host-local: 维护一个已分配IP的本地数据库</li>
+<li>static: 向容器分配一个静态的IPv4&#x2F;IPv6地址，这个地址仅用于调试目的。</li>
+</ul>
+<p><strong>Meta: other plugins</strong></p>
+<ul>
+<li>flannel: 根据flannel配置文件生成一个网络接口</li>
+<li>tuning: 调整一个已有网络接口的sysctl参数</li>
+<li>portmap: 一个基于iptables的端口映射插件，将宿主机地址空间的端口映射到容器中</li>
+<li>bandwidth: 通过流量控制工具tbf来实现带宽限制</li>
+<li>sbr: 为接口配置基于源IP地址的路由</li>
+<li>firewall: 一个借助iptables或者firewalld来添加规则来限制出入容器流量的防火墙插件。</li>
+</ul>
+<p><strong>Windos specific</strong></p>
+<ul>
+<li><p>win-bridge: 一个桥接插件，用于在 Windows 环境中将容器连接到宿主机网络，支持通过 NAT 实现容器与外部网络的通信。</p>
+</li>
+<li><p>win-overlay: 一个覆盖网络插件，支持在 Windows 环境下跨主机创建虚拟网络，允许容器通过 VXLAN 技术与其他节点上的容器进行通信。</p>
+</li>
+</ul>
+<p><strong>容器网络插件</strong></p>
+<p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/cni-plugins-20240717.png" alt="img"></p>
 
             </div>
             <hr/>
@@ -647,7 +538,7 @@ EOF
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.hphblog.cn/2024/11/19/k8s-an-zhuang-bu-shu/">http://www.hphblog.cn/2024/11/19/k8s-an-zhuang-bu-shu/</a>
+                    <a href="http://www.hphblog.cn/2024/11/20/k8s-wang-luo/">http://www.hphblog.cn/2024/11/20/k8s-wang-luo/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -728,9 +619,10 @@ EOF
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2024/11/20/k8s-wang-luo/">
                     <div class="card-image">
@@ -748,9 +640,9 @@ EOF
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-11-20
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-11-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -759,6 +651,7 @@ EOF
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -777,33 +670,44 @@ EOF
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/11/14/k8s-ji-ben-gai-nian/">
+                <a href="/2024/11/19/k8s-an-zhuang-bu-shu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="K8S基本概念">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="K8S安装部署">
                         
-                        <span class="card-title">K8S基本概念</span>
+                        <span class="card-title">K8S安装部署</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            pod简介Pod 是可以在 Kubernetes 中创建和管理的、最小的可部署的计算单元，它是一个或多个紧密关联的容器的组合，这些容器共享同一个网络命名空间和存储卷。Pod提供了一个抽象层，它封装了容器在节点上的运行环境，例如存储、网络和运
+                            前置环境
+
+
+操作系统
+IP
+主机名
+
+
+
+Rocky Linux release 9.4 (Blue Onyx)
+192.168.2.100
+master
+
+
+Rocky Linux release 9.4 (Blue Onyx)
+192
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-11-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-11-19
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Pod/" class="post-category">
-                                    Pod
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            清风笑丶
                             
                         </span>
                     </div>

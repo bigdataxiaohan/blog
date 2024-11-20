@@ -37,3 +37,42 @@ CNI的基本思想是在容器运行时环境中创建容器时，先创建好�
 ![3e21950f-e076-42b4-8f3b-8605e79aee3b.jpg](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/3e21950f-e076-42b4-8f3b-8605e79aee3b.jpg)
 
 CNI的接口并不是指 HTTP，gRPC 这种接口，CNI接口是指对可执行程序的调用(exec)可执行程序,Kubernetes 节点默认的 CNI 插件路径为/opt/cni/bin
+
+![image-20241120180423085](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241120180423085.png)
+
+CNI通过JSON格式的配置文件来描述网络配置，当需要设置容器网络时，由容器运行时负责执行CNI插件，并通过CNI插件的标准输入（stdin）来传递配置文件信息，通过标准输出（stdout）接收插件的执行结果。从网络插件功能可以分为五类：
+
+**Main: interface-creating**
+
+- bridge: 创建一个桥接网络，并将宿主机和容器加入到这个桥接网络中
+- ipvlan: 在容器中加入一个[ipvlan](https://www.kernel.org/doc/Documentation/networking/ipvlan.txt)接口
+- loopback: 设置环回接口的状态为up状态
+- macvlan: 创建一个新的mac地址，并将所有到该地址的流量转发到容器
+- ptp: 创建一个新的veth对
+- vlan: 分配一个vlan设备
+- host-device: 将宿主机现有的网络接口移到容器内。
+
+**IPAM: IP address allocation**
+
+- dhcp: 在宿主机上运行一个daemon进程并代表容器发起DHCP请求。
+- host-local: 维护一个已分配IP的本地数据库
+- static: 向容器分配一个静态的IPv4/IPv6地址，这个地址仅用于调试目的。
+
+**Meta: other plugins**
+
+- flannel: 根据flannel配置文件生成一个网络接口
+- tuning: 调整一个已有网络接口的sysctl参数
+- portmap: 一个基于iptables的端口映射插件，将宿主机地址空间的端口映射到容器中
+- bandwidth: 通过流量控制工具tbf来实现带宽限制
+- sbr: 为接口配置基于源IP地址的路由
+- firewall: 一个借助iptables或者firewalld来添加规则来限制出入容器流量的防火墙插件。
+
+**Windos specific**
+
+- win-bridge: 一个桥接插件，用于在 Windows 环境中将容器连接到宿主机网络，支持通过 NAT 实现容器与外部网络的通信。
+
+- win-overlay: 一个覆盖网络插件，支持在 Windows 环境下跨主机创建虚拟网络，允许容器通过 VXLAN 技术与其他节点上的容器进行通信。
+
+**容器网络插件**
+
+![img](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/cni-plugins-20240717.png)
