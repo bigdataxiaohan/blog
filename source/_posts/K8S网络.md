@@ -76,3 +76,62 @@ CNI通过JSON格式的配置文件来描述网络配置，当需要设置容器�
 **容器网络插件**
 
 ![img](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/cni-plugins-20240717.png)
+
+### Pod启动网络流程
+
+
+
+![img](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/Flink/K8s%E7%BD%91%E7%BB%9C%E5%9B%BE.png)
+
+
+
+### Pod 调度与启动流程
+
+1. Pod 被调度到容器集群的某个节点上
+   1. Kubernetes 调度器根据调度算法选择一个合适的节点，将 Pod 分配到该节点。
+   2. 将调度决策写入 `kube-apiserver`，更新 Pod 的 `NodeName` 字段。
+2. 节点的 kubelet 通过调用 CRI 插件来创建 Pod
+   1. kubelet 获取 Pod 信息：
+   2. kubelet`通过 watch 监听`kube-apiserver`，检测到有新 Pod 调度到本节点。
+   3. 拉取 Pod 定义，包括容器配置、资源需求等。
+   4. 调用 CRI 插件：
+   5. 使用 gRPC 接口与 CRI 插件（如 containerd）通信，发起 Pod 创建请求。
+3. CRI 插件创建 Pod 的 Sandbox 和网络命名空间
+   1. CRI 插件调用容器运行时创建一个 Pause 容器（作为 Pod 的 Sandbox 容器）。
+   2. 创建 Pod 的独立网络命名空间（NetNS）用于网络隔离。
+   3. 生成一个唯一的 Sandbox ID 标识该 Pod 沙箱。
+4. CRI 插件通过网络命名空间和 Sandbox ID 调用 CNI 插件
+   1. CRI 插件通过 `RunPodSandbox` API 调用 CNI 插件，将网络命名空间和 Sandbox ID 作为参数传递。
+   2. 开始为 Pod 配置网络。
+5. CNI 配置 Pod 网络
+   1. Flannel 为 Pod 分配一个 IP 地址，并设置节点间的网络隧道（如 VXLAN）。
+   2. **Bridge CNI 插件**：在宿主机上创建一个虚拟网桥（如 `cni0`），并将 Pod 的虚拟网卡（veth pair）连接到网桥。
+   3. **主机 IPAM CNI 插件**：分配具体的 IP 地址，设置路由和 DNS 信息。
+   4. **返回结果**：CNI 插件返回成功状态，包含分配的 Pod IP 地址。
+6. 创建 Pause 容器，并将其添加到 Pod 的网络命名空间
+   1. Pause 容器作为 Pod 的基础，持有 Pod 的网络命名空间和其他资源隔离设置。
+   2. 所有应用容器共享 Pause 容器的网络命名空间。
+   3. Pause 容器被启动，并加入网络命名空间。
+7. kubelet 调用 CRI 插件拉取应用容器镜像
+   1. `kubelet` 通过 CRI 插件发起请求，确保应用容器所需的镜像可用。
+   2. 检查本地镜像缓存，如果不存在则拉取镜像。
+8. 容器运行时 containerd 拉取应用容器镜像
+   1. 容器运行时（如 containerd）从镜像仓库（如 Docker Hub、Harbor）拉取应用容器镜像。
+   2. 将镜像存储到本地镜像仓库。
+9. kubelet 调用 CRI 插件来响应应用容器
+   1. `kubelet` 使用 CRI 插件，发起应用容器创建请求。
+   2. 配置应用容器的运行参数（启动命令、环境变量、资源限制等）。
+10. CRI 插件调用容器运行时 containerd 来启动和配置应用容器
+    1. CRI 插件通过 containerd 启动应用容器。
+    2. 配置应用容器的 Cgroups 和 Namespace：
+    3. 加入 Pod 的网络命名空间（共享 Pause 容器的 NetNS）。
+    4. 配置资源隔离（CPU、内存）。
+11. 应用容器被运行在 Pod 的沙箱环境中，完成整个流程。
+
+#### 总结
+
+- `Scheduler`：分配 Pod 到节点。
+- `kubelet`：协调 CRI 和 CNI，完成 Pod 和容器的创建。
+- `CRI 插件`：负责沙箱和容器的创建。
+- `CNI 插件`：负责网络配置。
+- `容器运行时`：负责容器镜像拉取和运行。
