@@ -135,3 +135,89 @@ CNI通过JSON格式的配置文件来描述网络配置，当需要设置容器�
 - `CRI 插件`：负责沙箱和容器的创建。
 - `CNI 插件`：负责网络配置。
 - `容器运行时`：负责容器镜像拉取和运行。
+
+###  开源组件对比
+
+| 提供商  | 网络模型                    | 路由分发 | 网络策略 | 网格 | 外部数据存储    | 加密 | Ingress/Egress 策略 |
+| ------- | --------------------------- | -------- | -------- | ---- | --------------- | ---- | ------------------- |
+| Canal   | 封装 (VXLAN)                | 否       | 是       | 否   | K8s API         | 是   | 是                  |
+| Flannel | 封装 (VXLAN)                | 否       | 否       | 否   | K8s API         | 是   | 否                  |
+| Calico  | 封装 (VXLAN, IPIP) 或未封装 | 是       | 是       | 是   | Etcd 和 K8s API | 是   | 是                  |
+| Weave   | 封装                        | 是       | 是       | 是   | 无              | 是   | 是                  |
+| Cilium  | 封装 (VXLAN)                | 是       | 是       | 是   | Etcd 和 K8s API | 是   | 是                  |
+
+- 网络模型:封装或未封装。
+- 路由分发:一种外部网关协议，用于在互联网上交换路由和可达性信息。BGP 可以帮助进行跨集群 pod 之间的网络。此功能对于未封装的 CNI 网络插件是必须的，并且通常由 BGP 完成。如果你想构建跨网段拆分的集群，路由分发是一个很好的功能
+- 网络策略:Kubemetes 提供了强制执行规则的功能，这些规则决定了哪些 senvice 可以使用网络策略进行相互通信。这是从Kubernetes 1.7 起稳定的功能，可以与某些网络插件一起使用。
+- 网格:允许在不同的 Kubernetes 集群间进行 service 之间的网络通信,
+- 外部数据存储:具有此功能的 CN网络插件需要一个外部数据存储来存储数据
+- 加密:允许加密和安全的网络控制和数据平面。
+- Ingress/Egress 策略:允许你管理 Kubernetes 和非 Kubernetes 通信的路由控制
+
+### **underlay network（非封装网络）**
+
+- 现实的物理基础层网络设备。
+- underlay 是数据中心场景的基础物理设施，保证任何两个点路由可达，其中包含了传统的网络技术。
+
+<img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241204163459955.png" alt="image-20241204163459955" style="zoom:50%;" />
+
+
+
+###  overlay network（封装网络）
+
+- 一个基于物理网络之上构建的逻辑网络。
+- overlay 是在网络技术领域指的一种网络架构上叠加的虚拟化技术模式。
+- Overlay 网络技术多种多样，一般采用 TRILL、VxLAN、GRE、NVGRE 等隧道技术。
+
+<img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241204163148138.png" alt="image-20241204163148138" style="zoom:50%;" />
+
+### calico
+
+Calico 创建和管理一个扁平的三层网络（不需要 overlay），每个容器会分配一个可路由的 IP。由于通信时不需要解包和封包，网络性能损耗小，易于排查，且易于水平扩展。
+
+小规模部署时可以通过 BGP client 直接互联，大规模下可通过指定的 BGP [ Route](https://jimmysong.io/kubernetes-handbook/concepts/calico.html#) Reflector 来完成，这样保证所有的数据流量都是通过 IP 路由的方式完成互联的。
+
+Calico 基于 iptables 还提供了丰富而灵活的网络 Policy，保证通过各个节点上的 ACL 来提供 Workload 的多租户隔离、安全组以及其他可达性限制等功能。
+
+### calico 架构
+
+<img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241204164210767.png" alt="image-20241204164210767" style="zoom:50%;" />
+
+#### Felix
+
+calico的核心组件，运行在每个节点上。主要的功能有`接口管理`、`路由规则`、`ACL规则`和`状态报告`,Felix会监听ECTD中心的存储，从它获取事件，比如说用户在这台机器上加了一个IP，或者是创建了一个容器等。用户创建pod后，Felix负责将其网卡、IP、MAC都设置好，然后在内核的路由表里面写一条，注明这个IP应该到这张网卡。同样如果用户制定了隔离策略，Felix同样会将该策略创建到ACL中，以实现隔离。
+
+#### bird
+
+Calico 为每一台 Host 部署一个 BGP Client，它的作用是将Felix的路由信息读入内核，并通过BGP协议在集群中分发。当Felix将路由插入到Linux内核FIB中时，BGP客户端将获取这些路由并将它们分发到部署中的其他节点。这可以确保在部署时有效地路由流量
+
+#### confd
+
+通过监听 etcd 以了解 BGP 配置和全局默认值的更改。Confd 根据 ETCD 中数据的更新,动态生成 BIRD 配置文件。当配置文件更改时，confd 触发 BIRD 重新加载新文件
+
+### 什么是VXLAN
+
+VXLAN，即 Virtual Extensible LAN(虚拟可扩展局域网)，是Linux本身支持的一网种网络虚拟化技术。VXLAN 可以完全在内核态实现封装和解封装工作，从而通过“隧道”机制，构建出覆盖网络(Overlay Network)
+
+基于三层的“二层”通信，层即 vxlan 包封装在 udp 数据包中， 要求 udp 在 k8s 节点间三层可达;二层即 vlan 封包的源 mac 地址和目的 mac 地址是自己的 vxlan 设备 mac 和对端 vxlan 设备 mac 实现通讯。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
