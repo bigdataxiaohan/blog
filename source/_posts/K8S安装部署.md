@@ -106,7 +106,7 @@ chmod +x /usr/bin/cri-dockerd
 ### 配置 cri-docker 服务
 
 ```shell
-cat <<"EOF" > /usr/lib/systemd/system/cri-docker.service
+cat << EOF > /usr/lib/systemd/system/cri-docker.service
 [Unit]
 Description=CRI Interface for Docker Application Container Engine
 Documentation=https://docs.mirantis.com
@@ -136,7 +136,7 @@ EOF
 ### 添加 cri-docker 套接字
 
 ```shell
-cat <<EOF > /usr/lib/systemd/system/cri-docker.socket
+cat << EOF | sudo tee /usr/lib/systemd/system/cri-docker.socket > /dev/null
 [Unit]
 Description=CRI Docker Socket for the API
 PartOf=cri-docker.service
@@ -198,7 +198,6 @@ kubeadm init --apiserver-advertise-address=192.168.2.100  --image-repository=reg
 ### 复制配置
 
 ```shell
-
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -232,10 +231,9 @@ master 已经就绪
 ### 加入新的节点
 
 ```shell
-kubeadm join 192.168.2.100:6443 \
-  --token t19imw.wz75pj1jq4ag8aco \
-  --discovery-token-ca-cert-hash sha256:03714fb3daa726dc7be863753063f0b8a254dac1ba3ed11cdb32dbeea021b458 \
-  --cri-socket unix:///var/run/cri-dockerd.sock
+kubeadm join 192.168.2.100:6443 --token 3dkh6x.mt7kdhs2dd703oeo \
+    --discovery-token-ca-cert-hash sha256:7cba82e92dcf1a545b757403a03f5dcf41fe167881c00388af5da3f459ed6b20 \
+    --cri-socket unix:///run/cri-dockerd.sock
 ```
 
 注意新的节点也需要安装calico网络插件

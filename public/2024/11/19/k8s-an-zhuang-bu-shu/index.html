@@ -529,7 +529,7 @@ tar -xf cri-dockerd-0.3.9.amd64.tgz
 cp cri-dockerd/cri-dockerd /usr/bin/
 chmod +x /usr/bin/cri-dockerd
 </code></pre>
-<h3 id="配置-cri-docker-服务"><a href="#配置-cri-docker-服务" class="headerlink" title="配置 cri-docker 服务"></a>配置 cri-docker 服务</h3><pre class=" language-shell"><code class="language-shell">cat <<"EOF" > /usr/lib/systemd/system/cri-docker.service
+<h3 id="配置-cri-docker-服务"><a href="#配置-cri-docker-服务" class="headerlink" title="配置 cri-docker 服务"></a>配置 cri-docker 服务</h3><pre class=" language-shell"><code class="language-shell">cat << EOF > /usr/lib/systemd/system/cri-docker.service
 [Unit]
 Description=CRI Interface for Docker Application Container Engine
 Documentation=https://docs.mirantis.com
@@ -555,7 +555,7 @@ KillMode=process
 WantedBy=multi-user.target
 EOF
 </code></pre>
-<h3 id="添加-cri-docker-套接字"><a href="#添加-cri-docker-套接字" class="headerlink" title="添加 cri-docker 套接字"></a>添加 cri-docker 套接字</h3><pre class=" language-shell"><code class="language-shell">cat <<EOF > /usr/lib/systemd/system/cri-docker.socket
+<h3 id="添加-cri-docker-套接字"><a href="#添加-cri-docker-套接字" class="headerlink" title="添加 cri-docker 套接字"></a>添加 cri-docker 套接字</h3><pre class=" language-shell"><code class="language-shell">cat << EOF | sudo tee /usr/lib/systemd/system/cri-docker.socket > /dev/null
 [Unit]
 Description=CRI Docker Socket for the API
 PartOf=cri-docker.service
@@ -596,8 +596,7 @@ EOF
 <h3 id="初始化节点"><a href="#初始化节点" class="headerlink" title="初始化节点"></a>初始化节点</h3><pre class=" language-shell"><code class="language-shell">kubeadm init --apiserver-advertise-address=192.168.2.100  --image-repository=registry.aliyuncs.com/google_containers  --kubernetes-version 1.29.2 --service-cidr=10.10.0.0/12 --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all --cri-socket unix:///run/cri-dockerd.sock -v=5
 </code></pre>
 <p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241120115349923.png" alt="image-20241120115349923"></p>
-<h3 id="复制配置"><a href="#复制配置" class="headerlink" title="复制配置"></a>复制配置</h3><pre class=" language-shell"><code class="language-shell">
-  mkdir -p $HOME/.kube
+<h3 id="复制配置"><a href="#复制配置" class="headerlink" title="复制配置"></a>复制配置</h3><pre class=" language-shell"><code class="language-shell">  mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
 </code></pre>
@@ -615,10 +614,9 @@ EOF
 </code></pre>
 <p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241120140320862.png" alt="image-20241120140320862"></p>
 <p>master 已经就绪</p>
-<h3 id="加入新的节点"><a href="#加入新的节点" class="headerlink" title="加入新的节点"></a>加入新的节点</h3><pre class=" language-shell"><code class="language-shell">kubeadm join 192.168.2.100:6443 \
-  --token t19imw.wz75pj1jq4ag8aco \
-  --discovery-token-ca-cert-hash sha256:03714fb3daa726dc7be863753063f0b8a254dac1ba3ed11cdb32dbeea021b458 \
-  --cri-socket unix:///var/run/cri-dockerd.sock
+<h3 id="加入新的节点"><a href="#加入新的节点" class="headerlink" title="加入新的节点"></a>加入新的节点</h3><pre class=" language-shell"><code class="language-shell">kubeadm join 192.168.2.100:6443 --token 3dkh6x.mt7kdhs2dd703oeo \
+    --discovery-token-ca-cert-hash sha256:7cba82e92dcf1a545b757403a03f5dcf41fe167881c00388af5da3f459ed6b20 \
+    --cri-socket unix:///run/cri-dockerd.sock
 </code></pre>
 <p>注意新的节点也需要安装calico网络插件</p>
 <p><img src="https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241120145626338.png" alt="image-20241120145626338"></p>

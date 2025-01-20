@@ -195,19 +195,79 @@ Calico 为每一台 Host 部署一个 BGP Client，它的作用是将Felix的路
 
 通过监听 etcd 以了解 BGP 配置和全局默认值的更改。Confd 根据 ETCD 中数据的更新,动态生成 BIRD 配置文件。当配置文件更改时，confd 触发 BIRD 重新加载新文件
 
-### 什么是VXLAN
+### VXLAN
 
 VXLAN，即 Virtual Extensible LAN(虚拟可扩展局域网)，是Linux本身支持的一网种网络虚拟化技术。VXLAN 可以完全在内核态实现封装和解封装工作，从而通过“隧道”机制，构建出覆盖网络(Overlay Network)
 
-基于三层的“二层”通信，层即 vxlan 包封装在 udp 数据包中， 要求 udp 在 k8s 节点间三层可达;二层即 vlan 封包的源 mac 地址和目的 mac 地址是自己的 vxlan 设备 mac 和对端 vxlan 设备 mac 实现通讯。
+基于三层的“二层”通信，层即 vxlan 包封装在 udp 数据包中， 要求 udp 在 k8s 节点间三层可达;二层即 vxlan 封包的源 mac 地址和目的 mac 地址是自己的 vxlan 设备 mac 和对端 vxlan 设备 mac 实现通讯。
+
+![image-20241205152333488](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241205152333488.png)
+
+
+
+![image-20241206092501951](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241206092501951.png)
 
 
 
 
 
+VXLAN 数据包封包:`封包`，在 xlan 设备上将 pod 发来的数据包源、目的 mac 替换为本机 vxlan 网卡和对端节点 vxlan>网卡的 mac。外层 udp 目的 ip 地址根据路由和对端 vxlan 的 mac 查 fdb 表获取 
+
+优势:只要 k8s 节点间三层互通， 可以跨网段，对丰机网关路由没有特殊要求。各个 node 节点通过 vxlan 设备>实现基于三层的`二层`互通,三层即 vxlan 包封装在 udp 数据包中， 要求 udp 在 k8s 节点间三层可达;二层即vxlan 封包的源 mac 地址和目的 mac 地址是自己的 vxlan 设备 mac 和对端 vxlan 设备 mac 
+
+缺点:需要进行 vxlan 的数据包封包和解包会存在一定的`性能损耗 `
+
+修改
+
+```yaml
+ # Enable IPIP
+ - name: CALICO_IPV4POOL_IPIP
+   value: "Never"
+ # Enable or Disable VXLAN on the default IP pool.
+ - name: CALICO_IPV4POOL_VXLAN
+   value: "Always"
+ # Enable or Disable VXLAN on the default IPv6 IP pool.
+ - name: CALICO_IPV6POOL_VXLAN
+  value: "Always"
+ 
+ calico_backend: "bird"
+ alico_backend: "vxlan"
+#需要注释掉
+ #  - -bird-live
+ #  - -bird-ready
+```
+
+### IPIP
+
+Linux 原生内核支持。
+
+IPIP 隧道的工作原理是将源主机的IP数据包封装在一个新的 IP 数据包中，新的 IP 数据包的目的地址是隧道的另一端。在隧道的另一端，接收方将解封装原始 IP 数据包，并将其传递到目标主机。IPIP 隧道可以在不同的网络之间建立连接，例如在 IPv4 网络和 IPv6 网络之间建立连接。
+
+![image-20241206105233284](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241206105233284.png)
 
 
 
+![image-20241206110150348](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20241206110150348.png)
+
+数据包封包:封包，在 tunl0 设备上将 pod 发来的数据包的 mac 层去掉，留下 ip 层封包外层数据包目的 ip 地址根据路由得到。
+
+优点:只要 k8s 节点间三层互通， 可以跨网段， 对主机网关路由没有特殊要求。
+
+缺点:需要进行 IPIP 的数据包封包和解包会存在一定的性能损耗
+
+### BGP
+
+边界网关协议(Border Gateway Protocol,BGP)是互联网上一个核心的去中心化自治路由协议。它通过维护IP路由表或“前缀'表来实现自治系统(AS)之间的可达性，属于矢量路由协议。BGP不使用传统的内部网关协议(IGP)的指标，而使用基于路径、网络策略或规则集来决定路由。因此，它更适合被称为矢量性协议，而不是路由协议。BGP通俗的讲就是讲接入到机房的多条线路(如电信、联通、移动等)融合为一体，实现多线单IP，BGP 机房的优点:服务器只需要设置一个IP地址，最佳访问路由是由网络上的骨干路由器根据路由跳数与其它技术指标来确定的，不会占用服务器的任何系统。
+
+![image-20250120152125059](https://hphimages-1253879422.cos.ap-beijing.myqcloud.com/k8s/image-20250120152125059.png)
+
+
+
+数据包封包:不需要进行数据包封包
+
+优点:不用封包解包，通过 BGP 协议可实现 pod 网络在主机间的三层可达
+
+缺点:跨网段时，配置较为复杂网络要求较高，主机网关路由也需要充当 BGP Speaker。
 
 
 
